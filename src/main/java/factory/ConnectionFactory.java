@@ -14,3 +14,5 @@ public class ConnectionFactory {
         return DriverManager.getConnection("jdbc:mysql://10.80.49.81/volkspaint", "root", "root");
     }
 }
+
+/*adad
