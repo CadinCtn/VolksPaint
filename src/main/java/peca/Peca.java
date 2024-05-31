@@ -10,14 +10,17 @@ package peca;
  */
 public class Peca {
      //Atributos
-    private String cor;
-    private String textura;
-    private String tipo;
+    private String tinta_cor;
+    private String modelo;
+    private String area_pintura;
+    private int qtd_estoque;
+    private int id;
     
-    public Peca(String cor, String textura, String tipo) {
-        this.cor = cor;
-        this.textura = textura;
-        this.tipo = tipo;
+    public Peca(String tinta_cor, String modelo, String area_pintura, int qtd_estoque, int id) {
+        this.tinta_cor = tinta_cor;
+        this.modelo = modelo;
+        this.area_pintura = area_pintura;
+        this.id = id;
     }
        
 }
