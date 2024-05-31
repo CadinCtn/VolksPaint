@@ -21,6 +21,17 @@ public class Tinta {
         this.textura = textura;
         this.volume = volume;
     }
-    
+
+    public String getCor() {
+        return cor;
+    }
+
+    public String getTextura() {
+        return textura;
+    }
+
+    public float getVolume() {
+        return volume;
+    }
     
 }
