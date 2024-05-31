@@ -22,7 +22,7 @@ public class FuncDAO {
     public void inserirFuncionario(Funcionario funcionario) {
         String sql = "INSERT INTO funcionarios (CPF, nome, data_nascimento) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, funcionario.getCPF());
+            stmt.setInt(1, funcionario.getCpf());
             stmt.setString(2, funcionario.getNome());
             stmt.setDate(3, Date.valueOf(funcionario.getDataNascimento()));
             stmt.executeUpdate();
@@ -52,12 +52,12 @@ public class FuncDAO {
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, funcionario.getNome());
             stmt.setDate(2, Date.valueOf(funcionario.getDataNascimento()));
-            stmt.setInt(3, funcionario.getCPF());
+            stmt.setInt(3, funcionario.getCpf());
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Funcionario atualizado: " + funcionario);
             } else {
-                System.out.println("Funcionario com CPF " + funcionario.getCPF() + " não encontrado.");
+                System.out.println("Funcionario com CPF " + funcionario.getCpf() + " não encontrado.");
             }
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Falha ao atualizar funcionário.", e);
