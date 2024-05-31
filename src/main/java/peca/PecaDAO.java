@@ -23,14 +23,13 @@ public class PecaDAO {
             LOGGER.log(Level.SEVERE, "Falha na conexão com o database.", e);
         }
     }
-}
 
 
    public void insertPeca(Peca peca) {
     String sql = "INSERT INTO peca (tinta_cor, modelo, area_pintura, qtd_estoque, id) VALUES (?, ?, ?, ?, ?);";
 
     try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-        stmt.setString(1, peca.getTinta_cor());
+        stmt.setString(1, peca.getTinta_cor().getCor());
         stmt.setString(2, peca.getModelo());
         stmt.setFloat(3, peca.getArea_pintura());
         stmt.setFloat(4, peca.getQtd_estoque());
@@ -95,7 +94,7 @@ private void closeConnection() {
         }catch(SQLException e){
             e.printStackTrace();
         }finally{
-            closeConnextion(); //Encerra a conexão
+            closeConnection(); //Encerra a conexão
         }
     }
 
@@ -124,9 +123,10 @@ private void closeConnection() {
         }catch(SQLException e){
             e.printStackTrace();
         } finally {
-            closeConnextion(); //Encerra a conexão
+            closeConnection(); //Encerra a conexão
         }
         
         //Retorna a lista com os resultados
         return listPeca;
     }
+}

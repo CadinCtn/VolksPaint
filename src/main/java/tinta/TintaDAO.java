@@ -28,7 +28,7 @@ public class TintaDAO {
     }
     
     //Método para encerrar a conexão
-    private void closeConnextion(){
+    private void closeConnection(){
         try {
             if(!this.connection.isClosed()){
                 this.connection.close();
@@ -58,7 +58,7 @@ public class TintaDAO {
             e.printStackTrace();
         } finally {
             //Encerra a conexão
-            closeConnextion();
+            closeConnection();
         }
     }
     
@@ -77,7 +77,7 @@ public class TintaDAO {
         }catch(SQLException e){
             e.printStackTrace();
         } finally {
-            closeConnextion(); //encerra conexão
+            closeConnection(); //encerra conexão
         }
     }
     
@@ -100,7 +100,7 @@ public class TintaDAO {
         }catch(SQLException e){
             e.printStackTrace();
         }finally{
-            closeConnextion(); //Encerra a conexão
+            closeConnection(); //Encerra a conexão
         }
     }
 
@@ -127,7 +127,7 @@ public class TintaDAO {
         }catch(SQLException e){
             e.printStackTrace();
         } finally {
-            closeConnextion(); //Encerra a conexão
+            closeConnection(); //Encerra a conexão
         }
         
         //Retorna a lista com os resultados
@@ -157,7 +157,7 @@ public class TintaDAO {
         }catch(SQLException e){
             e.printStackTrace();
         }finally{
-            closeConnextion();
+            closeConnection();
         }
         
         //Retorna nulo se não encontrar nada
@@ -179,7 +179,7 @@ public class TintaDAO {
         }catch(SQLException e){
             e.printStackTrace();
         } finally {
-            closeConnextion();
+            closeConnection();
         }
     }
     
