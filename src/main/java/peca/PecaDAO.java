@@ -15,7 +15,7 @@ public class PecaDAO {
         try {
             this.connection = new ConnectionFactory().getConnection();
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Falha na conecção com o database.", e);
+            LOGGER.log(Level.SEVERE, "Falha na conexão com o database.", e);
         }
     }
 
