@@ -14,14 +14,12 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.renderer.category.BarPainter;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.chart.ui.HorizontalAlignment;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import tinta.ConsumoTinta;
-import viewConsumo.ConsumoDiario;
+import relatorio.Relatorio;
 
 /**
  *
@@ -36,13 +34,13 @@ public class ConsumoDashboard {
     private JFreeChart consumoChart;
     
     //Criando dataset
-    private CategoryDataset createDatasetBarChart(ConsumoTinta consumoTinta){
+    private CategoryDataset createDatasetBarChart(Relatorio consumoTinta){
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         
         //Adicionando valores ao dataset
-        dataset.addValue(consumoTinta.getTurno1(), "Turno 1", "");
-        dataset.addValue(consumoTinta.getTurno2(), "Turno 2", "");
-        dataset.addValue(consumoTinta.getTurno3(), "Turno 3", "");
+        dataset.addValue(consumoTinta.getConsumoTinta(1), "Turno 1", "");
+        dataset.addValue(consumoTinta.getConsumoTinta(2), "Turno 2", "");
+        dataset.addValue(consumoTinta.getConsumoTinta(3), "Turno 3", "");
         
         return dataset;
     }
@@ -98,7 +96,7 @@ public class ConsumoDashboard {
     }
     
     
-    public ChartPanel painelConsumoChart(ConsumoTinta consumoTinta){
+    public ChartPanel painelConsumoChart(Relatorio consumoTinta){
         //Carregando dataset
         CategoryDataset dataset = createDatasetBarChart(consumoTinta);
         //Carregando grafico
@@ -118,15 +116,15 @@ public class ConsumoDashboard {
     private JFreeChart consumoTotalDiarioChart;
     
     //Criando dataset
-    private CategoryDataset createDatasetTotalDiario(List<ConsumoTinta> listConsumo){
+    private CategoryDataset createDatasetTotalDiario(List<Relatorio> listConsumo){
         //Criando dataset
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         
         SimpleDateFormat dateForm = new SimpleDateFormat("dd/MM/yyyy");
         
         //Adicionando dados no dataset
-        for(ConsumoTinta consumo : listConsumo){
-            dataset.addValue(consumo.getTotal(), "", dateForm.format(consumo.getData_registro()));
+        for(Relatorio consumo : listConsumo){
+            dataset.addValue(consumo.getTotalConsumoTinta(), "", dateForm.format(consumo.getData()));
         }
         
         return dataset;
@@ -178,7 +176,7 @@ public class ConsumoDashboard {
 
     
     //Criando painel do grafico
-    public ChartPanel painelConsumoTotalDiario(List<ConsumoTinta> listConsumo){
+    public ChartPanel painelConsumoTotalDiario(List<Relatorio> listConsumo){
         
         //Carregando dataset
         CategoryDataset dataset = createDatasetTotalDiario(listConsumo);

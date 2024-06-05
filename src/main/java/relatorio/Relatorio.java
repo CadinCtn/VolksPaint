@@ -14,38 +14,79 @@ public class Relatorio {
     
     //Index
     Date data;
-    int linha_producao;
+    int linhaProducao;
     //valores
         //Consumo Tinta por turno
-        float consumoTinta1;
-        float consumoTinta2;
-        float consumoTinta3;
-        float consumoTintaTotal;
+        float[] consumoTintas = new float[3];
         
         //Pecas produzidas
-        int qtdPecas1;
-        int qtdPecas2;
-        int qtdPecas3;
-        int qtdPecasTotal;
+        int[] qtdPecas = new int[3];
         
         //Consumo tinta por unidade
-        float consumoUnidade1;
-        float consumoUnidade2;
-        float consumoUnidade3;
+        float[] consumoUnidades = new float[3];
         
         //Limite de consumo por unidade
-        float limite1;
-        float limite2;
-        float limite3;
+        float[] limiteConsumoUnidade = new float[3];
         
         //Desperdício de tinta por unidade
-        float desperdicio1;
-        float desperdicio2;
-        float desperdicio3;
+        float[] desperdicioTinta = new float[3];
+
+        
+        public Date getData() {
+            return data;
+        }
+
+        public int getLinhaProducao() {
+            return linhaProducao;
+        }
         
         
-    
-    
-    
-    
+        
+        //Relatorio de Consumo tinta
+        public Relatorio(Date data, int linhaProducao, float consumoTinta1, float consumoTinta2, float consumoTinta3){
+            this.data = data;
+            this.linhaProducao = linhaProducao;
+            
+            this.consumoTintas[0] = consumoTinta1;
+            this.consumoTintas[1] = consumoTinta2;
+            this.consumoTintas[2] = consumoTinta3;
+        }
+        
+        //Setando valores Consumo Tinta
+        public void setConsumoTinta(float valor, int turno){
+            consumoTintas[turno-1] = valor;
+        }
+        
+        
+        
+        //Consumo de tinta por turno
+        public float getConsumoTinta(int turno){
+            return consumoTintas[turno -1];
+        }
+        
+        public int getQtdPecas(int turno) {
+            return qtdPecas[turno-1];
+        }
+
+        public float getConsumoUnidades(int turno) {
+            return consumoUnidades[turno-1];
+        }
+
+        public float getLimiteConsumoUnidade(int turno) {
+            return limiteConsumoUnidade[turno -1];
+        }
+
+        public float getDesperdicioTinta(int turno) {
+            return desperdicioTinta[turno-1];
+        }
+        
+        
+        //Total de consumo
+        public float getTotalConsumoTinta(){
+            return consumoTintas[0] + consumoTintas[1] + consumoTintas[2];
+        }
+        
+        
+        
+        
 }
