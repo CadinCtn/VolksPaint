@@ -213,7 +213,7 @@ public class viewPeca extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> {
             new viewPeca().setVisible(true);
         });
-    
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
