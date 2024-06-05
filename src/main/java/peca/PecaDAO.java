@@ -82,8 +82,8 @@ private void closeConnection() {
         
         try(PreparedStatement stmt = connection.prepareStatement(sql)){
             //Setando Atributos no lugar de '?'
-            stmt.setString(1, newPeca.getTinta_cor());
-            stmt.setString(2, newPeca.getModelo());
+            stmt.setString(1, newTinta.getCor());
+            stmt.setString(2, newTinta.getTextura());
             
             //PK
             stmt.setString(3, oldCor);
@@ -112,11 +112,13 @@ private void closeConnection() {
             //Percorrendo lista
             while(rs.next()){
                 //Inserindo Peça na lista
-                listPeca.add(new Peca(rs.getString("tinta_cor"),
+                listPeca.add(new Peca(new Tinta(rs.getString("cor"),
+                                                rs.getString("textura"),
+                                                rs.getFloat("volume")),
                                         rs.getString("modelo"),
-                                        rs.getFloat("area_pintura")
-                                        rs.getFloat("qtd_estoque")
-                                        rs.getFloat("id")));
+                                        rs.getFloat("area_pintura"),
+                                        rs.getInt("qtd_estoque"),
+                                        rs.getInt("id")));
                 
             }
             
