@@ -9,7 +9,7 @@ import java.awt.BorderLayout;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import tinta.ConsumoTinta;
+import relatorio.Relatorio;
 
 /**
  *
@@ -28,14 +28,15 @@ public class ConsumoDiario extends javax.swing.JFrame {
         
         //Grafico de consumo diario por turno
         this.painelConsumoTurnoBar.setLayout(new BorderLayout());
-        this.painelConsumoTurnoBar.add(dashboard.painelConsumoChart(new ConsumoTinta(null,300,324,432)));
-
-        List<ConsumoTinta> list = new ArrayList<>();
-        list.add(new ConsumoTinta(new Date(02,04,2003),300,324,432));
-        list.add(new ConsumoTinta(new Date(03,04,2003),320,324,432));
-        list.add(new ConsumoTinta(new Date(04,04,2003),350,324,432));
-        list.add(new ConsumoTinta(new Date(05,04,2003),300,524,462));
+        this.painelConsumoTurnoBar.add(dashboard.painelConsumoChart(new Relatorio(new Date(0,04,2003), 1, 262, 362, 339)));
         
+
+        List<Relatorio> list = new ArrayList<>();
+        list.add(new Relatorio(new Date(1,04,2003), 1, 262, 362, 339));
+        list.add(new Relatorio(new Date(2,04,2003), 1, 262, 362, 339));
+        list.add(new Relatorio(new Date(3,04,2003), 1, 262, 362, 339));
+        list.add(new Relatorio(new Date(4,04,2003), 1, 262, 362, 339));
+
         //Grafico de consumo diario total
         this.painelConsumoTotalDiario.setLayout(new BorderLayout());
         this.painelConsumoTotalDiario.add(dashboard.painelConsumoTotalDiario(list));
@@ -71,6 +72,11 @@ public class ConsumoDiario extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(10, 6, 37));
 
         jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("jButton2");
 
@@ -83,19 +89,12 @@ public class ConsumoDiario extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton1))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton2))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton3))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton4)))
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3)
+                    .addComponent(jButton4))
                 .addGap(6, 6, 6))
         );
         jPanel2Layout.setVerticalGroup(
@@ -154,12 +153,11 @@ public class ConsumoDiario extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
-                            .addComponent(painelConsumoTurnoBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addComponent(painelConsumoTotalDiario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(painelConsumoTurnoBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(painelConsumoTotalDiario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,6 +200,9 @@ public class ConsumoDiario extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
