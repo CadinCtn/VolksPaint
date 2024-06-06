@@ -178,6 +178,9 @@ public class viewPeca extends javax.swing.JFrame {
         // TODO add your handling code here:
        JFrame popupFrame = new popupfame();
 
+      // Definir no centro da tela 
+     popupFrame.setLocationRelativeTo(null);
+     
     // Definir a operação de fechar padrão do JFrame
     popupFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
