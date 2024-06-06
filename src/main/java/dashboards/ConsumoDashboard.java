@@ -14,8 +14,10 @@ import java.util.List;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.RingPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
@@ -75,14 +77,21 @@ public class ConsumoDashboard {
             plot.setRangeGridlinePaint(Color.WHITE);
             plot.setOutlineVisible(false);
             
+            
             //Barras
             BarRenderer renderer = (BarRenderer) plot.getRenderer();
             renderer.setBarPainter(new StandardBarPainter());
             renderer.setShadowVisible(false);
-
+            
+            //Mostrando Valores
+            renderer.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
+            renderer.setDefaultItemLabelFont(new Font("SansSerif", Font.BOLD, 12));
+            renderer.setDefaultItemLabelsVisible(true);
+            
+            
             //Sequencia de cores das barras
             Paint[] barColors = new Paint[]{
-                new Color(255,255,0),  // Laranja
+                new Color(255,255,20),  // Amarelo
                 new Color(239,70,55), // Vermelho
                 new Color(0,253,0),    // Verde
             };
@@ -101,7 +110,7 @@ public class ConsumoDashboard {
         return chart;
     }
     
-    
+    //Criando painel do grafico
     public ChartPanel painelConsumoChart(Relatorio consumoTinta){
         //Carregando dataset
         CategoryDataset dataset = createDatasetBarChart(consumoTinta);
@@ -113,6 +122,12 @@ public class ConsumoDashboard {
         painelChart.setPreferredSize(new Dimension(500,300)); //Redimensionando painel
         
         return painelChart;
+    }
+    
+    //Atualizando dataset
+    public void setNewBarDataset(Relatorio consumoTinta){
+        CategoryDataset dataset = createDatasetBarChart(consumoTinta);
+        this.consumoChart.getCategoryPlot().setDataset(dataset);
     }
     
 /////////////////////////////////////
@@ -194,8 +209,17 @@ public class ConsumoDashboard {
         return painelConsumoTotalDiario;
     }
     
+    //Atualizando Dataset
+    public void setNewBarTotalDataset(List<Relatorio> listConsumo){
+        CategoryDataset dataset = createDatasetTotalDiario(listConsumo);
+        this.consumoTotalDiarioChart.getCategoryPlot().setDataset(dataset);
+    }
+    
     ////////
     //PieChart
+    
+    //Grafico
+    private JFreeChart ringChart;
     
     //Criando dataset 
     private PieDataset createPieDataset(Relatorio consumo){
@@ -208,21 +232,21 @@ public class ConsumoDashboard {
         return dataset;
     }
     
-    
+     
     //Criando grafico    
-    private JFreeChart createPieChart(PieDataset dataset){
+    private JFreeChart createRingChart(PieDataset dataset){
         
-        JFreeChart chart = ChartFactory.createRingChart("", 
+        ringChart = ChartFactory.createRingChart("", 
                                                        dataset,
                                                        true,
                                                        false,
                                                        false);
                                                        
-        return stylePieGraph(chart);
+        return styleRingGraph(ringChart);
     }
-    
+     
     //Personalizando grafico
-        private JFreeChart stylePieGraph(JFreeChart graph){
+        private JFreeChart styleRingGraph(JFreeChart graph){
             RingPlot plot = (RingPlot) graph.getPlot();
             //plot.setSimpleLabels(true);
             plot.setSectionDepth(0.5);
@@ -233,11 +257,19 @@ public class ConsumoDashboard {
             plot.setOutlinePaint(null);
             graph.setBorderVisible(false);
             
+            plot.setSectionPaint("Turno 1", new Color(255,255,20)); // Amarelo
+            plot.setSectionPaint("Turno 2", new Color(239,70,55)); // Vermelho
+            plot.setSectionPaint("Turno 3", new Color(0,253,0));  // Verde
+            
+            
             //Label
-            plot.setLabelBackgroundPaint(Color.WHITE);
+            plot.setLabelBackgroundPaint(null);
             plot.setLabelShadowPaint(null);
-            plot.setLabelFont(new Font("SansSerif", Font.BOLD, 12));
-            plot.setLabelGenerator(new StandardPieSectionLabelGenerator("{1} Mts", new DecimalFormat("#,##0"), new DecimalFormat("0.0%")));
+            plot.setLabelOutlinePaint(null);
+            plot.setLabelFont(new Font("SansSerif", Font.BOLD, 14));
+            plot.setLabelGenerator(new StandardPieSectionLabelGenerator("{2}", new DecimalFormat("#,##0"), new DecimalFormat("0.0%")));
+            plot.setLabelPaint(Color.BLACK);
+            plot.setSimpleLabels(true);
             
             return graph;
         }
@@ -249,13 +281,19 @@ public class ConsumoDashboard {
             PieDataset dataset = createPieDataset(consumo);
             
             //Carregando grafico
-            JFreeChart chart = createPieChart(dataset);
+            JFreeChart chart = createRingChart(dataset);
             
             //Gerando painel do grafico
             ChartPanel painelGraph = new ChartPanel(chart);
             painelGraph.setPreferredSize(new Dimension(400,400));
             
             return painelGraph;
+        }
+        
+        //Atualizando Dataset
+        public void setNewPieDataset(Relatorio consumo){
+            PiePlot plot = (PiePlot) ringChart.getPlot();
+            plot.setDataset(createPieDataset(consumo));
         }
     
 }

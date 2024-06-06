@@ -87,19 +87,28 @@ public class RelatorioDAO {
     //Select Consumo Tinta
     public List<Relatorio> selectConsumoTinta(Date dataInicio, Date dataFim, int linha){
         //Selecionando Consumo de tintas
-        String sql = "SELECT data_relatorio, linha_producao, turno, consumo_tinta FROM relatoprio WHERE data_relatorio BETWEEN ? AND ? AND linha_producao = ?";
+        String sql = "SELECT data_relatorio, linha_producao, " +
+                     "SUM(CASE WHEN turno = 1 THEN consumo_tinta ELSE 0 END) AS consumo_tinta1, " +
+                     "SUM(CASE WHEN turno = 2 THEN consumo_tinta ELSE 0 END) AS consumo_tinta2, " +
+                     "SUM(CASE WHEN turno = 3 THEN consumo_tinta ELSE 0 END) AS consumo_tinta3 " +
+                     "FROM relatorio WHERE data_relatorio BETWEEN ? AND ? AND linha_producao = ? " +
+                     "GROUP BY data_relatorio, linha_producao;";
         
+        //Criando lista
         List<Relatorio> listRelatorio = new ArrayList<>();
         
         try(PreparedStatement stmt = connection.prepareStatement(sql)){
             stmt.setDate(1, dataInicio);
             stmt.setDate(2, dataFim);
-            stmt.setInt(1, linha);
+            stmt.setInt(3, linha);
             
             try(ResultSet rs = stmt.executeQuery()){
                 while(rs.next()){
-                    
-                    
+                    listRelatorio.add(new Relatorio(rs.getDate("data_relatorio"),
+                                                    rs.getInt("linha_producao"),
+                                                    rs.getFloat("consumo_tinta1"),
+                                                    rs.getFloat("consumo_tinta2"),
+                                                    rs.getFloat("consumo_tinta3")));
                 }
             }
             
