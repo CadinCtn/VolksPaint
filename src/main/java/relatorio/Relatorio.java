@@ -41,7 +41,6 @@ public class Relatorio {
         }
         
         
-        
         //Relatorio de Consumo tinta
         public Relatorio(Date data, int linhaProducao, float consumoTinta1, float consumoTinta2, float consumoTinta3){
             this.data = data;
@@ -52,14 +51,36 @@ public class Relatorio {
             this.consumoTintas[2] = consumoTinta3;
         }
         
-        //Setando valores Consumo Tinta
+        
+        //Relatorio de Pecas Produzidas
+        public Relatorio(Date data, int linhaProducao, int qtdPecas1, int qtdPecas2, int qtdPecas3){
+            this.data = data;
+            this.linhaProducao = linhaProducao;
+            
+            this.qtdPecas[0] = qtdPecas1;
+            this.qtdPecas[1] = qtdPecas2;
+            this.qtdPecas[2] = qtdPecas3;
+        }
+        
+        //Set
         public void setConsumoTinta(float valor, int turno){
             consumoTintas[turno-1] = valor;
         }
         
+        public void setQtdPecas(int valor, int turno){
+            qtdPecas[turno-1] = valor;
+        }
+        
+        public void setLimiteConsumo(float valor, int turno){
+            limiteConsumoUnidade[turno-1] = valor;
+        }
+        
+        public void setDesperdicioTinta(float valor, int turno){
+            desperdicioTinta[turno-1] = valor;
+        }
         
         
-        //Consumo de tinta por turno
+        //Get
         public float getConsumoTinta(int turno){
             return consumoTintas[turno -1];
         }
@@ -81,12 +102,14 @@ public class Relatorio {
         }
         
         
-        //Total de consumo
+        //Get Total
         public float getTotalConsumoTinta(){
             return consumoTintas[0] + consumoTintas[1] + consumoTintas[2];
         }
         
-        
+        public int getTotalQtdPecas(){
+            return qtdPecas[0] + qtdPecas[1] + qtdPecas[2];
+        }
         
         
 }

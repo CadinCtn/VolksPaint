@@ -87,7 +87,7 @@ public class RelatorioDAO {
     //Select Consumo Tinta
     public List<Relatorio> selectConsumoTinta(Date dataInicio, Date dataFim, int linha){
         //Selecionando Consumo de tintas
-        String sql = "SELECT data_relatorio, linha_producao, " +
+        String sql = "SELECT data_relatorio, " +
                      "SUM(CASE WHEN turno = 1 THEN consumo_tinta ELSE 0 END) AS consumo_tinta1, " +
                      "SUM(CASE WHEN turno = 2 THEN consumo_tinta ELSE 0 END) AS consumo_tinta2, " +
                      "SUM(CASE WHEN turno = 3 THEN consumo_tinta ELSE 0 END) AS consumo_tinta3 " +
@@ -105,7 +105,7 @@ public class RelatorioDAO {
             try(ResultSet rs = stmt.executeQuery()){
                 while(rs.next()){
                     listRelatorio.add(new Relatorio(rs.getDate("data_relatorio"),
-                                                    rs.getInt("linha_producao"),
+                                                    linha,
                                                     rs.getFloat("consumo_tinta1"),
                                                     rs.getFloat("consumo_tinta2"),
                                                     rs.getFloat("consumo_tinta3")));
@@ -121,5 +121,51 @@ public class RelatorioDAO {
         return listRelatorio;
     }
     
+    //Select Pecas Produzidas Por Dia
+    public Relatorio selectPecasProduzidasDia(Date data, int linha){
+        //Selecionando pecas produzidas
+        String sql = "SELECT data_relatorio, " +
+                     "SUM(CASE WHEN turno = 1 THEN qtd_pecas ELSE 0 END) AS qtd_pecas1, " +
+                     "SUM(CASE WHEN turno = 2 THEN qtd_pecas ELSE 0 END) AS qtd_pecas2, " +
+                     "SUM(CASE WHEN turno = 3 THEN qtd_pecas ELSE 0 END) AS qtd_pecas3 " +
+                     "FROM relatorio WHERE data_relatorio = ? AND linha_producao = ? " +
+                     "GROUP BY data_relatorio, linha_producao;";
+        
+        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+            stmt.setDate(1, data);
+            stmt.setInt(2, linha);
+            
+            try(ResultSet rs = stmt.executeQuery()){
+                while(rs.next()){
+                    //Retorna relatorio
+                    return new Relatorio(data, linha, 
+                                               rs.getInt("qtd_pecas1"),
+                                               rs.getInt("qtd_pecas2"),
+                                               rs.getInt("qtd_pecas3"));
+                }
+            }
+            
+        }catch(SQLException e){
+            e.printStackTrace();
+        } finally {
+             // Fecha conexão
+             closeConnection();
+        }
+        
+        //Relatorio vazio
+        return new Relatorio(data, linha, 0, 0, 0);
+    }
+    
+    //Select Pecas Produzidas Mensalmente
+    public List<Relatorio> selectPecasProduzidasMes(int ano, int linha){
+        String sql = "SELECT month(data_relatorio), sum(qtd_pecas) " +
+                     "FROM relatorio WHERE Year(data_relatorio) = 2005 AND linha_producao = 2 " +
+                     "GROUP BY month(data_relatorio), linha_producao;";
+
+        List<Relatorio> listRelatorio = new ArrayList<>();
+               
+        
+        return listRelatorio;
+    }
     
 }
