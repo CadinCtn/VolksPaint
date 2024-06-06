@@ -6,19 +6,25 @@ package dashboards;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Paint;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.RingPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.chart.ui.HorizontalAlignment;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.PieDataset;
 import relatorio.Relatorio;
 
 /**
@@ -104,7 +110,7 @@ public class ConsumoDashboard {
 
         //Criando painel        
         ChartPanel painelChart = new ChartPanel(consumoChart);
-        painelChart.setPreferredSize(new Dimension(400,300)); //Redimensionando painel
+        painelChart.setPreferredSize(new Dimension(500,300)); //Redimensionando painel
         
         return painelChart;
     }
@@ -150,10 +156,7 @@ public class ConsumoDashboard {
         CategoryPlot plot = chart.getCategoryPlot();
 
         // Background
-        plot.setBackgroundPaint(new Color(51,51,51));
-        plot.setDomainGridlinePaint(new Color(51,51,51));
-        plot.setRangeGridlinePaint(new Color(51,51,51));
-        plot.setOutlineVisible(false);
+        plot.setBackgroundPaint(Color.WHITE);
 
         // Barras
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
@@ -190,5 +193,69 @@ public class ConsumoDashboard {
         
         return painelConsumoTotalDiario;
     }
+    
+    ////////
+    //PieChart
+    
+    //Criando dataset 
+    private PieDataset createPieDataset(Relatorio consumo){
+        DefaultPieDataset dataset = new DefaultPieDataset();
+        
+        dataset.setValue("Turno 1", consumo.getConsumoTinta(1));
+        dataset.setValue("Turno 2", consumo.getConsumoTinta(2));
+        dataset.setValue("Turno 3", consumo.getConsumoTinta(3));
+        
+        return dataset;
+    }
+    
+    
+    //Criando grafico    
+    private JFreeChart createPieChart(PieDataset dataset){
+        
+        JFreeChart chart = ChartFactory.createRingChart("", 
+                                                       dataset,
+                                                       true,
+                                                       false,
+                                                       false);
+                                                       
+        return stylePieGraph(chart);
+    }
+    
+    //Personalizando grafico
+        private JFreeChart stylePieGraph(JFreeChart graph){
+            RingPlot plot = (RingPlot) graph.getPlot();
+            //plot.setSimpleLabels(true);
+            plot.setSectionDepth(0.5);
+            plot.setSeparatorsVisible(false);
+            plot.setSectionOutlinesVisible(false);
+            plot.setBackgroundPaint(Color.WHITE);
+            plot.setShadowPaint(null);
+            plot.setOutlinePaint(null);
+            graph.setBorderVisible(false);
+            
+            //Label
+            plot.setLabelBackgroundPaint(Color.WHITE);
+            plot.setLabelShadowPaint(null);
+            plot.setLabelFont(new Font("SansSerif", Font.BOLD, 12));
+            plot.setLabelGenerator(new StandardPieSectionLabelGenerator("{1} Mts", new DecimalFormat("#,##0"), new DecimalFormat("0.0%")));
+            
+            return graph;
+        }
+        
+        
+        //Criando painel do grafico
+        public ChartPanel painelPieConsumo(Relatorio consumo){
+            //Carregando dataset
+            PieDataset dataset = createPieDataset(consumo);
+            
+            //Carregando grafico
+            JFreeChart chart = createPieChart(dataset);
+            
+            //Gerando painel do grafico
+            ChartPanel painelGraph = new ChartPanel(chart);
+            painelGraph.setPreferredSize(new Dimension(400,400));
+            
+            return painelGraph;
+        }
     
 }
