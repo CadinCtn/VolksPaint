@@ -4,18 +4,33 @@
  */
 package dashboards;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Paint;
+import java.text.DecimalFormat;
+import java.util.List;
+import java.util.Locale;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
+import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.RingPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
-import org.jfree.chart.ui.HorizontalAlignment;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.PieDataset;
 import relatorio.Relatorio;
 
 /**
@@ -29,11 +44,13 @@ public class PecasProduzidasDashboard {
     
     //Criando dataset pecas produzidas por turno
     private CategoryDataset createBarDataset(Relatorio relatorio){
+
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         
-        dataset.addValue(relatorio.getConsumoUnidades(1), "", "Turno 1");
-        dataset.addValue(relatorio.getConsumoUnidades(2), "", "Turno 2");
-        dataset.addValue(relatorio.getConsumoUnidades(3), "", "Turno 3");
+        dataset.addValue(relatorio.getQtdPecas(1), "Turno 1", "");
+        dataset.addValue(relatorio.getQtdPecas(2), "Turno 2", "");
+        dataset.addValue(relatorio.getQtdPecas(3), "Turno 3", "");
+        dataset.addValue(relatorio.getTotalQtdPecas(), "Total", "");
         
         return dataset;
     }
@@ -45,7 +62,7 @@ public class PecasProduzidasDashboard {
                                                "",
                                                "", 
                                                dataset, 
-                                               PlotOrientation.HORIZONTAL,
+                                               PlotOrientation.VERTICAL,
                                                true,
                                                false,
                                                false);
@@ -63,13 +80,31 @@ public class PecasProduzidasDashboard {
         // Barras
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
         renderer.setBarPainter(new StandardBarPainter());
-        renderer.setDefaultPaint(Color.RED); // Define a cor padrão para todas as barras
+        renderer.setDefaultPaint(new Color(210,46,46)); // Define a cor padrão para todas as barras
         renderer.setShadowVisible(false);
 
-        for(int i = 0; i < plot.getDatasetCount(); i++){
-            renderer.setSeriesPaint(i, Color.RED);
-        }
+        //Sequencia de cores das barras
+            Paint[] barColors = new Paint[]{
+                new Color(255,255,20),  // Amarelo
+                new Color(239,70,55), // Vermelho
+                new Color(0,253,0),    // Verde
+                Color.MAGENTA
+            };
+
+            //Inserindo cores
+            for(int i = 0; i < 4; i++){
+                renderer.setSeriesPaint(i, barColors[i % barColors.length]);
+            }
         
+        
+        //Mostrando Valores
+            renderer.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
+            renderer.setDefaultItemLabelFont(new Font("SansSerif", Font.BOLD, 12));
+            renderer.setDefaultItemLabelsVisible(true);
+
+
+        new ServiceCharts().resizeScaleBarChart(barChart); // Redimensiona escala
+            
         return chart;
     }
     
@@ -79,11 +114,11 @@ public class PecasProduzidasDashboard {
         CategoryDataset dataset = createBarDataset(relatorio);
         
         //Carregando grafico
-        barChart = createBarchart(dataset);
+        this.barChart = createBarchart(dataset);
         
         //Criando painel
-        ChartPanel panelChart = new ChartPanel(barChart);
-        panelChart.setPreferredSize(new Dimension(415,275));
+        ChartPanel panelChart = new ChartPanel(this.barChart);
+        panelChart.setPreferredSize(new Dimension(750,285));
         
         return panelChart;
     }
@@ -91,9 +126,161 @@ public class PecasProduzidasDashboard {
     //Atualizando dataset
     public void setNewBarChartDataset(Relatorio relatorio){
         CategoryDataset dataset = createBarDataset(relatorio);
-        barChart.getCategoryPlot().setDataset(dataset);
+        barChart.getCategoryPlot().setDataset(dataset); // Atualiza dataset
+        new ServiceCharts().resizeScaleBarChart(barChart); // Redimensiona escala
     }
     
     
     
+ //////////////
+    //Grafico de linhas - Pecas produzidas mensalmente por ano
+    
+    private JFreeChart lineChart;
+    
+    //Criando dataset
+    private CategoryDataset createLineDataset(List<Relatorio> listRelatorio){
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        
+        //Percorrendo lista
+        for(Relatorio mesPecas : listRelatorio){
+            //Adicionando valores no dataset
+            dataset.addValue(mesPecas.getTotalQtdPecas(), "", mesPecas.toMonth());
+        }
+        
+        return dataset;
+    }
+    
+    
+    //Criando grafico
+    private JFreeChart createLineChart(CategoryDataset dataset){
+        
+        //Criando grafico
+        lineChart = ChartFactory.createLineChart("Pecas produzidas por mes no ano",
+                                                 "",
+                                                 "",
+                                                 dataset,
+                                                 PlotOrientation.VERTICAL,
+                                                 true,
+                                                 false,
+                                                 false);
+        
+        
+        return styleLineChart(lineChart);
+    }
+    
+    //Estilisando grafico
+        private JFreeChart styleLineChart(JFreeChart graph){
+            
+            CategoryPlot plot = graph.getCategoryPlot();
+            
+            LineAndShapeRenderer renderer = new LineAndShapeRenderer();
+            renderer.setSeriesPaint(0, Color.GREEN); //Cor da linha
+            renderer.setSeriesStroke(0,new BasicStroke(2.0f)); //Espessura da linha
+            
+            plot.setRenderer(renderer);
+            
+            plot.setBackgroundPaint(Color.WHITE); //Cor do fundo
+            
+            plot.setRangeGridlinesVisible(true);
+            plot.setRangeGridlinePaint(Color.BLACK);
+
+            plot.setDomainGridlinesVisible(true);
+            plot.setDomainGridlinePaint(Color.BLACK);
+
+            //Alterando fonte do eixo X (datas)
+            CategoryAxis domainAxis = plot.getDomainAxis();
+            domainAxis.setCategoryLabelPositions(CategoryLabelPositions.STANDARD);
+            domainAxis.setTickLabelFont(new Font("SansSerif", Font.BOLD, 11));
+            
+            //Ajute no intervalo do eixo X
+            domainAxis.setLowerMargin(0);
+            
+            //Faz eixo Y exibir apenas numeros inteiros
+            NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+            rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+            
+
+            new ServiceCharts().resizeScaleLineChart(lineChart); //Redimensiona Line Chart
+            
+            return graph;
+        }
+    
+        
+        //Criando painel
+        public ChartPanel painelLineChartPecasMes(List<Relatorio> listRelatorio){
+            //Carregando datset
+            CategoryDataset dataset = createLineDataset(listRelatorio);
+            
+            //Carregando grafico
+            lineChart = createLineChart(dataset);
+            
+            //Criando painel do grafico
+            ChartPanel panelChart = new ChartPanel(lineChart);
+            panelChart.setPreferredSize(new Dimension(800,175));
+            
+            return panelChart;
+        }
+        
+        
+        //Atuzalizando dataset
+        public void setNewLineChartDataset(List<Relatorio> listRelatorio){
+            CategoryDataset dataset = createLineDataset(listRelatorio);
+            lineChart.getCategoryPlot().setDataset(dataset); // Atualiza dataset
+            new ServiceCharts().resizeScaleLineChart(lineChart); //Redimensiona Line Chart
+        }
+
+        
+        
+////////////
+    //Ring Chart - Pecas produzidas por turno
+        
+        private JFreeChart ringChart;
+        
+        //Criando dataset
+        private PieDataset createPieDataset(Relatorio relatorio){
+            //Criando dataset
+            DefaultPieDataset dataset = new DefaultPieDataset();
+            
+            //Adicionando valores
+            dataset.setValue("Turno 1", relatorio.getQtdPecas(1));
+            dataset.setValue("Turno 2", relatorio.getQtdPecas(2));
+            dataset.setValue("Turno 3", relatorio.getQtdPecas(3));
+            
+            return dataset;
+        }
+        
+        //Criando grafico
+        private JFreeChart createRingChart(PieDataset dataset){
+            //Criando grafico
+            ringChart = ChartFactory.createRingChart("",
+                                                     dataset,
+                                                     true,
+                                                     false,
+                                                     false);
+            
+            return new ServiceCharts().styleRingChartTurno(ringChart);
+        }
+        
+        //Criando painel do grafico
+        public ChartPanel painelRingChartTurno(Relatorio relatorio){
+            //Carregando dataset
+            PieDataset dataset = createPieDataset(relatorio);
+            
+            //Carregando grafico
+            ringChart = createRingChart(dataset);
+            
+            //Gerando painel do grafico
+            ChartPanel painelGraph = new ChartPanel(ringChart);
+            painelGraph.setPreferredSize(new Dimension(400,400));
+            
+            return painelGraph;
+        }
+        
+        //Atualizando Dataset
+        public void setNewPieDataset(Relatorio relatorio){
+            PiePlot plot = (PiePlot) ringChart.getPlot();
+            plot.setDataset(createPieDataset(relatorio));
+        }
+        
+        
 }

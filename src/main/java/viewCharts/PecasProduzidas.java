@@ -6,6 +6,7 @@ package viewCharts;
 
 import dashboards.PecasProduzidasDashboard;
 import java.awt.BorderLayout;
+import javax.swing.JOptionPane;
 import relatorio.ServiceRelatorio;
 
 /**
@@ -30,15 +31,43 @@ public class PecasProduzidas extends javax.swing.JFrame {
         //Instanciando classe do dashboard
         this.dashboard = new PecasProduzidasDashboard();
         
-        
-        //Criando painel do grafico de barras Pecas por turno
+        //Criando grafico de barras Pecas por turno no dia
         this.painelDayBarChart.setLayout(new BorderLayout());
         this.painelDayBarChart.add(dashboard.painelBarChartPecasTurno(service.getRelatorioPecasTurno(chooserDateNow.getDate(), boxProd.getSelectedIndex()+1)));
+        
+        //Criando grafico de rosquinha por turno no dia
+        this.painelPieChart.setLayout(new BorderLayout());
+        this.painelPieChart.add(dashboard.painelRingChartTurno(service.getRelatorioPecasTurno(chooserDateNow.getDate(), boxProd.getSelectedIndex()+1)));
+        
+        //Criando grafico de linhas Pecas por mes no ano
+        this.painelLineChart.setLayout(new BorderLayout());
+        this.painelLineChart.add(dashboard.painelLineChartPecasMes(service.getRelatorioPecasMes(yearChooser.getValue(), boxProd.getSelectedIndex()+1)));
         
         
     }
 
     private PecasProduzidasDashboard dashboard;
+    
+    //Atualiza dataset
+    private void chooseDay(){
+        //Verifica se classe do dashboard ja foi inicializada
+        if(dashboard != null){
+            //Verifica se a data não é nula
+            if(chooserDateNow.getDate() != null){
+                //Grafico de barras
+                dashboard.setNewBarChartDataset(new ServiceRelatorio().getRelatorioPecasTurno(chooserDateNow.getDate(), boxProd.getSelectedIndex()+1));
+                //Grafico de Rosquinha
+                dashboard.setNewPieDataset(new ServiceRelatorio().getRelatorioPecasTurno(chooserDateNow.getDate(), boxProd.getSelectedIndex()+1));
+                //Grafico de Linhas
+                dashboard.setNewLineChartDataset(new ServiceRelatorio().getRelatorioPecasMes(yearChooser.getValue(), boxProd.getSelectedIndex()+1));
+                
+            } else {
+              JOptionPane.showMessageDialog(null, "Data inserida inválida!","AVISO",JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        
+    }
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -65,6 +94,8 @@ public class PecasProduzidas extends javax.swing.JFrame {
         painelDayBarChart = new javax.swing.JPanel();
         painelPieChart = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        yearChooser = new com.toedter.calendar.JYearChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -124,7 +155,7 @@ public class PecasProduzidas extends javax.swing.JFrame {
                 .addComponent(jButton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4)
-                .addContainerGap(413, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(0, 51, 153));
@@ -182,7 +213,7 @@ public class PecasProduzidas extends javax.swing.JFrame {
         );
         painelLineChartLayout.setVerticalGroup(
             painelLineChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 175, Short.MAX_VALUE)
+            .addGap(0, 201, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout painelDayBarChartLayout = new javax.swing.GroupLayout(painelDayBarChart);
@@ -207,10 +238,22 @@ public class PecasProduzidas extends javax.swing.JFrame {
             .addGap(0, 248, Short.MAX_VALUE)
         );
 
-        jButton5.setText("Buscar");
+        jButton5.setBackground(new java.awt.Color(255, 255, 255));
+        jButton5.setText("Atualizar");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel9.setText("Ano");
+
+        yearChooser.setBackground(new java.awt.Color(255, 255, 255));
+        yearChooser.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        yearChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                yearChooserPropertyChange(evt);
             }
         });
 
@@ -236,12 +279,18 @@ public class PecasProduzidas extends javax.swing.JFrame {
                                         .addGap(18, 18, 18)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(chooserDateNow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(chooserDateNow, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(jButton5))
                                             .addComponent(jLabel8))))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 224, Short.MAX_VALUE)
-                        .addComponent(painelPieChart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(painelPieChart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addComponent(yearChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -259,15 +308,17 @@ public class PecasProduzidas extends javax.swing.JFrame {
                                 .addGap(2, 2, 2)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(boxProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(chooserDateNow, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton5)
-                                .addGap(1, 1, 1)))
-                        .addGap(33, 33, 33)
+                                    .addComponent(chooserDateNow, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jButton5))
+                        .addGap(34, 34, 34)
                         .addComponent(painelDayBarChart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(painelPieChart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addComponent(painelLineChart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(yearChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(painelLineChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -301,22 +352,27 @@ public class PecasProduzidas extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void chooserDateNowPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_chooserDateNowPropertyChange
-        //Verifica se a classe dashboard ja foi iniciada
-        if(dashboard != null){
-            //atualiza dataset
-            dashboard.setNewBarChartDataset(new ServiceRelatorio().getRelatorioPecasTurno(chooserDateNow.getDate(), boxProd.getSelectedIndex()+1));
-        }
+       //Atualiza dataset
+        chooseDay();
     }//GEN-LAST:event_chooserDateNowPropertyChange
 
     private void boxProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxProdActionPerformed
         //Atualiza dataset
-        dashboard.setNewBarChartDataset(new ServiceRelatorio().getRelatorioPecasTurno(chooserDateNow.getDate(), boxProd.getSelectedIndex()+1));
+        chooseDay();
     }//GEN-LAST:event_boxProdActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         //Atualiza dataset
-        dashboard.setNewBarChartDataset(new ServiceRelatorio().getRelatorioPecasTurno(chooserDateNow.getDate(), boxProd.getSelectedIndex()+1));
+        chooseDay();
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void yearChooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_yearChooserPropertyChange
+        //Verifica se dashboard ja foi inicializado
+        if(dashboard != null){
+            //atualiza dataset
+            dashboard.setNewLineChartDataset(new ServiceRelatorio().getRelatorioPecasMes(yearChooser.getValue(), boxProd.getSelectedIndex()+1));
+        }
+    }//GEN-LAST:event_yearChooserPropertyChange
 
     /**
      * @param args the command line arguments
@@ -336,11 +392,13 @@ public class PecasProduzidas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel painelDayBarChart;
     private javax.swing.JPanel painelLineChart;
     private javax.swing.JPanel painelPieChart;
+    private com.toedter.calendar.JYearChooser yearChooser;
     // End of variables declaration//GEN-END:variables
 }

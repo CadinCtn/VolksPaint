@@ -37,9 +37,7 @@ public class ConsumoDashboard {
     
 
     // Grafico de barras consumo diario por turno
-    
-    
-    private JFreeChart consumoChart;
+    private JFreeChart turnoBarChart;
     
     //Criando dataset
     private CategoryDataset createDatasetBarChart(Relatorio consumoTinta){
@@ -55,7 +53,7 @@ public class ConsumoDashboard {
     
     //Criando grafico
     private JFreeChart createChartConsumo(CategoryDataset dataset){
-        consumoChart = ChartFactory.createBarChart("Consumo diário por turno", 
+        turnoBarChart = ChartFactory.createBarChart("Consumo diário por turno", 
                                                    "",
                                                    "", 
                                                    dataset,
@@ -64,7 +62,7 @@ public class ConsumoDashboard {
                                                    false,
                                                    false);
         
-        return  styleConsumoChart(consumoChart);
+        return  styleConsumoChart(turnoBarChart);
     }
     
     //Personalizando grafico
@@ -107,6 +105,8 @@ public class ConsumoDashboard {
             //Alinhamento do titulo
             chart.getTitle().setHorizontalAlignment(HorizontalAlignment.LEFT);
         
+            new ServiceCharts().resizeScaleBarChart(turnoBarChart); // Redimensiona o grafico
+            
         return chart;
     }
     
@@ -115,10 +115,10 @@ public class ConsumoDashboard {
         //Carregando dataset
         CategoryDataset dataset = createDatasetBarChart(consumoTinta);
         //Carregando grafico
-        consumoChart = createChartConsumo(dataset);
+        turnoBarChart = createChartConsumo(dataset);
 
         //Criando painel        
-        ChartPanel painelChart = new ChartPanel(consumoChart);
+        ChartPanel painelChart = new ChartPanel(turnoBarChart);
         painelChart.setPreferredSize(new Dimension(500,300)); //Redimensionando painel
         
         return painelChart;
@@ -127,14 +127,15 @@ public class ConsumoDashboard {
     //Atualizando dataset
     public void setNewBarDataset(Relatorio consumoTinta){
         CategoryDataset dataset = createDatasetBarChart(consumoTinta);
-        this.consumoChart.getCategoryPlot().setDataset(dataset);
+        this.turnoBarChart.getCategoryPlot().setDataset(dataset); // Atualiza dataset
+        new ServiceCharts().resizeScaleBarChart(turnoBarChart); // Redimensiona o grafico
     }
     
 /////////////////////////////////////
 
     //Grafico de barras consumo total diário
     
-    private JFreeChart consumoTotalDiarioChart;
+    private JFreeChart totalBarChart;
     
     //Criando dataset
     private CategoryDataset createDatasetTotalDiario(List<Relatorio> listConsumo){
@@ -154,7 +155,7 @@ public class ConsumoDashboard {
     //Criando grafico
     private JFreeChart createChartConsumoTotalDiario(CategoryDataset dataset){
         
-        consumoTotalDiarioChart = ChartFactory.createBarChart("Consumo Total Diário", 
+        totalBarChart = ChartFactory.createBarChart("Consumo Total Diário", 
                                                    "", 
                                                    "", 
                                                    dataset,
@@ -163,7 +164,7 @@ public class ConsumoDashboard {
                                                    false,
                                                    false);
 
-        return styleChartConsumoTotalDiario(consumoTotalDiarioChart);
+        return styleChartConsumoTotalDiario(totalBarChart);
     }
     
     //Personalizando grafico
@@ -189,6 +190,8 @@ public class ConsumoDashboard {
         // Alinhamento do título
         chart.getTitle().setHorizontalAlignment(HorizontalAlignment.LEFT);
         
+        new ServiceCharts().resizeScaleBarChart(totalBarChart); // Redimensiona o grafico
+        
         return chart;
     }
 
@@ -200,10 +203,10 @@ public class ConsumoDashboard {
         CategoryDataset dataset = createDatasetTotalDiario(listConsumo);
         
         //Carregando grafico
-        consumoTotalDiarioChart = createChartConsumoTotalDiario(dataset);
+        totalBarChart = createChartConsumoTotalDiario(dataset);
         
         //Criando painel
-        ChartPanel painelConsumoTotalDiario = new ChartPanel(consumoTotalDiarioChart);
+        ChartPanel painelConsumoTotalDiario = new ChartPanel(totalBarChart);
         painelConsumoTotalDiario.setPreferredSize(new Dimension(800,240));
         
         return painelConsumoTotalDiario;
@@ -212,7 +215,8 @@ public class ConsumoDashboard {
     //Atualizando Dataset
     public void setNewBarTotalDataset(List<Relatorio> listConsumo){
         CategoryDataset dataset = createDatasetTotalDiario(listConsumo);
-        this.consumoTotalDiarioChart.getCategoryPlot().setDataset(dataset);
+        this.totalBarChart.getCategoryPlot().setDataset(dataset);
+        new ServiceCharts().resizeScaleBarChart(totalBarChart); // Redimensiona o grafico
     }
     
     ////////
@@ -242,38 +246,9 @@ public class ConsumoDashboard {
                                                        false,
                                                        false);
                                                        
-        return styleRingGraph(ringChart);
+        return new ServiceCharts().styleRingChartTurno(ringChart);
     }
      
-    //Personalizando grafico
-        private JFreeChart styleRingGraph(JFreeChart graph){
-            RingPlot plot = (RingPlot) graph.getPlot();
-            //plot.setSimpleLabels(true);
-            plot.setSectionDepth(0.5);
-            plot.setSeparatorsVisible(false);
-            plot.setSectionOutlinesVisible(false);
-            plot.setBackgroundPaint(Color.WHITE);
-            plot.setShadowPaint(null);
-            plot.setOutlinePaint(null);
-            graph.setBorderVisible(false);
-            
-            plot.setSectionPaint("Turno 1", new Color(255,255,20)); // Amarelo
-            plot.setSectionPaint("Turno 2", new Color(239,70,55)); // Vermelho
-            plot.setSectionPaint("Turno 3", new Color(0,253,0));  // Verde
-            
-            
-            //Label
-            plot.setLabelBackgroundPaint(null);
-            plot.setLabelShadowPaint(null);
-            plot.setLabelOutlinePaint(null);
-            plot.setLabelFont(new Font("SansSerif", Font.BOLD, 14));
-            plot.setLabelGenerator(new StandardPieSectionLabelGenerator("{2}", new DecimalFormat("#,##0"), new DecimalFormat("0.0%")));
-            plot.setLabelPaint(Color.BLACK);
-            plot.setSimpleLabels(true);
-            
-            return graph;
-        }
-        
         
         //Criando painel do grafico
         public ChartPanel painelPieConsumo(Relatorio consumo){

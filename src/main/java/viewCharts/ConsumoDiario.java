@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
@@ -85,33 +86,39 @@ public class ConsumoDiario extends javax.swing.JFrame {
     
     //Alterar dataset dos graficos a partida do dia
     private void chooseDay(){
-        //Relatorio do dia Selecionado
-        Relatorio consumoDiario = new ServiceRelatorio().getRelatorioDiarioConsumo(chooserDateNow.getDate(), boxProd.getSelectedIndex()+1);
-        
-        //Atualiza dataset dos graficos
-        this.dashboard.setNewBarDataset(consumoDiario);
-        this.dashboard.setNewPieDataset(consumoDiario);
-        
-        //Atualiza painel com os valores de cada turno
-        painelValores(consumoDiario);
+        if(this.dashboard != null){
+           if(chooserDateNow.getDate() != null){
+                //Relatorio do dia Selecionado
+                Relatorio consumoDiario = new ServiceRelatorio().getRelatorioDiarioConsumo(chooserDateNow.getDate(), boxProd.getSelectedIndex()+1);
+
+                //Atualiza dataset dos graficos
+                this.dashboard.setNewBarDataset(consumoDiario);
+                this.dashboard.setNewPieDataset(consumoDiario);
+
+                //Atualiza painel com os valores de cada turno
+                painelValores(consumoDiario);
+               
+           } else {
+                JOptionPane.showMessageDialog(null, "Data inserida inválida!","AVISO",JOptionPane.WARNING_MESSAGE);
+           }
+        }
     }
     
-    
-    //Visializando popup
-    private void showPopupChart(ChartMouseEvent e, JPopupMenu popup) {
-            // Calculate the position to display the popup menu
-            int x = e.getTrigger().getXOnScreen();
-            int y = e.getTrigger().getYOnScreen() - popup.getPreferredSize().height;
-
-            // Ensure the menu is fully on screen
-            if (y < 0) {
-                y = e.getTrigger().getYOnScreen();  // If it would go off-screen, place it below the cursor
+    //Altera o dataset do grafico de consumo total ao dia
+    private void chooseInterval(){
+        //Verifica se a classe dashboard foi inicializada
+        if(this.dashboard != null){
+            //Verifica se os campos de data não estao nulos
+            if(chooserDateEnd.getDate() != null && chooserDateIni != null){
+                //Atualiza dataset
+                this.dashboard.setNewBarTotalDataset(new ServiceRelatorio().getRelatorioTotalConsumoDiario(chooserDateIni.getDate(), chooserDateEnd.getDate(), boxProd.getSelectedIndex()+1));
+            } else {
+                JOptionPane.showMessageDialog(null, "Data inserida inválida!","AVISO",JOptionPane.WARNING_MESSAGE);
             }
-
-            popup.setLocation(x, y);
-            popup.setVisible(true);
-    }
+        }
         
+    }
+    
     
     //Adicionando Mouse Listener ao painel do grafico
     private void getKeyBarChart(ChartPanel panel, ConsumoDashboard dashboard){
@@ -298,7 +305,7 @@ public class ConsumoDiario extends javax.swing.JFrame {
         });
 
         btnBuscarTotal.setBackground(new java.awt.Color(255, 255, 255));
-        btnBuscarTotal.setText("Buscar");
+        btnBuscarTotal.setText("Atualizar");
         btnBuscarTotal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarTotalActionPerformed(evt);
@@ -456,7 +463,7 @@ public class ConsumoDiario extends javax.swing.JFrame {
         jLabel8.setText("Data");
 
         btnBuscarTurno.setBackground(new java.awt.Color(255, 255, 255));
-        btnBuscarTurno.setText("Buscar");
+        btnBuscarTurno.setText("Atualizar");
         btnBuscarTurno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarTurnoActionPerformed(evt);
@@ -581,8 +588,8 @@ public class ConsumoDiario extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnBuscarTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarTotalActionPerformed
-        //Atualiza dataset
-        this.dashboard.setNewBarTotalDataset(new ServiceRelatorio().getRelatorioTotalConsumoDiario(chooserDateIni.getDate(), chooserDateEnd.getDate(), boxProd.getSelectedIndex()+1));
+       //Atualiza dataset
+       chooseInterval();
     }//GEN-LAST:event_btnBuscarTotalActionPerformed
 
     private void btnBuscarTurnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarTurnoActionPerformed
@@ -591,30 +598,24 @@ public class ConsumoDiario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarTurnoActionPerformed
 
     private void chooserDateNowPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_chooserDateNowPropertyChange
-        if(this.dashboard != null){
-            //Altera o dataset
-            chooseDay();
-        }
+        //Altera o dataset
+        chooseDay();
     }//GEN-LAST:event_chooserDateNowPropertyChange
 
     private void boxProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxProdActionPerformed
         //Atualiza dataset
-        this.dashboard.setNewBarTotalDataset(new ServiceRelatorio().getRelatorioTotalConsumoDiario(chooserDateIni.getDate(), chooserDateEnd.getDate(), boxProd.getSelectedIndex()+1));
         chooseDay();
+        chooseInterval();
     }//GEN-LAST:event_boxProdActionPerformed
 
     private void chooserDateIniPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_chooserDateIniPropertyChange
-        if(this.dashboard != null){
-             //Atualiza dataset
-            this.dashboard.setNewBarTotalDataset(new ServiceRelatorio().getRelatorioTotalConsumoDiario(chooserDateIni.getDate(), chooserDateEnd.getDate(), boxProd.getSelectedIndex()+1));
-        }
+        //Atualiza dataset
+        chooseInterval();
     }//GEN-LAST:event_chooserDateIniPropertyChange
 
     private void chooserDateEndPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_chooserDateEndPropertyChange
-        if(this.dashboard != null){
-             //Atualiza dataset
-            this.dashboard.setNewBarTotalDataset(new ServiceRelatorio().getRelatorioTotalConsumoDiario(chooserDateIni.getDate(), chooserDateEnd.getDate(), boxProd.getSelectedIndex()+1));
-        }
+       //Atualiza dataset
+       chooseInterval();
     }//GEN-LAST:event_chooserDateEndPropertyChange
 
     /**

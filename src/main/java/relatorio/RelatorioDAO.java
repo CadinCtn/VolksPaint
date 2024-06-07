@@ -10,6 +10,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -124,7 +125,7 @@ public class RelatorioDAO {
     //Select Pecas Produzidas Por Dia
     public Relatorio selectPecasProduzidasDia(Date data, int linha){
         //Selecionando pecas produzidas
-        String sql = "SELECT data_relatorio, " +
+        String sql = "SELECT " +
                      "SUM(CASE WHEN turno = 1 THEN qtd_pecas ELSE 0 END) AS qtd_pecas1, " +
                      "SUM(CASE WHEN turno = 2 THEN qtd_pecas ELSE 0 END) AS qtd_pecas2, " +
                      "SUM(CASE WHEN turno = 3 THEN qtd_pecas ELSE 0 END) AS qtd_pecas3 " +
@@ -138,10 +139,11 @@ public class RelatorioDAO {
             try(ResultSet rs = stmt.executeQuery()){
                 while(rs.next()){
                     //Retorna relatorio
-                    return new Relatorio(data, linha, 
-                                               rs.getInt("qtd_pecas1"),
-                                               rs.getInt("qtd_pecas2"),
-                                               rs.getInt("qtd_pecas3"));
+                    return new Relatorio(1,  // Irrelevante
+                                         linha, 
+                                         rs.getInt("qtd_pecas1"),
+                                         rs.getInt("qtd_pecas2"),
+                                         rs.getInt("qtd_pecas3"));
                 }
             }
             
@@ -158,13 +160,41 @@ public class RelatorioDAO {
     
     //Select Pecas Produzidas Mensalmente
     public List<Relatorio> selectPecasProduzidasMes(int ano, int linha){
-        String sql = "SELECT month(data_relatorio), sum(qtd_pecas) " +
-                     "FROM relatorio WHERE Year(data_relatorio) = 2005 AND linha_producao = 2 " +
+        String sql = "SELECT month(data_relatorio) as mes, " +
+                     "sum(CASE WHEN turno = 1 THEN qtd_pecas ELSE 0 END) as qtd_pecas1, " +
+                     "sum(CASE WHEN turno = 2 THEN qtd_pecas ELSE 0 END) as qtd_pecas2, " +
+                     "sum(CASE WHEN turno = 3 THEN qtd_pecas ELSE 0 END) as qtd_pecas3 " +
+                     "FROM relatorio WHERE Year(data_relatorio) = ? AND linha_producao = ? " +
                      "GROUP BY month(data_relatorio), linha_producao;";
 
+        //Criando lista
         List<Relatorio> listRelatorio = new ArrayList<>();
-               
         
+        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+            //Setando atributos
+            stmt.setInt(1, ano);
+            stmt.setInt(2, linha);
+            
+            try(ResultSet rs = stmt.executeQuery()){
+                //Percorre lista de resultados
+                while(rs.next()){
+                    //Adiciona a lista o relatorio
+                    listRelatorio.add(new Relatorio(rs.getInt("mes"),
+                                                    linha, 
+                                                    rs.getInt("qtd_pecas1"),
+                                                    rs.getInt("qtd_pecas2"), 
+                                                    rs.getInt("qtd_pecas3")));
+                }
+            }
+            
+        }catch(SQLException e){
+            e.printStackTrace();
+        } finally {
+            //Encerra a conexão
+            closeConnection();
+        }
+
+        //Retorna lista com os resultados obtidos        
         return listRelatorio;
     }
     

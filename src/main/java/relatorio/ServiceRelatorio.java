@@ -63,14 +63,19 @@ public class ServiceRelatorio {
     
     //Função que retorna lista de relatórios em um intervalo de dias
     public List<Relatorio> getRelatorioTotalConsumoDiario(Date dataInicio, Date dataFim, int linhaProducao){
-            //Retorna Lista de relatorios em umm intervalo de tempo especificoo
-            return new RelatorioDAO().selectConsumoTinta(new java.sql.Date(dataInicio.getTime()), new java.sql.Date(dataFim.getTime()), linhaProducao);
+        //Retorna Lista de relatorios em umm intervalo de tempo especificoo
+        return new RelatorioDAO().selectConsumoTinta(new java.sql.Date(dataInicio.getTime()), new java.sql.Date(dataFim.getTime()), linhaProducao);
     }
 
 
-    //Retorna relatorio de Pecas produzidas por turno
-    public Relatorio getRelatorioPecasTurno(Date data, int turno){
-        return new RelatorioDAO().selectPecasProduzidasDia(new java.sql.Date(data.getTime()), turno);
+    //Retorna relatorio de Pecas produzidas por turno no dia
+    public Relatorio getRelatorioPecasTurno(Date data, int linha){
+        return new RelatorioDAO().selectPecasProduzidasDia(new java.sql.Date(data.getTime()), linha);
+    }
+    
+    //Retorna relatorio de pecas produzidas por mes no ano
+    public List<Relatorio> getRelatorioPecasMes(int ano, int linha){
+        return new RelatorioDAO().selectPecasProduzidasMes(ano, linha);
     }
     
 }

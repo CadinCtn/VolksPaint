@@ -5,6 +5,7 @@
 package relatorio;
 
 import java.sql.Date;
+import java.text.DateFormatSymbols;
 
 /**
  *
@@ -21,6 +22,7 @@ public class Relatorio {
         
         //Pecas produzidas
         int[] qtdPecas = new int[3];
+        int mes = 0; // mes em que a quantidade de pecas foi produzida
         
         //Consumo tinta por unidade
         float[] consumoUnidades = new float[3];
@@ -53,14 +55,21 @@ public class Relatorio {
         
         
         //Relatorio de Pecas Produzidas
-        public Relatorio(Date data, int linhaProducao, int qtdPecas1, int qtdPecas2, int qtdPecas3){
-            this.data = data;
+        public Relatorio(int mes, int linhaProducao, int qtdPecas1, int qtdPecas2, int qtdPecas3){
+            this.mes = mes;
             this.linhaProducao = linhaProducao;
             
             this.qtdPecas[0] = qtdPecas1;
             this.qtdPecas[1] = qtdPecas2;
             this.qtdPecas[2] = qtdPecas3;
         }
+        
+        //Convertendo numero int(Mes) em String(Mes)
+        public String toMonth(){
+        String[] months = new DateFormatSymbols().getMonths();
+        return months[mes - 1];
+    }
+        
         
         //Set
         public void setConsumoTinta(float valor, int turno){
