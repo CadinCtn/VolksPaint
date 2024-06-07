@@ -75,17 +75,16 @@ public class ConsumoDashboard {
             plot.setRangeGridlinePaint(Color.WHITE);
             plot.setOutlineVisible(false);
             
-            
             //Barras
             BarRenderer renderer = (BarRenderer) plot.getRenderer();
             renderer.setBarPainter(new StandardBarPainter());
-            renderer.setShadowVisible(false);
+            renderer.setShadowPaint(new Color(51,51,51));
+            renderer.setShadowVisible(true);
             
             //Mostrando Valores
             renderer.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
             renderer.setDefaultItemLabelFont(new Font("SansSerif", Font.BOLD, 12));
             renderer.setDefaultItemLabelsVisible(true);
-            
             
             //Sequencia de cores das barras
             Paint[] barColors = new Paint[]{
@@ -178,8 +177,9 @@ public class ConsumoDashboard {
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
         renderer.setBarPainter(new StandardBarPainter());
         renderer.setDefaultPaint(Color.MAGENTA); // Define a cor padrão para todas as barras
-        renderer.setShadowVisible(false);
-
+        renderer.setShadowPaint(new Color(51,51,51));
+        renderer.setShadowVisible(true);
+        
         for(int i = 0; i < plot.getDatasetCount(); i++){
             renderer.setSeriesPaint(i, Color.MAGENTA);
         }

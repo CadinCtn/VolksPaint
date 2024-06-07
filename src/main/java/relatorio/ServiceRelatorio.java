@@ -67,7 +67,6 @@ public class ServiceRelatorio {
         return new RelatorioDAO().selectConsumoTinta(new java.sql.Date(dataInicio.getTime()), new java.sql.Date(dataFim.getTime()), linhaProducao);
     }
 
-
     //Retorna relatorio de Pecas produzidas por turno no dia
     public Relatorio getRelatorioPecasTurno(Date data, int linha){
         return new RelatorioDAO().selectPecasProduzidasDia(new java.sql.Date(data.getTime()), linha);
@@ -76,6 +75,11 @@ public class ServiceRelatorio {
     //Retorna relatorio de pecas produzidas por mes no ano
     public List<Relatorio> getRelatorioPecasMes(int ano, int linha){
         return new RelatorioDAO().selectPecasProduzidasMes(ano, linha);
+    }
+    
+    //Retorna relatorio de desperdicio, consumo, limite | por unidade em cada turno no dia
+    public Relatorio getRelatorioConsumoDesperdicioUnidadeTurno(Date data, int linha){
+        return new RelatorioDAO().selectConsumoDesperdicioUnidadeTurno(new java.sql.Date(data.getTime()), linha);
     }
     
 }

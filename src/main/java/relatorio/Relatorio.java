@@ -5,6 +5,7 @@
 package relatorio;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Date;
 import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
@@ -79,9 +80,9 @@ public class Relatorio {
             this.limiteConsumoUnidade[2] = limite3;
             
             //Porcentagem de desperdicio em cima do limite
-            this.desperdicioTinta[0] = new BigDecimal(perDesperdicio1).setScale(2).floatValue();
-            this.desperdicioTinta[1] = new BigDecimal(perDesperdicio2).setScale(2).floatValue();
-            this.desperdicioTinta[2] = new BigDecimal(perDesperdicio3).setScale(2).floatValue();
+            this.desperdicioTinta[0] = new BigDecimal(perDesperdicio1).setScale(2, RoundingMode.HALF_UP).floatValue();
+            this.desperdicioTinta[1] = new BigDecimal(perDesperdicio2).setScale(2, RoundingMode.HALF_UP).floatValue();
+            this.desperdicioTinta[2] = new BigDecimal(perDesperdicio3).setScale(2, RoundingMode.HALF_UP).floatValue();
         }
         
         
@@ -144,6 +145,10 @@ public class Relatorio {
         
         public float getTotalLimiteConsumo(){
             return limiteConsumoUnidade[0] + limiteConsumoUnidade[1] + limiteConsumoUnidade[2];
+        }
+        
+        public float getTotalConsumoUnidade(){
+            return consumoUnidades[0] + consumoUnidades[1] + consumoUnidades[2];
         }
         
 }

@@ -51,9 +51,7 @@ public class ServiceCharts {
 
             // Ajustar valores com 10% de margem
             int rangeLower = (int) (minValue - minValue*0.1);
-            int rangeMax = (int) (maxValue + maxValue*0.1);
-            
-            
+            int rangeMax = (int) Math.ceil(maxValue + maxValue*0.1);
             
             // Configurar a escala do eixo Y
             NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
