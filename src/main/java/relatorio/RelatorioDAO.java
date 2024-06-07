@@ -137,7 +137,7 @@ public class RelatorioDAO {
             stmt.setInt(2, linha);
             
             try(ResultSet rs = stmt.executeQuery()){
-                while(rs.next()){
+                if(rs.next()){
                     //Retorna relatorio
                     return new Relatorio(1,  // Irrelevante
                                          linha, 
@@ -197,5 +197,74 @@ public class RelatorioDAO {
         //Retorna lista com os resultados obtidos        
         return listRelatorio;
     }
+    
+    
+    //Select de despercicio e consumo de tinta por unidade
+    public Relatorio selectConsumoDesperdicioUnidadeTurno(Date data, int linha){
+        //String da consulta
+        String sql = "SELECT " +
+                     //Limite de consumo por unidade
+                     "SUM(CASE WHEN turno = 1 THEN limite_consumo ELSE 0 END) AS limite1, " +
+                     "SUM(CASE WHEN turno = 2 THEN limite_consumo ELSE 0 END) AS limite2, " +
+                     "SUM(CASE WHEN turno = 3 THEN limite_consumo ELSE 0 END) AS limite3, " +
+                     //Consumo de tinta por unidade 
+                     "SUM(CASE WHEN turno = 1 THEN consumo_unidade ELSE 0 END) AS consumo_u1, " +
+                     "SUM(CASE WHEN turno = 2 THEN consumo_unidade ELSE 0 END) AS consumo_u2, " +
+                     "SUM(CASE WHEN turno = 3 THEN consumo_unidade ELSE 0 END) AS consumo_u3, " +
+                     //Porcentagem de desperdicio por unidade
+                        //Turno 1
+                     "(SUM(CASE WHEN turno = 1 THEN desperdicio_tinta ELSE 0 END) * 100 /  " +
+                     " NULLIF(SUM(CASE WHEN turno = 1 THEN limite_consumo ELSE 0 END), 0)) AS perc_desperdicio1, " +
+                        //Turno 2
+                     "(SUM(CASE WHEN turno = 2 THEN desperdicio_tinta ELSE 0 END) * 100 /  " +
+                     "NULLIF(SUM(CASE WHEN turno = 2 THEN limite_consumo ELSE 0 END), 0)) AS perc_desperdicio2, " +
+                        //Turno 3
+                     "(SUM(CASE WHEN turno = 3 THEN desperdicio_tinta ELSE 0 END) * 100 /  " +
+                     "NULLIF(SUM(CASE WHEN turno = 3 THEN limite_consumo ELSE 0 END), 0)) AS perc_desperdicio3 " +
+                     
+                     //Condições
+                     "FROM relatorio  " +
+                     "WHERE data_relatorio = ? AND linha_producao = ? " +
+                     "GROUP BY data_relatorio, linha_producao;";
+        
+        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+            stmt.setDate(1, data);
+            stmt.setInt(2, linha);
+            
+            try(ResultSet rs = stmt.executeQuery()){
+                //Se obtiver resultado
+                if(rs.next()){
+                    //Retorna relatorio
+                    return new Relatorio( //Consumo Unidade
+                                         rs.getFloat("consumo_u1"), 
+                                         rs.getFloat("consumo_u2"), 
+                                         rs.getFloat("consumo_u3"), 
+                            
+                                         //Limite Consumo Unidade
+                                         rs.getFloat("limite1"), 
+                                         rs.getFloat("limite2"), 
+                                         rs.getFloat("limite3"), 
+                            
+                                         //Porcentagem Desperdicio Unidade
+                                         rs.getFloat("perc_desperdicio1"), 
+                                         rs.getFloat("perc_desperdicio2"), 
+                                         rs.getFloat("perc_desperdicio3"));
+                }
+            }
+            
+        }catch(SQLException e){
+            e.printStackTrace();
+        } finally {
+            //Fecha conexão
+            closeConnection();
+        }
+
+        //Retorna relatorio vazio
+        return new Relatorio(0, 0, 0, 
+                             0, 0, 0, 
+                             0, 0, 0);
+    }
+    
+    
     
 }
