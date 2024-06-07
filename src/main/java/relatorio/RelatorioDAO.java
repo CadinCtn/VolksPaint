@@ -131,7 +131,7 @@ public class RelatorioDAO {
                      "FROM relatorio WHERE data_relatorio = ? AND linha_producao = ? " +
                      "GROUP BY data_relatorio, linha_producao;";
         
-        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+        try(PreparedStatement stmt = connection.prepareStatement(sql);){
             stmt.setDate(1, data);
             stmt.setInt(2, linha);
             

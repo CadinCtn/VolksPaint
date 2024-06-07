@@ -5,8 +5,6 @@
 package relatorio;
 
 import com.toedter.calendar.JCalendar;
-import dashboards.ConsumoDashboard;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -67,6 +65,12 @@ public class ServiceRelatorio {
     public List<Relatorio> getRelatorioTotalConsumoDiario(Date dataInicio, Date dataFim, int linhaProducao){
             //Retorna Lista de relatorios em umm intervalo de tempo especificoo
             return new RelatorioDAO().selectConsumoTinta(new java.sql.Date(dataInicio.getTime()), new java.sql.Date(dataFim.getTime()), linhaProducao);
+    }
+
+
+    //Retorna relatorio de Pecas produzidas por turno
+    public Relatorio getRelatorioPecasTurno(Date data, int turno){
+        return new RelatorioDAO().selectPecasProduzidasDia(new java.sql.Date(data.getTime()), turno);
     }
     
 }
