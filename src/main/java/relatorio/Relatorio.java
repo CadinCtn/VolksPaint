@@ -66,8 +66,7 @@ public class Relatorio {
         //////////////////
         //Relatorio de Consumo de Unidade por dia
         public Relatorio(float consUnidade1, float consUnidade2, float consUnidade3, 
-                         float limite1, float limite2, float limite3, 
-                         float perDesperdicio1, float perDesperdicio2, float perDesperdicio3){
+                         float limite1, float limite2, float limite3){
             
             //Consumo por unidade
             this.consumoUnidades[0] = consUnidade1;
@@ -79,6 +78,11 @@ public class Relatorio {
             this.limiteConsumoUnidade[1] = limite2;
             this.limiteConsumoUnidade[2] = limite3;
             
+            
+        }
+        ///////////////////
+        //Relatorio de Porcentagem de despercio por turno
+        public Relatorio(float perDesperdicio1, float perDesperdicio2, float perDesperdicio3){
             //Porcentagem de desperdicio em cima do limite
             this.desperdicioTinta[0] = new BigDecimal(perDesperdicio1).setScale(2, RoundingMode.HALF_UP).floatValue();
             this.desperdicioTinta[1] = new BigDecimal(perDesperdicio2).setScale(2, RoundingMode.HALF_UP).floatValue();

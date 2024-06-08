@@ -79,7 +79,12 @@ public class ServiceRelatorio {
     
     //Retorna relatorio de desperdicio, consumo, limite | por unidade em cada turno no dia
     public Relatorio getRelatorioConsumoDesperdicioUnidadeTurno(Date data, int linha){
-        return new RelatorioDAO().selectConsumoDesperdicioUnidadeTurno(new java.sql.Date(data.getTime()), linha);
+        return new RelatorioDAO().selectConsumoLimiteUnidadeTurno(new java.sql.Date(data.getTime()), linha);
+    }
+    
+    //Retorna relatorio de porcentagem de despercio
+    public Relatorio getRelatorioPercDespercio(Date data, int linha){
+        return new RelatorioDAO().selectPercDesperdicio(new java.sql.Date(data.getTime()), linha);
     }
     
 }

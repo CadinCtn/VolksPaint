@@ -108,7 +108,7 @@ public class PecasProduzidasDashboard {
             rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
             
 
-        new ServiceCharts().resizeScaleBarChart(barChart); // Redimensiona escala
+        new ServiceCharts().resizeScaleBarChart(chart); // Redimensiona escala
             
         return chart;
     }

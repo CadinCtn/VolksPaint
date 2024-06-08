@@ -199,8 +199,8 @@ public class RelatorioDAO {
     }
     
     
-    //Select de despercicio e consumo de tinta por unidade
-    public Relatorio selectConsumoDesperdicioUnidadeTurno(Date data, int linha){
+    //Select de consumo  e limite de tinta por unidade
+    public Relatorio selectConsumoLimiteUnidadeTurno(Date data, int linha){
         //String da consulta
         String sql = "SELECT " +
                      //Limite de consumo por unidade
@@ -210,17 +210,7 @@ public class RelatorioDAO {
                      //Consumo de tinta por unidade 
                      "SUM(CASE WHEN turno = 1 THEN consumo_unidade ELSE 0 END) AS consumo_u1, " +
                      "SUM(CASE WHEN turno = 2 THEN consumo_unidade ELSE 0 END) AS consumo_u2, " +
-                     "SUM(CASE WHEN turno = 3 THEN consumo_unidade ELSE 0 END) AS consumo_u3, " +
-                     //Porcentagem de desperdicio por unidade
-                        //Turno 1
-                     "(SUM(CASE WHEN turno = 1 THEN desperdicio_tinta ELSE 0 END) * 100 /  " +
-                     " NULLIF(SUM(CASE WHEN turno = 1 THEN limite_consumo ELSE 0 END), 0)) AS perc_desperdicio1, " +
-                        //Turno 2
-                     "(SUM(CASE WHEN turno = 2 THEN desperdicio_tinta ELSE 0 END) * 100 /  " +
-                     "NULLIF(SUM(CASE WHEN turno = 2 THEN limite_consumo ELSE 0 END), 0)) AS perc_desperdicio2, " +
-                        //Turno 3
-                     "(SUM(CASE WHEN turno = 3 THEN desperdicio_tinta ELSE 0 END) * 100 /  " +
-                     "NULLIF(SUM(CASE WHEN turno = 3 THEN limite_consumo ELSE 0 END), 0)) AS perc_desperdicio3 " +
+                     "SUM(CASE WHEN turno = 3 THEN consumo_unidade ELSE 0 END) AS consumo_u3 " +
                      
                      //Condições
                      "FROM relatorio  " +
@@ -243,12 +233,8 @@ public class RelatorioDAO {
                                          //Limite Consumo Unidade
                                          rs.getFloat("limite1"), 
                                          rs.getFloat("limite2"), 
-                                         rs.getFloat("limite3"), 
-                            
-                                         //Porcentagem Desperdicio Unidade
-                                         rs.getFloat("perc_desperdicio1"), 
-                                         rs.getFloat("perc_desperdicio2"), 
-                                         rs.getFloat("perc_desperdicio3"));
+                                         rs.getFloat("limite3") 
+                                       );
                 }
             }
             
@@ -261,10 +247,51 @@ public class RelatorioDAO {
 
         //Retorna relatorio vazio
         return new Relatorio(0, 0, 0, 
-                             0, 0, 0, 
                              0, 0, 0);
     }
     
+    
+    //Select relatorio de despercio em porcentagem por turno
+    public Relatorio selectPercDesperdicio(Date data, int linha){
+        //String sql que retorna o calculo de porcentagem de despercicio em relação ao limite
+        String sql = "Select " +
+                     "(SUM(CASE WHEN turno = 1 THEN desperdicio_tinta ELSE 0 END) * 100 / " +
+                     "NULLIF(SUM(CASE WHEN turno = 1 THEN limite_consumo ELSE 0 END), 0)) AS perc_desperdicio1, " +
+                     //Turno 1
+                     "(SUM(CASE WHEN turno = 2 THEN desperdicio_tinta ELSE 0 END) * 100 / " +
+                     "NULLIF(SUM(CASE WHEN turno = 2 THEN limite_consumo ELSE 0 END), 0)) AS perc_desperdicio2, " +
+                     //Turno 3
+                     "(SUM(CASE WHEN turno = 3 THEN desperdicio_tinta ELSE 0 END) * 100 /  " +
+                     "NULLIF(SUM(CASE WHEN turno = 3 THEN limite_consumo ELSE 0 END), 0)) AS perc_desperdicio3  " +
+                     //Condições
+                     "FROM relatorio  " +
+                     "WHERE data_relatorio = ? AND linha_producao = ? " +
+                     "GROUP BY data_relatorio, linha_producao;";
+        
+        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+            stmt.setDate(1, data);
+            stmt.setInt(2, linha);
+            
+            //Percorrendo lista de resultados
+            try(ResultSet rs = stmt.executeQuery()){
+                if(rs.next()){
+                    //Retorna relatorio de porcentagem de desperdicio
+                    return new Relatorio(rs.getFloat("perc_desperdicio1"), 
+                                         rs.getFloat("perc_desperdicio2"), 
+                                         rs.getFloat("perc_desperdicio3"));
+                }
+            }
+            
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            //fecha a conexão
+            closeConnection();
+        }
+        
+        //retorna relatorio vazio
+        return new Relatorio(0,0,0);
+    }
     
     
 }

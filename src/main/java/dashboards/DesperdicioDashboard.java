@@ -4,14 +4,20 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Paint;
+import java.text.NumberFormat;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
+import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import relatorio.Relatorio;
@@ -129,12 +135,112 @@ public class DesperdicioDashboard {
     private JFreeChart barChartPerc;
     
     //Criando dataset
-    private CategoryDataset createBarPercDataset(){
+    private CategoryDataset createBarPercDataset(Relatorio relatorio){
         //Criando dataset
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         
+        //Adicionando valores
+        dataset.addValue(relatorio.getDesperdicioTinta(1), "Turno 1", "");
+        dataset.addValue(relatorio.getDesperdicioTinta(2), "Turno 2", "");
+        dataset.addValue(relatorio.getDesperdicioTinta(3), "Turno 3", "");
+        dataset.addValue(relatorio.getTotalDesperdicioTinta(), "Total", "");
         
         return dataset;
+    }
+
+
+    //Criando grafico
+    private JFreeChart createBarChartPerc(CategoryDataset dataset){
+        //Criando grafico
+        JFreeChart chart = ChartFactory.createBarChart("Porcentagem de Desperdício de Tinta ", 
+                                                       "",
+                                                       "",
+                                                       dataset,
+                                                       PlotOrientation.HORIZONTAL,
+                                                       true,
+                                                       false,
+                                                       false);
+         
+        return styleBarChart(chart);                          
+    }
+
+
+    //Personalizando grafico
+    private JFreeChart styleBarChart(JFreeChart chart){
+        CategoryPlot plot = chart.getCategoryPlot();
+
+        // Background
+        plot.setBackgroundPaint(Color.WHITE);
+
+        // Barras
+        BarRenderer renderer = (BarRenderer) plot.getRenderer();
+        renderer.setBarPainter(new StandardBarPainter());
+        renderer.setDefaultPaint(new Color(210,46,46)); // Define a cor padrão para todas as barras
+        renderer.setShadowPaint(new Color(51,51,51));
+        renderer.setShadowVisible(true);
+
+        //Sequencia de cores das barras
+            Paint[] barColors = new Paint[]{
+                new Color(255,255,20),  // Amarelo
+                new Color(239,70,55), // Vermelho
+                new Color(0,253,0),    // Verde
+                Color.MAGENTA               //Roxo
+            };
+
+            //Inserindo cores
+            for(int i = 0; i < 4; i++){
+                renderer.setSeriesPaint(i, barColors[i % barColors.length]);
+            }
+        
+        
+        //Mostrando Valores
+            renderer.setDefaultItemLabelGenerator(new CustomLabelGenerator());
+            renderer.setDefaultItemLabelFont(new Font("SansSerif", Font.BOLD, 12));
+            renderer.setDefaultItemLabelsVisible(true);
+
+            //Faz eixo Y exibir apenas numeros inteiros
+            NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+            rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+            
+
+        new ServiceCharts().resizeScaleBarChart(chart); // Redimensiona escala
+            
+        return chart;
+    }
+    
+    //Personalizando formato do label Generator
+    private static class CustomLabelGenerator extends StandardCategoryItemLabelGenerator {
+        private static final NumberFormat format = NumberFormat.getInstance();
+
+        @Override
+        public String generateLabel(CategoryDataset dataset, int row, int column) {
+            Number value = dataset.getValue(row, column);
+            if (value != null) {
+                return " "+format.format(value) + "%";
+            }
+            return "";
+        }
+    }
+    
+    
+    //Criando painel do grafico
+    public ChartPanel painelBarChartPerc(Relatorio relatorio){
+        //Carregando dataset
+        CategoryDataset dataset = createBarPercDataset(relatorio);
+        //Carregando grafico
+        barChartPerc = createBarChartPerc(dataset);
+        
+        ChartPanel panelGraph = new ChartPanel(barChartPerc);
+        panelGraph.setPreferredSize(new Dimension(537,295));
+         
+        return panelGraph;
+    }
+    
+    //Atualizando dataset
+    public void setNewBarDatasetPerc(Relatorio relatorio){
+        CategoryDataset dataset = createBarPercDataset(relatorio);
+        barChartPerc.getCategoryPlot().setDataset(dataset); //Setando novo dataset
+        new ServiceCharts().resizeScaleBarChart(barChartPerc); // Redimensionando escala do grafico
     }
     
 }

@@ -7,6 +7,7 @@ package viewCharts;
 import dashboards.DesperdicioDashboard;
 import java.awt.BorderLayout;
 import javax.swing.JOptionPane;
+import relatorio.Relatorio;
 import relatorio.ServiceRelatorio;
 
 /**
@@ -31,10 +32,18 @@ public class Desperdicio extends javax.swing.JFrame {
         //Instanciando classe dashboard
         this.dashboard = new DesperdicioDashboard();
         
-        //Gerando grafico no painel
+        //Gerando grafico de linhas de consumo e limite de tinta
         this.panelLineChartTurno.setLayout(new BorderLayout());
-        this.panelLineChartTurno.add(dashboard.painelLineChartTurno(service.getRelatorioConsumoDesperdicioUnidadeTurno(chooserDateNow.getDate(), boxProd.getSelectedIndex()+1)));
+        Relatorio consumoLimite = service.getRelatorioConsumoDesperdicioUnidadeTurno(chooserDateNow.getDate(), boxProd.getSelectedIndex()+1);
+        this.panelLineChartTurno.add(dashboard.painelLineChartTurno(consumoLimite));
         
+        //Gerando grafico de barras desperdicio de tinta
+        this.panelBarChartTurno.setLayout(new BorderLayout());
+        Relatorio desperdicio = service.getRelatorioPercDespercio(chooserDateNow.getDate(), boxProd.getSelectedIndex()+1);
+        this.panelBarChartTurno.add(dashboard.painelBarChartPerc(desperdicio));
+        
+        //Setando valores nos labels
+        setValues(desperdicio,consumoLimite);
         
     }
     
@@ -46,13 +55,44 @@ public class Desperdicio extends javax.swing.JFrame {
         if(this.dashboard != null){
             //Verifica se a data não é vazia
             if(chooserDateNow.getDate() != null){
-                dashboard.setNewLineDataset(new ServiceRelatorio().getRelatorioConsumoDesperdicioUnidadeTurno(chooserDateNow.getDate(), boxProd.getSelectedIndex()+1));
+                ServiceRelatorio service = new ServiceRelatorio();
+                //Grafico de linhas
+                Relatorio consumoLimite = service.getRelatorioConsumoDesperdicioUnidadeTurno(chooserDateNow.getDate(), boxProd.getSelectedIndex()+1);
+                dashboard.setNewLineDataset(consumoLimite);
+                //Grafico de barras
+                Relatorio desperdicio = service.getRelatorioPercDespercio(chooserDateNow.getDate(), boxProd.getSelectedIndex()+1);
+                dashboard.setNewBarDatasetPerc(desperdicio);
+                
+                //Setando valores nos labels
+                setValues(desperdicio, consumoLimite);
+                
             } else {
               JOptionPane.showMessageDialog(null, "Data inserida inválida!","AVISO", JOptionPane.WARNING_MESSAGE);
             }
         }
     }
     
+    //Setando valores no painel
+    private void setValues(Relatorio desperdicio, Relatorio consumoLimite){
+        //Consumo unidade
+        labelConT1.setText(String.valueOf(consumoLimite.getConsumoUnidades(1)));
+        labelConT2.setText(String.valueOf(consumoLimite.getConsumoUnidades(2)));
+        labelConT3.setText(String.valueOf(consumoLimite.getConsumoUnidades(3)));
+        labelConTotal.setText(String.valueOf(consumoLimite.getTotalConsumoUnidade()));
+        
+        //Limite Unidade
+        labelLimiteT1.setText(String.valueOf(consumoLimite.getLimiteConsumoUnidade(1)));
+        labelLimiteT2.setText(String.valueOf(consumoLimite.getLimiteConsumoUnidade(2)));
+        labelLimiteT3.setText(String.valueOf(consumoLimite.getLimiteConsumoUnidade(3)));
+        labelLimiteTotal.setText(String.valueOf(consumoLimite.getTotalLimiteConsumo()));
+        
+        //Desperdicio
+        labelDespT1.setText(desperdicio.getDesperdicioTinta(1) + "%");
+        labelDespT2.setText(desperdicio.getDesperdicioTinta(2) + "%");
+        labelDespT3.setText(desperdicio.getDesperdicioTinta(3) + "%");
+        labelDespTotal.setText(desperdicio.getTotalDesperdicioTinta() + "%");
+        
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
