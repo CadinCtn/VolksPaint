@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Paint;
 import java.text.NumberFormat;
+import java.util.List;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -18,6 +19,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
+import org.jfree.chart.ui.HorizontalAlignment;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import relatorio.Relatorio;
@@ -250,4 +252,108 @@ public class DesperdicioDashboard {
         new ServiceCharts().resizeScaleBarChart(barChartPerc); // Redimensionando escala do grafico
     }
     
+    
+/////////////////
+    //Grafico de Desperdicio Total Por mes
+    
+    private JFreeChart barChartTotalMes;
+    
+    //Criando dataset grafico de barras desperdicio total por mes
+    private CategoryDataset createTotalBarChartDataset(List<Relatorio> listRelatorio){
+        //Criando dataset
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        
+        //adicionando valores
+        for(Relatorio desperdicio : listRelatorio){
+            dataset.addValue(desperdicio.getTotalDesperdicioTinta(), "Desperdicio de Tinta", desperdicio.toMonth());
+        }
+        
+        return dataset;
+    }
+    
+    
+    //Criando grafico
+    private JFreeChart createTotalBarChart(CategoryDataset dataset){
+        //Criando grafico
+        JFreeChart chart = ChartFactory.createBarChart("    Total de Desperdicio de Tinta por mes no ano", 
+                                                       "",
+                                                       "",
+                                                       dataset,
+                                                       PlotOrientation.VERTICAL,
+                                                       false,
+                                                       false, 
+                                                       false);
+        
+        return styleTotalBarChart(chart);
+    }
+    
+    
+    //Personalizando grafico
+    private JFreeChart styleTotalBarChart(JFreeChart chart){
+        CategoryPlot plot = chart.getCategoryPlot();
+
+        // Background
+        plot.setBackgroundPaint(Color.WHITE);
+
+        // Barras
+        BarRenderer renderer = (BarRenderer) plot.getRenderer();
+        renderer.setBarPainter(new StandardBarPainter());
+        renderer.setDefaultPaint(new Color(195,43,233)); // Define a cor padrão para todas as barras
+        renderer.setShadowPaint(new Color(51,51,51));
+        renderer.setShadowVisible(true);
+        plot.setOutlineVisible(false);
+        
+        renderer.setSeriesPaint(0, new Color(195,43,233));
+        
+        renderer.setDrawBarOutline(true); //contorno
+        
+        //Espessura do contorno
+        renderer.setSeriesOutlineStroke(0, new BasicStroke(5.0f));
+
+        //Cor do contorno
+        renderer.setSeriesOutlinePaint(0, new Color(195,43,233,100));
+        
+        //Mostrando Valores
+        renderer.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
+        renderer.setDefaultItemLabelFont(new Font("SansSerif", Font.BOLD, 12));
+        renderer.setDefaultItemLabelsVisible(true);
+
+        //Alterando fonte eixo X
+        CategoryAxis domainAxis = plot.getDomainAxis();
+        domainAxis.setCategoryLabelPositions(CategoryLabelPositions.STANDARD);
+        domainAxis.setTickLabelFont(new Font("SansSerif", Font.BOLD, 12));
+        
+        // Externo
+        chart.setBorderVisible(false);
+        
+        
+        // Alinhamento do título
+        chart.getTitle().setHorizontalAlignment(HorizontalAlignment.LEFT);
+        
+        new ServiceCharts().resizeScaleBarChart(chart); // Redimensiona o grafico
+        
+        return chart;
+    }
+    
+    //Criando painel do grafico
+    public ChartPanel painelTotalBarChart(List<Relatorio> listRelatorio){
+        //Carregando dataset
+        CategoryDataset dataset = createTotalBarChartDataset(listRelatorio);
+        
+        //Carregando grafico
+        barChartTotalMes = createTotalBarChart(dataset);
+        
+        //Criando painel do grafico
+        ChartPanel panelChart = new ChartPanel(barChartTotalMes);
+        panelChart.setPreferredSize(new Dimension(800,235));
+        
+        return panelChart;
+    }
+    
+    //Atualiza dataset
+    public void setNewTotalBarChartDataset(List<Relatorio> listRelatorio){
+        CategoryDataset dataset = createTotalBarChartDataset(listRelatorio);
+        this.barChartTotalMes.getCategoryPlot().setDataset(dataset); //Atualiza dataset
+        new ServiceCharts().resizeScaleBarChart(barChartTotalMes); //Redimensiona escala
+    }
 }

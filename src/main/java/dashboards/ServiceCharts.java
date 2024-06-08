@@ -76,7 +76,7 @@ public class ServiceCharts {
         }
         
         //Ajustando para 10% a mais do valor maximo
-        float rangeMax = (float) (maxValue + maxValue*0.1);
+        float rangeMax = (float) Math.ceil(maxValue + maxValue*0.1);
             
             NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
             yAxis.setRange(0.0, rangeMax);

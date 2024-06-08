@@ -6,6 +6,10 @@ package viewCharts;
 
 import dashboards.DesperdicioDashboard;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Calendar;
 import javax.swing.JOptionPane;
 import relatorio.Relatorio;
 import relatorio.ServiceRelatorio;
@@ -43,7 +47,11 @@ public class Desperdicio extends javax.swing.JFrame {
         this.panelBarChartTurno.add(dashboard.painelBarChartPerc(desperdicio));
         
         //Setando valores nos labels
-        setValues(desperdicio,consumoLimite);
+        setValues(consumoLimite);
+        
+        //Gerando grafico de barras desperdicio total por mes
+        this.panelBarChartMes.setLayout(new BorderLayout());
+        this.panelBarChartMes.add(dashboard.painelTotalBarChart(service.getRelatorioTotalDesperdicio(yearChooser.getValue(), boxProd.getSelectedIndex()+1)));
         
     }
     
@@ -64,7 +72,7 @@ public class Desperdicio extends javax.swing.JFrame {
                 dashboard.setNewBarDatasetPerc(desperdicio);
                 
                 //Setando valores nos labels
-                setValues(desperdicio, consumoLimite);
+                setValues(consumoLimite);
                 
             } else {
               JOptionPane.showMessageDialog(null, "Data inserida inválida!","AVISO", JOptionPane.WARNING_MESSAGE);
@@ -73,24 +81,64 @@ public class Desperdicio extends javax.swing.JFrame {
     }
     
     //Setando valores no painel
-    private void setValues(Relatorio desperdicio, Relatorio consumoLimite){
+    private void setValues( Relatorio consumoLimite){
         //Consumo unidade
-        labelConT1.setText(String.valueOf(consumoLimite.getConsumoUnidades(1)));
-        labelConT2.setText(String.valueOf(consumoLimite.getConsumoUnidades(2)));
-        labelConT3.setText(String.valueOf(consumoLimite.getConsumoUnidades(3)));
-        labelConTotal.setText(String.valueOf(consumoLimite.getTotalConsumoUnidade()));
+        labelConT1.setText(consumoLimite.getConsumoUnidades(1) + "L");
+        labelConT2.setText(consumoLimite.getConsumoUnidades(2)+ "L");
+        labelConT3.setText(consumoLimite.getConsumoUnidades(3)+ "L");
+        labelConTotal.setText(consumoLimite.getTotalConsumoUnidade()+ "L");
         
         //Limite Unidade
-        labelLimiteT1.setText(String.valueOf(consumoLimite.getLimiteConsumoUnidade(1)));
-        labelLimiteT2.setText(String.valueOf(consumoLimite.getLimiteConsumoUnidade(2)));
-        labelLimiteT3.setText(String.valueOf(consumoLimite.getLimiteConsumoUnidade(3)));
-        labelLimiteTotal.setText(String.valueOf(consumoLimite.getTotalLimiteConsumo()));
+        labelLimiteT1.setText(consumoLimite.getLimiteConsumoUnidade(1)+ "L");
+        labelLimiteT2.setText(consumoLimite.getLimiteConsumoUnidade(2)+ "L");
+        labelLimiteT3.setText(consumoLimite.getLimiteConsumoUnidade(3)+ "L");
+        labelLimiteTotal.setText(consumoLimite.getTotalLimiteConsumo()+ "L");
         
         //Desperdicio
-        labelDespT1.setText(desperdicio.getDesperdicioTinta(1) + "%");
-        labelDespT2.setText(desperdicio.getDesperdicioTinta(2) + "%");
-        labelDespT3.setText(desperdicio.getDesperdicioTinta(3) + "%");
-        labelDespTotal.setText(desperdicio.getTotalDesperdicioTinta() + "%");
+        float d1 = new BigDecimal(consumoLimite.getConsumoUnidades(1) - consumoLimite.getLimiteConsumoUnidade(1)).setScale(4,RoundingMode.HALF_UP).floatValue();
+        float d2 = new BigDecimal(consumoLimite.getConsumoUnidades(2) - consumoLimite.getLimiteConsumoUnidade(2)).setScale(4,RoundingMode.HALF_UP).floatValue();
+        float d3 = new BigDecimal(consumoLimite.getConsumoUnidades(3) - consumoLimite.getLimiteConsumoUnidade(3)).setScale(4,RoundingMode.HALF_UP).floatValue();
+        float dT = new BigDecimal(consumoLimite.getTotalConsumoUnidade() - consumoLimite.getTotalLimiteConsumo()).setScale(4,RoundingMode.HALF_UP).floatValue();
+        
+        
+        //Caso seja menor que 0
+        if(d1 <= 0){
+            //Não houve desperdicio
+            //Alterando cor do texto para verde
+            labelConT1.setForeground(new Color(0,255,0));
+            d1 = 0;
+        } else {
+            //houve desperdicio
+            //alterando cor do texto para vermelho
+            labelConT1.setForeground(new Color(252,0,57));
+        }
+        //
+        if(d2 <= 0){
+            labelConT2.setForeground(new Color(0,255,0));
+            d2 = 0;
+        } else {
+            labelConT2.setForeground(new Color(252,0,57));
+        }
+        //
+        if(d3 <= 0){
+            labelConT3.setForeground(new Color(0,255,0));
+            d3 = 0;
+        } else {
+            labelConT3.setForeground(new Color(252,0,57));
+        }
+        //
+        if(dT <= 0){
+            labelConTotal.setForeground(new Color(0,255,0));
+            dT = 0;
+        } else {
+            labelConTotal.setForeground(new Color(252,0,57));
+        }
+        
+        //Setando valores desperdicio
+        labelDespT1.setText(d1+"L");
+        labelDespT2.setText(d2+"L");
+        labelDespT3.setText(d3+"L");
+        labelDespTotal.setText(dT+"L");
         
     }
     
@@ -123,24 +171,26 @@ public class Desperdicio extends javax.swing.JFrame {
         panelBarChartMes = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
-        labelConTotal = new javax.swing.JLabel();
         labelConT1 = new javax.swing.JLabel();
         labelConT2 = new javax.swing.JLabel();
         labelConT3 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        labelLimiteTotal = new javax.swing.JLabel();
         labelLimiteT1 = new javax.swing.JLabel();
         labelLimiteT2 = new javax.swing.JLabel();
         labelLimiteT3 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
-        labelDespTotal = new javax.swing.JLabel();
         labelDespT1 = new javax.swing.JLabel();
         labelDespT2 = new javax.swing.JLabel();
         labelDespT3 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        labelConTotal = new javax.swing.JLabel();
+        labelLimiteTotal = new javax.swing.JLabel();
+        labelDespTotal = new javax.swing.JLabel();
+        btnDecDay = new javax.swing.JButton();
+        btnAddDay = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -200,7 +250,7 @@ public class Desperdicio extends javax.swing.JFrame {
                 .addComponent(jButton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4)
-                .addContainerGap(433, Short.MAX_VALUE))
+                .addContainerGap(533, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(0, 51, 153));
@@ -227,7 +277,8 @@ public class Desperdicio extends javax.swing.JFrame {
         );
 
         boxProd.setBackground(new java.awt.Color(255, 255, 255));
-        boxProd.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        boxProd.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 16)); // NOI18N
+        boxProd.setForeground(new java.awt.Color(51, 51, 51));
         boxProd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Produção 1", "Produção 2", "Produção 3" }));
         boxProd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -243,13 +294,17 @@ public class Desperdicio extends javax.swing.JFrame {
             }
         });
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(51, 51, 51));
         jLabel7.setText("Linha de Produção");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(51, 51, 51));
         jLabel8.setText("Data");
 
         btnBuscarTurno.setBackground(new java.awt.Color(255, 255, 255));
+        btnBuscarTurno.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnBuscarTurno.setForeground(new java.awt.Color(51, 51, 51));
         btnBuscarTurno.setText("Atualizar");
         btnBuscarTurno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -266,6 +321,7 @@ public class Desperdicio extends javax.swing.JFrame {
         });
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(51, 51, 51));
         jLabel9.setText("Ano");
 
         javax.swing.GroupLayout panelLineChartTurnoLayout = new javax.swing.GroupLayout(panelLineChartTurno);
@@ -276,7 +332,7 @@ public class Desperdicio extends javax.swing.JFrame {
         );
         panelLineChartTurnoLayout.setVerticalGroup(
             panelLineChartTurnoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 287, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout panelBarChartTurnoLayout = new javax.swing.GroupLayout(panelBarChartTurno);
@@ -287,7 +343,7 @@ public class Desperdicio extends javax.swing.JFrame {
         );
         panelBarChartTurnoLayout.setVerticalGroup(
             panelBarChartTurnoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 287, Short.MAX_VALUE)
+            .addGap(0, 303, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout panelBarChartMesLayout = new javax.swing.GroupLayout(panelBarChartMes);
@@ -307,10 +363,6 @@ public class Desperdicio extends javax.swing.JFrame {
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("Consumo:");
 
-        jLabel16.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 20)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel16.setText("Total:");
-
         jLabel17.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setText("Turno 1:");
@@ -323,98 +375,115 @@ public class Desperdicio extends javax.swing.JFrame {
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
         jLabel19.setText("Turno 3:");
 
-        labelConTotal.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
-        labelConTotal.setForeground(new java.awt.Color(255, 255, 255));
-        labelConTotal.setText("total");
-
         labelConT1.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         labelConT1.setForeground(new java.awt.Color(255, 255, 255));
+        labelConT1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelConT1.setText("turno1");
 
         labelConT2.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         labelConT2.setForeground(new java.awt.Color(255, 255, 255));
+        labelConT2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelConT2.setText("turno2");
 
         labelConT3.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         labelConT3.setForeground(new java.awt.Color(255, 255, 255));
+        labelConT3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelConT3.setText("turno3");
 
         jLabel20.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 25)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(255, 255, 255));
         jLabel20.setText("Limite:");
 
-        labelLimiteTotal.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
-        labelLimiteTotal.setForeground(new java.awt.Color(255, 255, 255));
-        labelLimiteTotal.setText("total");
-
         labelLimiteT1.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         labelLimiteT1.setForeground(new java.awt.Color(255, 255, 255));
+        labelLimiteT1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelLimiteT1.setText("turno1");
 
         labelLimiteT2.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         labelLimiteT2.setForeground(new java.awt.Color(255, 255, 255));
+        labelLimiteT2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelLimiteT2.setText("turno2");
 
         labelLimiteT3.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         labelLimiteT3.setForeground(new java.awt.Color(255, 255, 255));
+        labelLimiteT3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelLimiteT3.setText("turno3");
 
         jLabel25.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 25)); // NOI18N
         jLabel25.setForeground(new java.awt.Color(255, 255, 255));
         jLabel25.setText("Desperdício:");
 
-        labelDespTotal.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
-        labelDespTotal.setForeground(new java.awt.Color(255, 255, 255));
-        labelDespTotal.setText("total");
-
         labelDespT1.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         labelDespT1.setForeground(new java.awt.Color(255, 255, 255));
+        labelDespT1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelDespT1.setText("turno1");
 
         labelDespT2.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         labelDespT2.setForeground(new java.awt.Color(255, 255, 255));
+        labelDespT2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelDespT2.setText("turno2");
 
         labelDespT3.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         labelDespT3.setForeground(new java.awt.Color(255, 255, 255));
+        labelDespT3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelDespT3.setText("turno3");
+
+        jLabel16.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 20)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel16.setText("Total:");
+
+        labelConTotal.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        labelConTotal.setForeground(new java.awt.Color(255, 255, 255));
+        labelConTotal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelConTotal.setText("total");
+
+        labelLimiteTotal.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        labelLimiteTotal.setForeground(new java.awt.Color(255, 255, 255));
+        labelLimiteTotal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelLimiteTotal.setText("total");
+
+        labelDespTotal.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        labelDespTotal.setForeground(new java.awt.Color(255, 255, 255));
+        labelDespTotal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelDespTotal.setText("total");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(83, 83, 83)
-                .addComponent(jLabel15)
-                .addGap(44, 44, 44)
-                .addComponent(jLabel20)
-                .addGap(44, 44, 44)
-                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel16)
-                    .addComponent(jLabel17)
-                    .addComponent(jLabel18)
-                    .addComponent(jLabel19))
-                .addGap(37, 37, 37)
+                .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(labelConT2, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
-                    .addComponent(labelConT3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelConT1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelConTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(68, 68, 68)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(labelLimiteT1, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
-                    .addComponent(labelLimiteT2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelLimiteT3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelLimiteTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(68, 68, 68)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelDespT1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelDespT2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelDespT3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel15)
+                        .addGap(29, 29, 29)
+                        .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelConTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelConT3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelConT2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelConT1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(34, 34, 34)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(labelLimiteTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelLimiteT3, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                            .addComponent(labelLimiteT2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelLimiteT1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelDespT3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelDespT2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelDespT1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(labelDespTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -422,36 +491,26 @@ public class Desperdicio extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(jLabel25)
+                    .addComponent(jLabel15))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
+                        .addComponent(labelLimiteT1, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelLimiteT2, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelLimiteT3, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
+                        .addComponent(labelDespT1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelDespT2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelDespT3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel20)
-                            .addComponent(jLabel25))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(labelLimiteTotal)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(labelLimiteT1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(labelLimiteT2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(labelLimiteT3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(labelDespTotal)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(labelDespT1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(labelDespT2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(labelDespT3, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE))))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel15)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelConTotal))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(1, 1, 1)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel17)
                             .addComponent(labelConT1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -463,8 +522,36 @@ public class Desperdicio extends javax.swing.JFrame {
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(labelConT3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel19))))
+                .addGap(5, 5, 5)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(labelDespTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelLimiteTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(1, 1, 1))
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(labelConTotal)))
                 .addContainerGap())
         );
+
+        btnDecDay.setBackground(new java.awt.Color(255, 255, 255));
+        btnDecDay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-seta-esquerda-24.png"))); // NOI18N
+        btnDecDay.setBorder(null);
+        btnDecDay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDecDayActionPerformed(evt);
+            }
+        });
+
+        btnAddDay.setBackground(new java.awt.Color(255, 255, 255));
+        btnAddDay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-seta-direita-24.png"))); // NOI18N
+        btnAddDay.setBorder(null);
+        btnAddDay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddDayActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -473,57 +560,69 @@ public class Desperdicio extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelBarChartMes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addComponent(boxProd, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addGap(18, 18, 18)
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                                        .addComponent(chooserDateNow, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(btnBuscarTurno))
-                                                    .addComponent(jLabel8)))
-                                            .addComponent(jLabel9)
-                                            .addComponent(yearChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 157, Short.MAX_VALUE))
-                            .addComponent(panelLineChartTurno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                    .addComponent(jLabel9)
+                                                    .addComponent(yearChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 163, Short.MAX_VALUE))
+                                    .addComponent(panelLineChartTurno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(chooserDateNow, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnDecDay)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnAddDay)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnBuscarTurno))
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(boxProd, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(panelBarChartTurno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(panelBarChartMes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(boxProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel7)
+                        .addGap(0, 0, 0)
+                        .addComponent(boxProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(chooserDateNow, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(btnBuscarTurno)
-                            .addComponent(chooserDateNow, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btnAddDay, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnDecDay, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(panelLineChartTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panelBarChartTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panelBarChartTurno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelLineChartTurno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -564,7 +663,11 @@ public class Desperdicio extends javax.swing.JFrame {
 
     private void boxProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxProdActionPerformed
         //Atualiza dataset
-        chooseDay();
+            //Consumo Limite e porcentagem de desperdicio por turno
+            chooseDay();
+            
+            //Total de desperdicio por mes
+            dashboard.setNewTotalBarChartDataset(new ServiceRelatorio().getRelatorioTotalDesperdicio(yearChooser.getValue(), boxProd.getSelectedIndex()+1));
     }//GEN-LAST:event_boxProdActionPerformed
 
     private void chooserDateNowPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_chooserDateNowPropertyChange
@@ -578,8 +681,32 @@ public class Desperdicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarTurnoActionPerformed
 
     private void yearChooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_yearChooserPropertyChange
+        if(dashboard != null){
+            //Atualiza dataset
+            dashboard.setNewTotalBarChartDataset(new ServiceRelatorio().getRelatorioTotalDesperdicio(yearChooser.getValue(), boxProd.getSelectedIndex()+1));
+        }
     }//GEN-LAST:event_yearChooserPropertyChange
 
+    private void btnDecDayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecDayActionPerformed
+        //Verifica se a data está vazia
+        if(chooserDateNow.getDate() != null){
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(chooserDateNow.getDate());
+            calendar.add(Calendar.DAY_OF_MONTH, -1); // Increment one day
+            chooserDateNow.setDate(calendar.getTime());
+        }
+    }//GEN-LAST:event_btnDecDayActionPerformed
+
+    private void btnAddDayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDayActionPerformed
+        //Verifica se a data está vazia
+        if(chooserDateNow.getDate() != null){
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(chooserDateNow.getDate());
+            calendar.add(Calendar.DAY_OF_MONTH, 1); // Increment one day
+            chooserDateNow.setDate(calendar.getTime());
+        }
+    }//GEN-LAST:event_btnAddDayActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -589,7 +716,9 @@ public class Desperdicio extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> boxProd;
+    private javax.swing.JButton btnAddDay;
     private javax.swing.JButton btnBuscarTurno;
+    private javax.swing.JButton btnDecDay;
     private com.toedter.calendar.JDateChooser chooserDateNow;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

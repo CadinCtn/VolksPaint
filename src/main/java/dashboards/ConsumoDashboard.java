@@ -190,18 +190,22 @@ public class ConsumoDashboard {
         CategoryPlot plot = chart.getCategoryPlot();
 
         // Background
-        plot.setBackgroundPaint(Color.WHITE);
-
+        plot.setBackgroundPaint(new Color(248,248,248));
+        plot.setRangeGridlinePaint(new Color(51,51,51));
+        
         // Barras
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
         renderer.setBarPainter(new StandardBarPainter());
-        renderer.setDefaultPaint(Color.MAGENTA); // Define a cor padrão para todas as barras
         renderer.setShadowPaint(new Color(51,51,51));
         renderer.setShadowVisible(true);
+        renderer.setSeriesPaint(0, new Color(195,43,233)); //Cor das barras
+        renderer.setDrawBarOutline(true); //contorno
         
-        for(int i = 0; i < plot.getDatasetCount(); i++){
-            renderer.setSeriesPaint(i, Color.MAGENTA);
-        }
+        //Espessura do contorno
+        renderer.setSeriesOutlineStroke(0, new BasicStroke(5.0f));
+
+        //Cor do contorno
+        renderer.setSeriesOutlinePaint(0, new Color(195,43,233,100));
         
         // Externo
         chart.setBorderVisible(false);
@@ -210,15 +214,27 @@ public class ConsumoDashboard {
             CategoryAxis domainAxis = plot.getDomainAxis();
             domainAxis.setCategoryLabelPositions(CategoryLabelPositions.STANDARD);
             domainAxis.setTickLabelFont(new Font("SansSerif", Font.BOLD, 12));
+            
         
         // Alinhamento do título
         chart.getTitle().setHorizontalAlignment(HorizontalAlignment.LEFT);
         
-        new ServiceCharts().resizeScaleBarChart(totalBarChart); // Redimensiona o grafico
+        new ServiceCharts().resizeScaleBarChart(chart); // Redimensiona o grafico
         
         return chart;
     }
 
+    //Alterar cor da colunas especifica
+    public void changeBarColor(JFreeChart chart, String columnKey){
+        CategoryPlot plot = (CategoryPlot) chart.getPlot();
+        CategoryDataset dataset = plot.getDataset();
+        
+        int columnIndex = dataset.getColumnIndex(columnKey);
+        
+            BarRenderer renderer = (BarRenderer) plot.getRenderer();
+            renderer.setSeriesPaint(0, Color.WHITE);
+    }
+    
     
     //Criando painel do grafico
     public ChartPanel painelConsumoTotalDiario(List<Relatorio> listConsumo){

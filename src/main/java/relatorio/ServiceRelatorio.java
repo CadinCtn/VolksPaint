@@ -87,4 +87,9 @@ public class ServiceRelatorio {
         return new RelatorioDAO().selectPercDesperdicio(new java.sql.Date(data.getTime()), linha);
     }
     
+    //Relatorio de desperdicio total por mes no ano
+    public List<Relatorio> getRelatorioTotalDesperdicio(int ano, int linha){
+        return new RelatorioDAO().selectRelatorioDesperdicioMensal(ano, linha);
+    }
+    
 }

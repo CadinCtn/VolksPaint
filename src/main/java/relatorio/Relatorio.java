@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Date;
 import java.text.DateFormatSymbols;
-import java.text.DecimalFormat;
 
 /**
  *
@@ -48,6 +47,7 @@ public class Relatorio {
         }
         
         ////////////////// 
+        //
         //Relatorio de Pecas Produzidas
         public Relatorio(int mes, int linhaProducao, int qtdPecas1, int qtdPecas2, int qtdPecas3){
             this.mes = mes;
@@ -64,6 +64,7 @@ public class Relatorio {
             return months[mes - 1];
         }
         //////////////////
+        //
         //Relatorio de Consumo de Unidade por dia
         public Relatorio(float consUnidade1, float consUnidade2, float consUnidade3, 
                          float limite1, float limite2, float limite3){
@@ -81,6 +82,7 @@ public class Relatorio {
             
         }
         ///////////////////
+        //
         //Relatorio de Porcentagem de despercio por turno
         public Relatorio(float perDesperdicio1, float perDesperdicio2, float perDesperdicio3){
             //Porcentagem de desperdicio em cima do limite
@@ -88,7 +90,17 @@ public class Relatorio {
             this.desperdicioTinta[1] = new BigDecimal(perDesperdicio2).setScale(2, RoundingMode.HALF_UP).floatValue();
             this.desperdicioTinta[2] = new BigDecimal(perDesperdicio3).setScale(2, RoundingMode.HALF_UP).floatValue();
         }
-        
+        //////////////////
+        //
+        //Relatorio de desperdicio mensal por ano
+        public Relatorio(int mes, float desperdicio1, float desperdicio2, float desperdicio3){
+            this.mes = mes;
+            //valores de desperdicio
+            this.desperdicioTinta[0] = desperdicio1;
+            this.desperdicioTinta[1] = desperdicio2;
+            this.desperdicioTinta[2] = desperdicio3;
+        }
+        ////////////////
         
         //Set
         public void setConsumoTinta(float valor, int turno){

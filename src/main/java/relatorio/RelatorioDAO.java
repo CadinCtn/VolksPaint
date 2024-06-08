@@ -10,7 +10,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -293,5 +292,46 @@ public class RelatorioDAO {
         return new Relatorio(0,0,0);
     }
     
+    
+    //Select de relatorio de desperdicio mensal por ano
+    public List<Relatorio> selectRelatorioDesperdicioMensal(int ano, int linha){
+
+        String sql = "SELECT month(data_relatorio) as mes, " +
+                     "SUM(CASE WHEN turno = 1 THEN desperdicio_tinta ELSE 0 END ) as desp1, " +
+                     "SUM(CASE WHEN turno = 2 THEN desperdicio_tinta ELSE 0 END ) as desp2, " +
+                     "SUM(CASE WHEN turno = 3 THEN desperdicio_tinta ELSE 0 END ) as desp3 " +
+
+                     "FROM relatorio " +
+                     "WHERE year(data_relatorio) = ? AND linha_producao = ? " +
+                     "group by month(data_relatorio), linha_producao;";
+        
+        //Criando lista
+        List<Relatorio> listRelatorio = new ArrayList<>();
+        
+        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+            //setando atributos
+            stmt.setInt(1, ano);
+            stmt.setInt(2, linha);
+            
+            //Percorrendo lista de resultados
+            try(ResultSet rs = stmt.executeQuery()){
+                while(rs.next()){
+                    //Adiciona a lista
+                    listRelatorio.add(new Relatorio(rs.getInt("mes"),
+                                                    rs.getFloat("desp1"),
+                                                    rs.getFloat("desp2"),
+                                                    rs.getFloat("desp3")));
+                }
+            }
+            
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            //fecha a conexão
+            closeConnection();
+        }        
+        
+        return listRelatorio;
+    }
     
 }

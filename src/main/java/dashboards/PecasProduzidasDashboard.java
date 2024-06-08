@@ -23,6 +23,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
+import org.jfree.chart.ui.HorizontalAlignment;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
@@ -72,7 +73,8 @@ public class PecasProduzidasDashboard {
 
         // Background
         plot.setBackgroundPaint(Color.WHITE);
-
+        plot.setOutlineVisible(false);
+        
         // Barras
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
         renderer.setBarPainter(new StandardBarPainter());
@@ -85,7 +87,7 @@ public class PecasProduzidasDashboard {
                 new Color(255,255,20),  // Amarelo
                 new Color(239,70,55), // Vermelho
                 new Color(0,253,0),    // Verde
-                Color.MAGENTA
+                new Color(195,43,233)
             };
 
             //Inserindo cores
@@ -104,6 +106,22 @@ public class PecasProduzidasDashboard {
             renderer.setLegendTextFont(1, new Font("SansSerif", Font.BOLD, 14));
             renderer.setLegendTextFont(2, new Font("SansSerif", Font.BOLD, 14));
             renderer.setLegendTextFont(3, new Font("SansSerif", Font.BOLD, 14));
+            
+            renderer.setDrawBarOutline(true); // Contorno da barra
+            
+            //Espessura do contorno
+            renderer.setSeriesOutlineStroke(0, new BasicStroke(5.0f));
+            renderer.setSeriesOutlineStroke(1, new BasicStroke(5.0f));
+            renderer.setSeriesOutlineStroke(2, new BasicStroke(5.0f));
+            renderer.setSeriesOutlineStroke(3, new BasicStroke(5.0f));
+            
+            
+            //Cor do contorno
+            renderer.setSeriesOutlinePaint(0, new Color(255,255,20,100));
+            renderer.setSeriesOutlinePaint(1, new Color(239,70,55,100));
+            renderer.setSeriesOutlinePaint(2, new Color( 0,253,0,100));
+            renderer.setSeriesOutlinePaint(3, new Color( 195,43,233,100));
+            
             
 
             //Faz eixo Y exibir apenas numeros inteiros
@@ -163,7 +181,7 @@ public class PecasProduzidasDashboard {
     private JFreeChart createLineChart(CategoryDataset dataset){
         
         //Criando grafico
-        lineChart = ChartFactory.createLineChart("Pecas produzidas por mes no ano",
+        lineChart = ChartFactory.createLineChart("    Pecas produzidas por mes no ano",
                                                  "",
                                                  "",
                                                  dataset,
@@ -209,7 +227,10 @@ public class PecasProduzidasDashboard {
             rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
             
 
-            new ServiceCharts().resizeScaleLineChart(lineChart); //Redimensiona Line Chart
+            // Alinhamento do título
+            graph.getTitle().setHorizontalAlignment(HorizontalAlignment.LEFT);
+            
+            new ServiceCharts().resizeScaleLineChart(graph); //Redimensiona Line Chart
             
             return graph;
         }
