@@ -99,7 +99,6 @@ public class ServiceCharts {
             plot.setSectionPaint("Turno 2", new Color(239,70,55)); // Vermelho
             plot.setSectionPaint("Turno 3", new Color(0,253,0));  // Verde
             
-            
             //Label
             plot.setLabelBackgroundPaint(null);
             plot.setLabelShadowPaint(null);
@@ -109,6 +108,8 @@ public class ServiceCharts {
             plot.setLabelPaint(Color.BLACK);
             plot.setSimpleLabels(true);
             
+            //Legenda
+            graph.getLegend().setItemFont(new Font("SansSerif", Font.BOLD, 14));
             return graph;
         }
         

@@ -197,7 +197,14 @@ public class DesperdicioDashboard {
             renderer.setDefaultItemLabelGenerator(new CustomLabelGenerator());
             renderer.setDefaultItemLabelFont(new Font("SansSerif", Font.BOLD, 12));
             renderer.setDefaultItemLabelsVisible(true);
-
+            
+            //Alterando fonte da legenda
+            renderer.setLegendTextFont(0,new Font("SansSerif", Font.BOLD, 14));
+            renderer.setLegendTextFont(1,new Font("SansSerif", Font.BOLD, 14));
+            renderer.setLegendTextFont(2,new Font("SansSerif", Font.BOLD, 14));
+            renderer.setLegendTextFont(3,new Font("SansSerif", Font.BOLD, 14));
+            
+            
             //Faz eixo Y exibir apenas numeros inteiros
             NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
             rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());

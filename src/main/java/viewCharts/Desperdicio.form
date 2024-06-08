@@ -75,13 +75,11 @@
                                       </Group>
                                       <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="169" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="157" max="32767" attributes="0"/>
                               </Group>
-                              <Group type="102" attributes="0">
-                                  <Component id="panelLineChartTurno" max="32767" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="panelLineChartTurno" max="32767" attributes="0"/>
                           </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="panelBarChartTurno" max="32767" attributes="0"/>
                               <Component id="jPanel6" max="32767" attributes="0"/>
@@ -308,6 +306,9 @@
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="1"/>
             </Property>
           </Properties>
           <Events>

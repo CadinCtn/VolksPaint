@@ -4,22 +4,23 @@
  */
 package dashboards;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Paint;
-import java.text.DecimalFormat;
+import java.awt.Stroke;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
-import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.RingPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.chart.ui.HorizontalAlignment;
@@ -77,14 +78,21 @@ public class ConsumoDashboard {
             
             //Barras
             BarRenderer renderer = (BarRenderer) plot.getRenderer();
-            renderer.setBarPainter(new StandardBarPainter());
-            renderer.setShadowPaint(new Color(51,51,51));
-            renderer.setShadowVisible(true);
+            renderer.setBarPainter(new StandardBarPainter()); 
+            renderer.setShadowVisible(true); // Sombra
+            renderer.setShadowPaint(new Color(51,51,51)); //Cor da sombra
+            renderer.setDrawBarOutline(true); // Contorno da barra
             
-            //Mostrando Valores
-            renderer.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
-            renderer.setDefaultItemLabelFont(new Font("SansSerif", Font.BOLD, 12));
-            renderer.setDefaultItemLabelsVisible(true);
+            //Espessura do contorno
+            renderer.setSeriesOutlineStroke(0, new BasicStroke(5.0f));
+            renderer.setSeriesOutlineStroke(1, new BasicStroke(5.0f));
+            renderer.setSeriesOutlineStroke(2, new BasicStroke(5.0f));
+            
+            //Cor do contorno
+            renderer.setSeriesOutlinePaint(0, new Color(255,255,20,100));
+            renderer.setSeriesOutlinePaint(1, new Color(239,70,55,100));
+            renderer.setSeriesOutlinePaint(2, new Color( 0,253,0,100));
+            
             
             //Sequencia de cores das barras
             Paint[] barColors = new Paint[]{
@@ -97,6 +105,17 @@ public class ConsumoDashboard {
             for(int i = 0; i < 4; i++){
                 renderer.setSeriesPaint(i, barColors[i % barColors.length]);
             }
+            
+            //Mostrando Valores
+            renderer.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
+            renderer.setDefaultItemLabelFont(new Font("SansSerif", Font.BOLD, 12));
+            renderer.setDefaultItemLabelsVisible(true);
+            
+            //Legenda
+            renderer.setLegendTextFont(0, new Font("SansSerif", Font.BOLD, 14));
+            renderer.setLegendTextFont(1, new Font("SansSerif", Font.BOLD, 14));
+            renderer.setLegendTextFont(2, new Font("SansSerif", Font.BOLD, 14));
+            
             
             //Externo
             chart.setBorderVisible(false);
@@ -186,7 +205,12 @@ public class ConsumoDashboard {
         
         // Externo
         chart.setBorderVisible(false);
-
+        
+        //Alterando fonte do eixo X (datas)
+            CategoryAxis domainAxis = plot.getDomainAxis();
+            domainAxis.setCategoryLabelPositions(CategoryLabelPositions.STANDARD);
+            domainAxis.setTickLabelFont(new Font("SansSerif", Font.BOLD, 12));
+        
         // Alinhamento do título
         chart.getTitle().setHorizontalAlignment(HorizontalAlignment.LEFT);
         

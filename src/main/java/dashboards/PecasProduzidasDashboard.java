@@ -9,9 +9,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Paint;
-import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Locale;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -19,11 +17,9 @@ import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
-import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.RingPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
@@ -102,6 +98,13 @@ public class PecasProduzidasDashboard {
             renderer.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
             renderer.setDefaultItemLabelFont(new Font("SansSerif", Font.BOLD, 12));
             renderer.setDefaultItemLabelsVisible(true);
+            
+            //Legenda
+            renderer.setLegendTextFont(0, new Font("SansSerif", Font.BOLD, 14));
+            renderer.setLegendTextFont(1, new Font("SansSerif", Font.BOLD, 14));
+            renderer.setLegendTextFont(2, new Font("SansSerif", Font.BOLD, 14));
+            renderer.setLegendTextFont(3, new Font("SansSerif", Font.BOLD, 14));
+            
 
             //Faz eixo Y exibir apenas numeros inteiros
             NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
@@ -149,7 +152,7 @@ public class PecasProduzidasDashboard {
         //Percorrendo lista
         for(Relatorio mesPecas : listRelatorio){
             //Adicionando valores no dataset
-            dataset.addValue(mesPecas.getTotalQtdPecas(), "", mesPecas.toMonth());
+            dataset.addValue(mesPecas.getTotalQtdPecas(), "Quantidade de Peças", mesPecas.toMonth());
         }
         
         return dataset;
@@ -179,10 +182,11 @@ public class PecasProduzidasDashboard {
             CategoryPlot plot = graph.getCategoryPlot();
             
             LineAndShapeRenderer renderer = new LineAndShapeRenderer();
+            plot.setRenderer(renderer);
             renderer.setSeriesPaint(0, Color.GREEN); //Cor da linha
             renderer.setSeriesStroke(0,new BasicStroke(2.0f)); //Espessura da linha
+            renderer.setLegendTextFont(0,new Font("SansSerif", Font.BOLD, 14));
             
-            plot.setRenderer(renderer);
             
             plot.setBackgroundPaint(Color.WHITE); //Cor do fundo
             
@@ -195,7 +199,7 @@ public class PecasProduzidasDashboard {
             //Alterando fonte do eixo X (datas)
             CategoryAxis domainAxis = plot.getDomainAxis();
             domainAxis.setCategoryLabelPositions(CategoryLabelPositions.STANDARD);
-            domainAxis.setTickLabelFont(new Font("SansSerif", Font.BOLD, 11));
+            domainAxis.setTickLabelFont(new Font("SansSerif", Font.BOLD, 12));
             
             //Ajute no intervalo do eixo X
             domainAxis.setLowerMargin(0);
