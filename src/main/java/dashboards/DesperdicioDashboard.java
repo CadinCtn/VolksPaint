@@ -79,8 +79,8 @@ public class DesperdicioDashboard {
             LineAndShapeRenderer renderer = new LineAndShapeRenderer();
             renderer.setSeriesPaint(0, Color.BLUE); //Cor da linha
             renderer.setSeriesPaint(1, Color.RED); //Cor da linha
-            renderer.setSeriesStroke(0,new BasicStroke(3.0f)); //Espessura da linha
-            renderer.setSeriesStroke(1,new BasicStroke(3.0f)); //Espessura da linha
+            renderer.setSeriesStroke(0,new BasicStroke(2.3f)); //Espessura da linha
+            renderer.setSeriesStroke(1,new BasicStroke(2.3f)); //Espessura da linha
             //Alterando fonte da legenda
             renderer.setLegendTextFont(0, new Font("SansSerif", Font.BOLD, 14));
             renderer.setLegendTextFont(1, new Font("SansSerif", Font.BOLD, 14));

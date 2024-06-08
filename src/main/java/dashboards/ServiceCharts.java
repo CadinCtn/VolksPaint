@@ -95,9 +95,9 @@ public class ServiceCharts {
             plot.setOutlinePaint(null);
             graph.setBorderVisible(false);
             
-            plot.setSectionPaint("Turno 1", new Color(255,255,20)); // Amarelo
-            plot.setSectionPaint("Turno 2", new Color(239,70,55)); // Vermelho
-            plot.setSectionPaint("Turno 3", new Color(0,253,0));  // Verde
+            plot.setSectionPaint("Turno 1", new Color(255,200,59)); // Amarelo
+            plot.setSectionPaint("Turno 2", new Color(202,28,28)); // Vermelho
+            plot.setSectionPaint("Turno 3", new Color(46,207,63));  // Verde
             
             //Label
             plot.setLabelBackgroundPaint(null);
