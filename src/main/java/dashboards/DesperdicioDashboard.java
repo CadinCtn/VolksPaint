@@ -183,10 +183,10 @@ public class DesperdicioDashboard {
 
         //Sequencia de cores das barras
             Paint[] barColors = new Paint[]{
-                new Color(255,255,20),  // Amarelo
-                new Color(239,70,55), // Vermelho
+                new Color(255,255,20), // Amarelo
+                new Color(239,70,55),  // Vermelho
                 new Color(0,253,0),    // Verde
-                Color.MAGENTA               //Roxo
+                new Color( 195,43,233) // Roxo
             };
 
             //Inserindo cores
@@ -206,6 +206,19 @@ public class DesperdicioDashboard {
             renderer.setLegendTextFont(2,new Font("SansSerif", Font.BOLD, 14));
             renderer.setLegendTextFont(3,new Font("SansSerif", Font.BOLD, 14));
             
+            renderer.setDrawBarOutline(true); // Contorno da barra
+            
+            //Espessura do contorno
+            renderer.setSeriesOutlineStroke(0, new BasicStroke(5.0f));
+            renderer.setSeriesOutlineStroke(1, new BasicStroke(5.0f));
+            renderer.setSeriesOutlineStroke(2, new BasicStroke(5.0f));
+            renderer.setSeriesOutlineStroke(3, new BasicStroke(5.0f));
+            
+            //Cor do contorno
+            renderer.setSeriesOutlinePaint(0, new Color(255,255,20,100));
+            renderer.setSeriesOutlinePaint(1, new Color(239,70,55,100));
+            renderer.setSeriesOutlinePaint(2, new Color( 0,253,0,100));
+            renderer.setSeriesOutlinePaint(3, new Color( 195,43,233,100));
             
             //Faz eixo Y exibir apenas numeros inteiros
             NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();

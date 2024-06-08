@@ -4,10 +4,25 @@
  */
 package viewCharts;
 
+import dashboards.ConsumoDashboard;
 import dashboards.PecasProduzidasDashboard;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Rectangle;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import org.jfree.chart.ChartMouseEvent;
+import org.jfree.chart.ChartMouseListener;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.entity.CategoryItemEntity;
+import relatorio.Relatorio;
 import relatorio.ServiceRelatorio;
 
 /**
@@ -42,8 +57,11 @@ public class PecasProduzidas extends javax.swing.JFrame {
         
         //Criando grafico de linhas Pecas por mes no ano
         this.painelLineChart.setLayout(new BorderLayout());
-        this.painelLineChart.add(dashboard.painelLineChartPecasMes(service.getRelatorioPecasMes(yearChooser.getValue(), boxProd.getSelectedIndex()+1)));
+        ChartPanel painelPecasMes = dashboard.painelLineChartPecasMes(service.getRelatorioPecasMes(yearChooser.getValue(), boxProd.getSelectedIndex()+1));
+        this.painelLineChart.add(painelPecasMes);
         
+        //Mostrando valores 
+        showValueLineChart(painelPecasMes);
         
     }
 
@@ -66,6 +84,49 @@ public class PecasProduzidas extends javax.swing.JFrame {
               JOptionPane.showMessageDialog(null, "Data inserida inválida!","AVISO",JOptionPane.WARNING_MESSAGE);
             }
         }
+        
+    }
+    
+    
+    //Adicionando Mouse Listener ao painel do grafico
+    private void showValueLineChart(ChartPanel panel){
+        panel.addChartMouseListener(new ChartMouseListener(){
+            
+            @Override   //Clique do mouse
+            public void chartMouseClicked(ChartMouseEvent event) {
+            }
+            //Criando popup
+            JPopupMenu popupMenu;
+
+            @Override   //Movimentação do mouse
+            public void chartMouseMoved(ChartMouseEvent event) {
+                if(event.getEntity() instanceof CategoryItemEntity){
+                    CategoryItemEntity entity = (CategoryItemEntity) event.getEntity();
+                    //Data
+                    String data = entity.getColumnKey().toString();
+                    int value = entity.getDataset().getValue("Quantidade de Peças", data).intValue();
+                    
+                    // Criar o popup com os valores
+                    popupMenu = new JPopupMenu();
+                    popupMenu.add(new JLabel(value + " Peças"));
+
+                    // Traduzir a localização da barra para a posição do mouse
+                    Rectangle barBounds = entity.getArea().getBounds();
+                    int x = (int) barBounds.getCenterX();
+                    int y = (int) barBounds.getY()-20;
+
+                    //Alterar cor do background
+                    popupMenu.setBackground(Color.WHITE);
+                    
+                    // Mostrar o popup no topo da barra
+                    popupMenu.show(panel, x, y);
+                } else {
+                    if(popupMenu != null){
+                        popupMenu.setVisible(false);
+                    }
+                }
+            }
+        });
         
     }
     

@@ -75,7 +75,7 @@ public class ConsumoDiario extends javax.swing.JFrame {
         //Grafico de consumo diario total
         this.painelConsumoTotalDiario.setLayout(new BorderLayout());
         ChartPanel panelBarTotal = dashboard.painelConsumoTotalDiario(list);
-        getKeyBarChart(panelBarTotal,dashboard);
+        shouValueKey(panelBarTotal,dashboard);
         this.painelConsumoTotalDiario.add(panelBarTotal);
     }
     
@@ -126,9 +126,9 @@ public class ConsumoDiario extends javax.swing.JFrame {
         
     }
     
-    
+     
     //Adicionando Mouse Listener ao painel do grafico
-    private void getKeyBarChart(ChartPanel panel, ConsumoDashboard dashboard){
+    private void shouValueKey(ChartPanel panel, ConsumoDashboard dashboard){
         panel.addChartMouseListener(new ChartMouseListener(){
             
             @Override   //Clique do mouse
