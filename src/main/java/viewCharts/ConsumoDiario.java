@@ -235,6 +235,7 @@ public class ConsumoDiario extends javax.swing.JFrame {
         btnAddDay = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Consumo Diário");
 
         jPanel1.setBackground(new java.awt.Color(248, 248, 248));
 
@@ -242,6 +243,7 @@ public class ConsumoDiario extends javax.swing.JFrame {
 
         jButton4.setBackground(new java.awt.Color(0, 0, 102));
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(240, 240, 240));
         jButton4.setText("Sair");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -293,19 +295,18 @@ public class ConsumoDiario extends javax.swing.JFrame {
                         .addContainerGap(7, Short.MAX_VALUE)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(24, 24, 24)
-                                .addComponent(jLabel9))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(16, 16, 16)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnPecasProducao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnDesperdicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(BtnConsumo, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel9)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnDesperdicio, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnConsumo, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPecasProducao, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -372,7 +373,6 @@ public class ConsumoDiario extends javax.swing.JFrame {
             }
         });
 
-        btnBuscarTotal.setBackground(new java.awt.Color(248, 248, 248));
         btnBuscarTotal.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnBuscarTotal.setForeground(new java.awt.Color(51, 51, 51));
         btnBuscarTotal.setText("Atualizar");
@@ -405,7 +405,6 @@ public class ConsumoDiario extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        boxProd.setBackground(new java.awt.Color(248, 248, 248));
         boxProd.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 16)); // NOI18N
         boxProd.setForeground(new java.awt.Color(51, 51, 51));
         boxProd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Produção 1", "Produção 2", "Produção 3" }));
@@ -535,7 +534,6 @@ public class ConsumoDiario extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(51, 51, 51));
         jLabel8.setText("Data");
 
-        btnBuscarTurno.setBackground(new java.awt.Color(248, 248, 248));
         btnBuscarTurno.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnBuscarTurno.setForeground(new java.awt.Color(51, 51, 51));
         btnBuscarTurno.setText("Atualizar");

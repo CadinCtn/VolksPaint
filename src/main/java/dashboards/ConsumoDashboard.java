@@ -71,7 +71,9 @@ public class ConsumoDashboard {
         CategoryPlot plot = chart.getCategoryPlot();
 
             //Background
-            plot.setBackgroundPaint(Color.WHITE);
+            chart.setBackgroundPaint(new Color(248,248,248));
+            plot.setBackgroundPaint(new Color(248,248,248));
+            chart.getLegend().setBackgroundPaint(new Color(248,248,248));
             plot.setDomainGridlinePaint(Color.WHITE);
             plot.setRangeGridlinePaint(Color.WHITE);
             plot.setOutlineVisible(false);
@@ -96,9 +98,9 @@ public class ConsumoDashboard {
             
             //Sequencia de cores das barras
             Paint[] barColors = new Paint[]{
-                new Color(255,255,20),  // Amarelo
-                new Color(239,70,55), // Vermelho
-                new Color(0,253,0),    // Verde
+                new Color(255,200,59),  // Amarelo
+                new Color(202,28,28), // Vermelho
+                new Color(46,207,63),    // Verde
             };
 
             //Inserindo cores
@@ -190,6 +192,7 @@ public class ConsumoDashboard {
         CategoryPlot plot = chart.getCategoryPlot();
 
         // Background
+        chart.setBackgroundPaint(new Color(248,248,248));
         plot.setBackgroundPaint(new Color(248,248,248));
         plot.setRangeGridlinePaint(new Color(51,51,51));
         

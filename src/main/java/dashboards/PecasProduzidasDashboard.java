@@ -72,7 +72,9 @@ public class PecasProduzidasDashboard {
         CategoryPlot plot = chart.getCategoryPlot();
 
         // Background
-        plot.setBackgroundPaint(Color.WHITE);
+        plot.setBackgroundPaint(new Color(248,248,248));
+        chart.setBackgroundPaint(new Color(248,248,248));
+        chart.getLegend().setBackgroundPaint(new Color(248,248,248));
         plot.setOutlineVisible(false);
         
         // Barras
@@ -195,9 +197,9 @@ public class PecasProduzidasDashboard {
     }
     
     //Estilisando grafico
-        private JFreeChart styleLineChart(JFreeChart graph){
+        private JFreeChart styleLineChart(JFreeChart chart){
             
-            CategoryPlot plot = graph.getCategoryPlot();
+            CategoryPlot plot = chart.getCategoryPlot();
             
             LineAndShapeRenderer renderer = new LineAndShapeRenderer();
             plot.setRenderer(renderer);
@@ -206,7 +208,9 @@ public class PecasProduzidasDashboard {
             renderer.setLegendTextFont(0,new Font("SansSerif", Font.BOLD, 14));
             
             
-            plot.setBackgroundPaint(Color.WHITE); //Cor do fundo
+            plot.setBackgroundPaint(new Color(248,248,248)); //Cor do fundo
+            chart.setBackgroundPaint(new Color(248,248,248));
+            chart.getLegend().setBackgroundPaint(new Color(248,248,248));
             
             plot.setRangeGridlinesVisible(true);
             plot.setRangeGridlinePaint(Color.BLACK);
@@ -228,11 +232,11 @@ public class PecasProduzidasDashboard {
             
 
             // Alinhamento do título
-            graph.getTitle().setHorizontalAlignment(HorizontalAlignment.LEFT);
+            chart.getTitle().setHorizontalAlignment(HorizontalAlignment.LEFT);
             
-            new ServiceCharts().resizeScaleLineChart(graph); //Redimensiona Line Chart
+            new ServiceCharts().resizeScaleLineChart(chart); //Redimensiona Line Chart
             
-            return graph;
+            return chart;
         }
     
         

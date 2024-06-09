@@ -72,9 +72,9 @@ public class DesperdicioDashboard {
     }
     
     //Estilisando grafico
-        private JFreeChart styleLineChart(JFreeChart graph){
+        private JFreeChart styleLineChart(JFreeChart chart){
             
-            CategoryPlot plot = graph.getCategoryPlot();
+            CategoryPlot plot = chart.getCategoryPlot();
             
             LineAndShapeRenderer renderer = new LineAndShapeRenderer();
             renderer.setSeriesPaint(0, Color.BLUE); //Cor da linha
@@ -87,7 +87,10 @@ public class DesperdicioDashboard {
             
             plot.setRenderer(renderer);
             
-            plot.setBackgroundPaint(Color.WHITE); //Cor do fundo
+            plot.setBackgroundPaint(new Color(248,248,248)); //Cor do fundo
+            chart.setBackgroundPaint(new Color(248,248,248));
+            chart.getLegend().setBackgroundPaint(new Color(248,248,248));
+            
             
             plot.setRangeGridlinesVisible(true);
             plot.setRangeGridlinePaint(Color.BLACK);
@@ -103,9 +106,9 @@ public class DesperdicioDashboard {
             //Ajute no intervalo do eixo X
             domainAxis.setLowerMargin(0);
             
-            new ServiceCharts().resizeScaleLineChart(graph); //Redimensiona Line Chart
+            new ServiceCharts().resizeScaleLineChart(chart); //Redimensiona Line Chart
             
-            return graph;
+            return chart;
         }
     
     
@@ -172,7 +175,9 @@ public class DesperdicioDashboard {
         CategoryPlot plot = chart.getCategoryPlot();
 
         // Background
-        plot.setBackgroundPaint(Color.WHITE);
+        plot.setBackgroundPaint(new Color(248,248,248));
+        chart.setBackgroundPaint(new Color(248,248,248));
+        chart.getLegend().setBackgroundPaint(new Color(248,248,248));
 
         // Barras
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
@@ -306,7 +311,8 @@ public class DesperdicioDashboard {
         CategoryPlot plot = chart.getCategoryPlot();
 
         // Background
-        plot.setBackgroundPaint(Color.WHITE);
+        plot.setBackgroundPaint(new Color(248,248,248));
+        chart.setBackgroundPaint(new Color(248,248,248));
 
         // Barras
         BarRenderer renderer = (BarRenderer) plot.getRenderer();

@@ -84,16 +84,18 @@ public class ServiceCharts {
 
     
     //Personalizando grafico Ring Chart por turno
-        public JFreeChart styleRingChartTurno(JFreeChart graph){
-            RingPlot plot = (RingPlot) graph.getPlot();
+        public JFreeChart styleRingChartTurno(JFreeChart chart){
+            RingPlot plot = (RingPlot) chart.getPlot();
             //plot.setSimpleLabels(true);
             plot.setSectionDepth(0.5);
             plot.setSeparatorsVisible(false);
             plot.setSectionOutlinesVisible(false);
-            plot.setBackgroundPaint(Color.WHITE);
+            chart.setBackgroundPaint(new Color(248,248,248));
+            plot.setBackgroundPaint(new Color(248,248,248));
+            chart.getLegend().setBackgroundPaint(new Color(248,248,248));
             plot.setShadowPaint(null);
             plot.setOutlinePaint(null);
-            graph.setBorderVisible(false);
+            chart.setBorderVisible(false);
             
             plot.setSectionPaint("Turno 1", new Color(255,200,59)); // Amarelo
             plot.setSectionPaint("Turno 2", new Color(202,28,28)); // Vermelho
@@ -109,8 +111,8 @@ public class ServiceCharts {
             plot.setSimpleLabels(true);
             
             //Legenda
-            graph.getLegend().setItemFont(new Font("SansSerif", Font.BOLD, 14));
-            return graph;
+            chart.getLegend().setItemFont(new Font("SansSerif", Font.BOLD, 14));
+            return chart;
         }
         
     

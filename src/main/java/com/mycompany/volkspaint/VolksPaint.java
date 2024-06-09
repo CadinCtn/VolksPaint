@@ -4,6 +4,8 @@
 
 package com.mycompany.volkspaint;
 
+import view.LoginGUI;
+
 /**
  *
  * @author Lenovo
@@ -11,6 +13,6 @@ package com.mycompany.volkspaint;
 public class VolksPaint {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        new LoginGUI().setVisible(true);
     }
 }
