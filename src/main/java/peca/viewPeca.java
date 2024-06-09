@@ -5,8 +5,12 @@
  */
 package peca;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import relatorio.viewRelatorio;
 
 /**
  *
@@ -15,10 +19,25 @@ import javax.swing.JOptionPane;
 public class viewPeca extends javax.swing.JFrame {
 
     /**
-     * Creates new form viewPeca
+     * Creates new for  m viewPeca
      */
-    public viewPeca() {
+   public viewPeca() {
         initComponents();
+        maximizeFrame();
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                resizeTable();
+            }
+
+                private void resizeTable() {
+        // Obtenha o tamanho atual do painel que contém a tabela
+        Dimension panelSize = jPanel1.getSize();
+
+        // Defina o tamanho da tabela para ocupar todo o espaço disponível no painel
+        jTable1.setSize(panelSize);
+    }
+        });
     }
 
     /**
@@ -33,8 +52,8 @@ public class viewPeca extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        BtnConsumo = new javax.swing.JButton();
+        btnRelatorio = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -52,9 +71,14 @@ public class viewPeca extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(10, 6, 37));
 
-        jButton1.setText("jButton1");
+        BtnConsumo.setText("Consumo");
 
-        jButton2.setText("jButton2");
+        btnRelatorio.setText("Relatorio");
+        btnRelatorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRelatorioActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("jButton3");
 
@@ -77,8 +101,8 @@ public class viewPeca extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2)
+                            .addComponent(BtnConsumo)
+                            .addComponent(btnRelatorio)
                             .addComponent(jButton3)
                             .addComponent(jButton4)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -92,9 +116,9 @@ public class viewPeca extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addComponent(jLabel1)
                 .addGap(61, 61, 61)
-                .addComponent(jButton1)
+                .addComponent(BtnConsumo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(btnRelatorio)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -207,41 +231,28 @@ public class viewPeca extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_BtnAtualizarActionPerformed
 
+    private void btnRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRelatorioActionPerformed
+        
+        viewRelatorio Relatorio;
+        Relatorio = new viewRelatorio ();
+    Relatorio.setVisible(true);        
+    }//GEN-LAST:event_btnRelatorioActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(viewPeca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        
-        //</editor-fold>
-
-        /* Create and display the form */
+ public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> {
             new viewPeca().setVisible(true);
         });
-    
     }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAtualizar;
+    private javax.swing.JButton BtnConsumo;
     private javax.swing.JButton BtnDeletar;
     private javax.swing.JButton BtnInserir;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnRelatorio;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
@@ -251,4 +262,12 @@ public class viewPeca extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
-}
+
+     private void maximizeFrame() {
+        // Obter o tamanho da tela
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        // Definir o tamanho do JFrame para o tamanho da tela
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+    }
+}     

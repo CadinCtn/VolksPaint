@@ -6,8 +6,10 @@ package relatorio;
 
 import factory.ConnectionFactory;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -78,6 +80,14 @@ public class RelatorioDAO {
             e.printStackTrace();
         }
     }
-    
-    
+
+    List<Relatorio> selectConsumoTinta(Date date, Date date0, int linhaProducao) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    Relatorio selectPecasProduzidasDia(Date date, int linhaProducao) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
+
+ 
