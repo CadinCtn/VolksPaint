@@ -1,39 +1,35 @@
 package funcionario;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
-public class Funcionario {
+public class Funcionario{
     private int cpf;
     private String nome;
-    private LocalDate dataNascimento;
+    private Date dataNascimento;
+    private boolean permissao;
 
-    public Funcionario(int cpf, String nome, LocalDate dataNascimento) {
+    public Funcionario(int cpf, String nome, Date dataNascimento, boolean permissao) {
         this.cpf = cpf;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
+        this.permissao = permissao;
     }
 
+    
     public int getCpf() {
         return cpf;
-    }
-
-    public void setCpf(int cpf) {
-        this.cpf = cpf;
     }
 
     public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public LocalDate getDataNascimento() {
+    public Date getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(LocalDate dataNascimento) {
-        this.dataNascimento = dataNascimento;
+    public boolean isPermissao() {
+        return permissao;
     }
+
 }

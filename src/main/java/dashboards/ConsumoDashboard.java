@@ -224,18 +224,6 @@ public class ConsumoDashboard {
         return chart;
     }
 
-    //Alterar cor da colunas especifica
-    public void changeBarColor(JFreeChart chart, String columnKey){
-        CategoryPlot plot = (CategoryPlot) chart.getPlot();
-        CategoryDataset dataset = plot.getDataset();
-        
-        int columnIndex = dataset.getColumnIndex(columnKey);
-        
-            BarRenderer renderer = (BarRenderer) plot.getRenderer();
-            renderer.setSeriesPaint(0, Color.WHITE);
-    }
-    
-    
     //Criando painel do grafico
     public ChartPanel painelConsumoTotalDiario(List<Relatorio> listConsumo){
         

@@ -25,6 +25,7 @@ public class TintaDAO {
         try {
             this.connection = new ConnectionFactory().getConnection();
         } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERRO: " + e.getMessage());
             e.printStackTrace();
         }
     }
