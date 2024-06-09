@@ -6,14 +6,22 @@ package viewCharts;
 
 import dashboards.ConsumoDashboard;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import static java.awt.PageAttributes.ColorType.COLOR;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.JToolTip;
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.ChartPanel;
@@ -67,7 +75,7 @@ public class ConsumoDiario extends javax.swing.JFrame {
         //Grafico de consumo diario total
         this.painelConsumoTotalDiario.setLayout(new BorderLayout());
         ChartPanel panelBarTotal = dashboard.painelConsumoTotalDiario(list);
-        getKeyBarChart(panelBarTotal,dashboard);
+        shouValueKey(panelBarTotal,dashboard);
         this.painelConsumoTotalDiario.add(panelBarTotal);
     }
     
@@ -85,36 +93,42 @@ public class ConsumoDiario extends javax.swing.JFrame {
     
     //Alterar dataset dos graficos a partida do dia
     private void chooseDay(){
-        //Relatorio do dia Selecionado
-        Relatorio consumoDiario = new ServiceRelatorio().getRelatorioDiarioConsumo(chooserDateNow.getDate(), boxProd.getSelectedIndex()+1);
-        
-        //Atualiza dataset dos graficos
-        this.dashboard.setNewBarDataset(consumoDiario);
-        this.dashboard.setNewPieDataset(consumoDiario);
-        
-        //Atualiza painel com os valores de cada turno
-        painelValores(consumoDiario);
+        if(this.dashboard != null){
+           if(chooserDateNow.getDate() != null){
+                //Relatorio do dia Selecionado
+                Relatorio consumoDiario = new ServiceRelatorio().getRelatorioDiarioConsumo(chooserDateNow.getDate(), boxProd.getSelectedIndex()+1);
+
+                //Atualiza dataset dos graficos
+                this.dashboard.setNewBarDataset(consumoDiario);
+                this.dashboard.setNewPieDataset(consumoDiario);
+
+                //Atualiza painel com os valores de cada turno
+                painelValores(consumoDiario);
+               
+           } else {
+                JOptionPane.showMessageDialog(null, "Data inserida inválida!","AVISO",JOptionPane.WARNING_MESSAGE);
+           }
+        }
     }
     
-    
-    //Visializando popup
-    private void showPopupChart(ChartMouseEvent e, JPopupMenu popup) {
-            // Calculate the position to display the popup menu
-            int x = e.getTrigger().getXOnScreen();
-            int y = e.getTrigger().getYOnScreen() - popup.getPreferredSize().height;
-
-            // Ensure the menu is fully on screen
-            if (y < 0) {
-                y = e.getTrigger().getYOnScreen();  // If it would go off-screen, place it below the cursor
+    //Altera o dataset do grafico de consumo total ao dia
+    private void chooseInterval(){
+        //Verifica se a classe dashboard foi inicializada
+        if(this.dashboard != null){
+            //Verifica se os campos de data não estao nulos
+            if(chooserDateEnd.getDate() != null && chooserDateIni != null){
+                //Atualiza dataset
+                this.dashboard.setNewBarTotalDataset(new ServiceRelatorio().getRelatorioTotalConsumoDiario(chooserDateIni.getDate(), chooserDateEnd.getDate(), boxProd.getSelectedIndex()+1));
+            } else {
+                JOptionPane.showMessageDialog(null, "Data inserida inválida!","AVISO",JOptionPane.WARNING_MESSAGE);
             }
-
-            popup.setLocation(x, y);
-            popup.setVisible(true);
-    }
+        }
         
+    }
     
+     
     //Adicionando Mouse Listener ao painel do grafico
-    private void getKeyBarChart(ChartPanel panel, ConsumoDashboard dashboard){
+    private void shouValueKey(ChartPanel panel, ConsumoDashboard dashboard){
         panel.addChartMouseListener(new ChartMouseListener(){
             
             @Override   //Clique do mouse
@@ -128,6 +142,7 @@ public class ConsumoDiario extends javax.swing.JFrame {
                         Logger.getLogger(ConsumoDiario.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     
+                    
                     //Relatorio do dia Selecionado
                     Relatorio consumoDiario = new ServiceRelatorio().getRelatorioDiarioConsumo(chooserDateNow.getDate(), boxProd.getSelectedIndex()+1);
 
@@ -139,11 +154,37 @@ public class ConsumoDiario extends javax.swing.JFrame {
                     painelValores(consumoDiario);
                 }
             }
+            //Criando popup
+            JPopupMenu popupMenu;
 
             @Override   //Movimentação do mouse
             public void chartMouseMoved(ChartMouseEvent event) {
-            }
+                if(event.getEntity() instanceof CategoryItemEntity){
+                    CategoryItemEntity entity = (CategoryItemEntity) event.getEntity();
+                    //Data
+                    String data = entity.getColumnKey().toString();
+                    float value = entity.getDataset().getValue("", data).floatValue();
+                    
+                    // Criar o popup com os valores
+                    popupMenu = new JPopupMenu();
+                    popupMenu.add(new JLabel(data + ": " + value + "L"));
 
+                    // Traduzir a localização da barra para a posição do mouse
+                    Rectangle barBounds = entity.getArea().getBounds();
+                    int x = (int) barBounds.getCenterX();
+                    int y = (int) barBounds.getY();
+
+                    //Alterar cor do background
+                    popupMenu.setBackground(Color.WHITE);
+                    
+                    // Mostrar o popup no topo da barra
+                    popupMenu.show(panel, x, y);
+                } else {
+                    if(popupMenu != null){
+                        popupMenu.setVisible(false);
+                    }
+                }
+            }
         });
         
     }
@@ -188,10 +229,12 @@ public class ConsumoDiario extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         btnBuscarTurno = new javax.swing.JButton();
+        btnDecDay = new javax.swing.JButton();
+        btnAddDay = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(248, 248, 248));
 
         jPanel2.setBackground(new java.awt.Color(10, 6, 37));
 
@@ -261,8 +304,6 @@ public class ConsumoDiario extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        painelConsumoTotalDiario.setBackground(new java.awt.Color(51, 51, 51));
-
         javax.swing.GroupLayout painelConsumoTotalDiarioLayout = new javax.swing.GroupLayout(painelConsumoTotalDiario);
         painelConsumoTotalDiario.setLayout(painelConsumoTotalDiarioLayout);
         painelConsumoTotalDiarioLayout.setHorizontalGroup(
@@ -274,11 +315,13 @@ public class ConsumoDiario extends javax.swing.JFrame {
             .addGap(0, 238, Short.MAX_VALUE)
         );
 
-        a.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        a.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        a.setForeground(new java.awt.Color(5, 5, 5));
         a.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         a.setText("a");
 
         intervaloTempo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        intervaloTempo.setForeground(new java.awt.Color(5, 5, 5));
         intervaloTempo.setText("Intervalo de tempo");
 
         chooserDateIni.setDateFormatString("dd'/'MM'/'yyyy");
@@ -297,8 +340,10 @@ public class ConsumoDiario extends javax.swing.JFrame {
             }
         });
 
-        btnBuscarTotal.setBackground(new java.awt.Color(255, 255, 255));
-        btnBuscarTotal.setText("Buscar");
+        btnBuscarTotal.setBackground(new java.awt.Color(248, 248, 248));
+        btnBuscarTotal.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnBuscarTotal.setForeground(new java.awt.Color(51, 51, 51));
+        btnBuscarTotal.setText("Atualizar");
         btnBuscarTotal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarTotalActionPerformed(evt);
@@ -328,8 +373,9 @@ public class ConsumoDiario extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        boxProd.setBackground(new java.awt.Color(255, 255, 255));
-        boxProd.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        boxProd.setBackground(new java.awt.Color(248, 248, 248));
+        boxProd.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 16)); // NOI18N
+        boxProd.setForeground(new java.awt.Color(51, 51, 51));
         boxProd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Produção 1", "Produção 2", "Produção 3" }));
         boxProd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -348,39 +394,39 @@ public class ConsumoDiario extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(0, 51, 153));
 
         jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 25)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setForeground(new java.awt.Color(248, 248, 248));
         jLabel2.setText("Consumo:");
 
         jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 20)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setForeground(new java.awt.Color(248, 248, 248));
         jLabel3.setText("Total:");
 
         jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setForeground(new java.awt.Color(248, 248, 248));
         jLabel4.setText("Turno 1:");
 
         jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setForeground(new java.awt.Color(248, 248, 248));
         jLabel5.setText("Turno 2:");
 
         jLabel6.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setForeground(new java.awt.Color(248, 248, 248));
         jLabel6.setText("Turno 3:");
 
         labelConsumoTotal.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
-        labelConsumoTotal.setForeground(new java.awt.Color(255, 255, 255));
+        labelConsumoTotal.setForeground(new java.awt.Color(248, 248, 248));
         labelConsumoTotal.setText("total");
 
         labelConsumoT1.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
-        labelConsumoT1.setForeground(new java.awt.Color(255, 255, 255));
+        labelConsumoT1.setForeground(new java.awt.Color(248, 248, 248));
         labelConsumoT1.setText("turno1");
 
         labelConsumoT2.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
-        labelConsumoT2.setForeground(new java.awt.Color(255, 255, 255));
+        labelConsumoT2.setForeground(new java.awt.Color(248, 248, 248));
         labelConsumoT2.setText("turno2");
 
         labelConsumoT3.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
-        labelConsumoT3.setForeground(new java.awt.Color(255, 255, 255));
+        labelConsumoT3.setForeground(new java.awt.Color(248, 248, 248));
         labelConsumoT3.setText("turno3");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -449,17 +495,41 @@ public class ConsumoDiario extends javax.swing.JFrame {
             .addGap(0, 235, Short.MAX_VALUE)
         );
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(51, 51, 51));
         jLabel7.setText("Linha de Produção");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(51, 51, 51));
         jLabel8.setText("Data");
 
-        btnBuscarTurno.setBackground(new java.awt.Color(255, 255, 255));
-        btnBuscarTurno.setText("Buscar");
+        btnBuscarTurno.setBackground(new java.awt.Color(248, 248, 248));
+        btnBuscarTurno.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnBuscarTurno.setForeground(new java.awt.Color(51, 51, 51));
+        btnBuscarTurno.setText("Atualizar");
         btnBuscarTurno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarTurnoActionPerformed(evt);
+            }
+        });
+
+        btnDecDay.setBackground(new java.awt.Color(248, 248, 248));
+        btnDecDay.setForeground(new java.awt.Color(248, 248, 248));
+        btnDecDay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-seta-esquerda-24.png"))); // NOI18N
+        btnDecDay.setBorder(null);
+        btnDecDay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDecDayActionPerformed(evt);
+            }
+        });
+
+        btnAddDay.setBackground(new java.awt.Color(248, 248, 248));
+        btnAddDay.setForeground(new java.awt.Color(248, 248, 248));
+        btnAddDay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-seta-direita-24.png"))); // NOI18N
+        btnAddDay.setBorder(null);
+        btnAddDay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddDayActionPerformed(evt);
             }
         });
 
@@ -475,77 +545,83 @@ public class ConsumoDiario extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(boxProd, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(chooserDateNow, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnBuscarTurno)
-                                        .addGap(89, 89, 89)
-                                        .addComponent(painelConsumoTurnoBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel8))))
+                                        .addGap(6, 6, 6)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(boxProd, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(12, 12, 12)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(intervaloTempo, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(chooserDateIni, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(a, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(chooserDateEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btnBuscarTotal))
+                                            .addComponent(jLabel8)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(chooserDateNow, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btnDecDay)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btnAddDay)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btnBuscarTurno)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(painelConsumoTurnoBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(painelPieGraph, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(intervaloTempo)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(chooserDateIni, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(a, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(chooserDateEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnBuscarTotal))))
-                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(763, Short.MAX_VALUE))))
+                        .addComponent(painelPieGraph, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(painelPieGraph, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(355, 355, 355)
-                                        .addComponent(intervaloTempo))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addGap(34, 34, 34)
-                                        .addComponent(painelConsumoTurnoBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(101, 101, 101)
+                                .addComponent(painelConsumoTurnoBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(a, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel8))
+                                .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(boxProd)
-                                    .addComponent(btnBuscarTurno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(chooserDateNow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(19, 19, 19)
+                                .addComponent(boxProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(btnBuscarTurno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(chooserDateNow, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(btnAddDay, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnDecDay, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                .addGap(10, 10, 10)
                                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(chooserDateIni, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(chooserDateEnd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnBuscarTotal, javax.swing.GroupLayout.Alignment.TRAILING))))))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(intervaloTempo)
+                                        .addGap(1, 1, 1)
+                                        .addComponent(a, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(21, 21, 21)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(btnBuscarTotal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(chooserDateEnd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(chooserDateIni, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(painelPieGraph, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(painelConsumoTotalDiario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -581,8 +657,8 @@ public class ConsumoDiario extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnBuscarTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarTotalActionPerformed
-        //Atualiza dataset
-        this.dashboard.setNewBarTotalDataset(new ServiceRelatorio().getRelatorioTotalConsumoDiario(chooserDateIni.getDate(), chooserDateEnd.getDate(), boxProd.getSelectedIndex()+1));
+       //Atualiza dataset
+       chooseInterval();
     }//GEN-LAST:event_btnBuscarTotalActionPerformed
 
     private void btnBuscarTurnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarTurnoActionPerformed
@@ -591,31 +667,45 @@ public class ConsumoDiario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarTurnoActionPerformed
 
     private void chooserDateNowPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_chooserDateNowPropertyChange
-        if(this.dashboard != null){
-            //Altera o dataset
-            chooseDay();
-        }
+        //Altera o dataset
+        chooseDay();
     }//GEN-LAST:event_chooserDateNowPropertyChange
 
     private void boxProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxProdActionPerformed
         //Atualiza dataset
-        this.dashboard.setNewBarTotalDataset(new ServiceRelatorio().getRelatorioTotalConsumoDiario(chooserDateIni.getDate(), chooserDateEnd.getDate(), boxProd.getSelectedIndex()+1));
         chooseDay();
+        chooseInterval();
     }//GEN-LAST:event_boxProdActionPerformed
 
     private void chooserDateIniPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_chooserDateIniPropertyChange
-        if(this.dashboard != null){
-             //Atualiza dataset
-            this.dashboard.setNewBarTotalDataset(new ServiceRelatorio().getRelatorioTotalConsumoDiario(chooserDateIni.getDate(), chooserDateEnd.getDate(), boxProd.getSelectedIndex()+1));
-        }
+        //Atualiza dataset
+        chooseInterval();
     }//GEN-LAST:event_chooserDateIniPropertyChange
 
     private void chooserDateEndPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_chooserDateEndPropertyChange
-        if(this.dashboard != null){
-             //Atualiza dataset
-            this.dashboard.setNewBarTotalDataset(new ServiceRelatorio().getRelatorioTotalConsumoDiario(chooserDateIni.getDate(), chooserDateEnd.getDate(), boxProd.getSelectedIndex()+1));
-        }
+       //Atualiza dataset
+       chooseInterval();
     }//GEN-LAST:event_chooserDateEndPropertyChange
+
+    private void btnDecDayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecDayActionPerformed
+        //Verifica se a data está vazia
+        if(chooserDateNow.getDate() != null){
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(chooserDateNow.getDate());
+            calendar.add(Calendar.DAY_OF_MONTH, -1); // Increment one day
+            chooserDateNow.setDate(calendar.getTime());
+        }
+    }//GEN-LAST:event_btnDecDayActionPerformed
+
+    private void btnAddDayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDayActionPerformed
+        //Verifica se a data está vazia
+        if(chooserDateNow.getDate() != null){
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(chooserDateNow.getDate());
+            calendar.add(Calendar.DAY_OF_MONTH, 1); // Increment one day
+            chooserDateNow.setDate(calendar.getTime());
+        }
+    }//GEN-LAST:event_btnAddDayActionPerformed
 
     /**
      * @param args the command line arguments
@@ -627,8 +717,10 @@ public class ConsumoDiario extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel a;
     private javax.swing.JComboBox<String> boxProd;
+    private javax.swing.JButton btnAddDay;
     private javax.swing.JButton btnBuscarTotal;
     private javax.swing.JButton btnBuscarTurno;
+    private javax.swing.JButton btnDecDay;
     private com.toedter.calendar.JDateChooser chooserDateEnd;
     private com.toedter.calendar.JDateChooser chooserDateIni;
     private com.toedter.calendar.JDateChooser chooserDateNow;

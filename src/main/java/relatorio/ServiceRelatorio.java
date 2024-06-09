@@ -5,8 +5,6 @@
 package relatorio;
 
 import com.toedter.calendar.JCalendar;
-import dashboards.ConsumoDashboard;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -65,13 +63,33 @@ public class ServiceRelatorio {
     
     //Função que retorna lista de relatórios em um intervalo de dias
     public List<Relatorio> getRelatorioTotalConsumoDiario(Date dataInicio, Date dataFim, int linhaProducao){
-            //Retorna Lista de relatorios em umm intervalo de tempo especificoo
-            return new RelatorioDAO().selectConsumoTinta(new java.sql.Date(dataInicio.getTime()), new java.sql.Date(dataFim.getTime()), linhaProducao);
+        //Retorna Lista de relatorios em umm intervalo de tempo especificoo
+        return new RelatorioDAO().selectConsumoTinta(new java.sql.Date(dataInicio.getTime()), new java.sql.Date(dataFim.getTime()), linhaProducao);
+    }
+
+    //Retorna relatorio de Pecas produzidas por turno no dia
+    public Relatorio getRelatorioPecasTurno(Date data, int linha){
+        return new RelatorioDAO().selectPecasProduzidasDia(new java.sql.Date(data.getTime()), linha);
     }
     
-    //Função que retorna o relatorio de pecas produzidas por turno
-    public Relatorio getRelatorioPecasTurno(Date data, int linhaProducao){
-        return new RelatorioDAO().selectPecasProduzidasDia(new java.sql.Date(data.getTime()), linhaProducao);
+    //Retorna relatorio de pecas produzidas por mes no ano
+    public List<Relatorio> getRelatorioPecasMes(int ano, int linha){
+        return new RelatorioDAO().selectPecasProduzidasMes(ano, linha);
+    }
+    
+    //Retorna relatorio de desperdicio, consumo, limite | por unidade em cada turno no dia
+    public Relatorio getRelatorioConsumoDesperdicioUnidadeTurno(Date data, int linha){
+        return new RelatorioDAO().selectConsumoLimiteUnidadeTurno(new java.sql.Date(data.getTime()), linha);
+    }
+    
+    //Retorna relatorio de porcentagem de despercio
+    public Relatorio getRelatorioPercDespercio(Date data, int linha){
+        return new RelatorioDAO().selectPercDesperdicio(new java.sql.Date(data.getTime()), linha);
+    }
+    
+    //Relatorio de desperdicio total por mes no ano
+    public List<Relatorio> getRelatorioTotalDesperdicio(int ano, int linha){
+        return new RelatorioDAO().selectRelatorioDesperdicioMensal(ano, linha);
     }
     
 }
