@@ -188,10 +188,10 @@ public class DesperdicioDashboard {
 
         //Sequencia de cores das barras
             Paint[] barColors = new Paint[]{
-                new Color(255,255,20), // Amarelo
-                new Color(239,70,55),  // Vermelho
-                new Color(0,253,0),    // Verde
-                new Color( 195,43,233) // Roxo
+                new Color(255,200,59), // Amarelo
+                new Color(202,28,28),  // Vermelho
+                new Color(46,207,63),    // Verde
+                new Color( 192,100,235) // Roxo
             };
 
             //Inserindo cores
