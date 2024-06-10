@@ -1,40 +1,36 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package view;
 
-import funcionario.Funcionario;
-import funcionario.ServiceFuncionario;
+import com.google.protobuf.Service;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableCellRenderer;
+import peca.ServicePeca;
 import viewCharts.ConsumoDiario;
 import viewCharts.Desperdicio;
 import viewCharts.PecasProduzidas;
 
 /**
  *
- * @author Lenovo
+ * @author Senai
  */
-public class FuncionariosGUI extends javax.swing.JFrame {
+public class PecasGUI extends javax.swing.JFrame {
 
     /**
-     * Creates new form FuncionariosGUI
+     * Creates new for  m viewPeca
      */
-    public FuncionariosGUI() {
+   public PecasGUI() {
         initComponents();
-        this.setExtendedState(MAXIMIZED_BOTH);
-        new ServiceFuncionario().tabelaFuncionario(tabFuncionarios);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        new ServicePeca().tabelaPecas(tabPecas);
         
-        centralizarCelulas();
-    }
-    
-    private void centralizarCelulas(){
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment((int) CENTER_ALIGNMENT);
-        
-        tabFuncionarios.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-        tabFuncionarios.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
     }
 
     /**
@@ -46,42 +42,38 @@ public class FuncionariosGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        BtnConsumo = new javax.swing.JButton();
-        btnDesperdicio = new javax.swing.JButton();
-        btnPecasProducao = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        btnPecasProducao = new javax.swing.JButton();
+        btnDesperdicio = new javax.swing.JButton();
+        BtnConsumo = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
+        jButton7 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabFuncionarios = new javax.swing.JTable();
-        btnDel = new javax.swing.JButton();
-        btnUpd = new javax.swing.JButton();
+        tabPecas = new javax.swing.JTable();
         btnAdd = new javax.swing.JButton();
+        btnUpd = new javax.swing.JButton();
+        btnDel = new javax.swing.JButton();
+
+        jLabel3.setText("jLabel3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Funcionarios");
+        setTitle("Peças");
 
         jPanel1.setBackground(new java.awt.Color(248, 248, 248));
+        jPanel1.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
 
         jPanel2.setBackground(new java.awt.Color(10, 6, 37));
 
-        BtnConsumo.setBackground(new java.awt.Color(0, 0, 51));
-        BtnConsumo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/consumo-responsavel.png"))); // NOI18N
-        BtnConsumo.addActionListener(new java.awt.event.ActionListener() {
+        jButton6.setBackground(new java.awt.Color(0, 0, 51));
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/adicionar-funcionario.png"))); // NOI18N
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnConsumoActionPerformed(evt);
-            }
-        });
-
-        btnDesperdicio.setBackground(new java.awt.Color(0, 0, 51));
-        btnDesperdicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/desperdicio-de-dinheiro.png"))); // NOI18N
-        btnDesperdicio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDesperdicioActionPerformed(evt);
+                jButton6ActionPerformed(evt);
             }
         });
 
@@ -93,6 +85,24 @@ public class FuncionariosGUI extends javax.swing.JFrame {
             }
         });
 
+        btnDesperdicio.setBackground(new java.awt.Color(0, 0, 51));
+        btnDesperdicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/desperdicio-de-dinheiro.png"))); // NOI18N
+        btnDesperdicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDesperdicioActionPerformed(evt);
+            }
+        });
+
+        BtnConsumo.setBackground(new java.awt.Color(0, 0, 51));
+        BtnConsumo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/consumo-responsavel.png"))); // NOI18N
+        BtnConsumo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnConsumoActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/logo versao 3.png"))); // NOI18N
+
         jButton4.setBackground(new java.awt.Color(0, 0, 102));
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton4.setForeground(new java.awt.Color(240, 240, 240));
@@ -103,18 +113,8 @@ public class FuncionariosGUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/logo versao 3.png"))); // NOI18N
-
-        jButton6.setBackground(new java.awt.Color(0, 0, 51));
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/adicionar-funcionario (1).png"))); // NOI18N
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
-
         jButton7.setBackground(new java.awt.Color(0, 0, 51));
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pistao.png"))); // NOI18N
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pistao (1).png"))); // NOI18N
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
@@ -128,28 +128,27 @@ public class FuncionariosGUI extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(15, 15, 15)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnPecasProducao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnDesperdicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(BtnConsumo, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(24, 24, 24)
-                                .addComponent(jLabel1)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jSeparator1))))
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
+                    .addComponent(btnPecasProducao, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
+                    .addComponent(btnDesperdicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(BtnConsumo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(19, 19, 19))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSeparator1))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -174,33 +173,34 @@ public class FuncionariosGUI extends javax.swing.JFrame {
                 .addGap(14, 14, 14))
         );
 
-        tabFuncionarios.setBackground(new java.awt.Color(248, 248, 248));
-        tabFuncionarios.setModel(new javax.swing.table.DefaultTableModel(
+        tabPecas.setBackground(new java.awt.Color(255, 255, 255));
+        tabPecas.setForeground(new java.awt.Color(51, 51, 51));
+        tabPecas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "CPF", "Nome", "Data Nascimento"
+                "ID", "Modelo", "Área de Pintura", "Quantidade em Estoque"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tabFuncionarios);
+        jScrollPane1.setViewportView(tabPecas);
 
-        btnDel.setBackground(new java.awt.Color(240, 240, 240));
-        btnDel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnDel.setForeground(new java.awt.Color(51, 51, 51));
-        btnDel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/excluir.png"))); // NOI18N
-        btnDel.setText("Deletar");
-        btnDel.addActionListener(new java.awt.event.ActionListener() {
+        btnAdd.setBackground(new java.awt.Color(240, 240, 240));
+        btnAdd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnAdd.setForeground(new java.awt.Color(51, 51, 51));
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/adicionar.png"))); // NOI18N
+        btnAdd.setText("Adicionar");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDelActionPerformed(evt);
+                btnAddActionPerformed(evt);
             }
         });
 
@@ -215,14 +215,14 @@ public class FuncionariosGUI extends javax.swing.JFrame {
             }
         });
 
-        btnAdd.setBackground(new java.awt.Color(240, 240, 240));
-        btnAdd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnAdd.setForeground(new java.awt.Color(51, 51, 51));
-        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/adicionar.png"))); // NOI18N
-        btnAdd.setText("Adicionar");
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+        btnDel.setBackground(new java.awt.Color(240, 240, 240));
+        btnDel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnDel.setForeground(new java.awt.Color(51, 51, 51));
+        btnDel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/excluir.png"))); // NOI18N
+        btnDel.setText("Deletar");
+        btnDel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
+                btnDelActionPerformed(evt);
             }
         });
 
@@ -234,16 +234,15 @@ public class FuncionariosGUI extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 609, Short.MAX_VALUE)
-                        .addContainerGap())
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 693, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnAdd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnUpd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnDel)
-                        .addGap(0, 0, 0))))
+                        .addGap(0, 0, 0)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -255,7 +254,7 @@ public class FuncionariosGUI extends javax.swing.JFrame {
                     .addComponent(btnUpd)
                     .addComponent(btnAdd))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -273,108 +272,81 @@ public class FuncionariosGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnDesperdicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesperdicioActionPerformed
-        new Desperdicio().setVisible(true);
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        new FuncionariosGUI().setVisible(true);
         dispose();
-    }//GEN-LAST:event_btnDesperdicioActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        //Encerrar
-        switch(JOptionPane.showConfirmDialog(null, "Deseja encerrar o sistema?","Sair",JOptionPane.YES_NO_OPTION)){
-            case JOptionPane.YES_OPTION:
-                System.exit(0);
-                break;
-        }
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void BtnConsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnConsumoActionPerformed
-        new ConsumoDiario().setVisible(true);
-        dispose();
-    }//GEN-LAST:event_BtnConsumoActionPerformed
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     private void btnPecasProducaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPecasProducaoActionPerformed
         new PecasProduzidas().setVisible(true);
         dispose();
     }//GEN-LAST:event_btnPecasProducaoActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-    }//GEN-LAST:event_jButton6ActionPerformed
+    private void btnDesperdicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesperdicioActionPerformed
+        new Desperdicio().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnDesperdicioActionPerformed
+
+    private void BtnConsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnConsumoActionPerformed
+        new ConsumoDiario().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_BtnConsumoActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        //Encerrar
+        switch(JOptionPane.showConfirmDialog(null, "Deseja encerrar o sistema?","Sair",JOptionPane.YES_NO_OPTION)){
+            case JOptionPane.YES_OPTION:
+            System.exit(0);
+            break;
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        NewFuncionarioGUI window = new NewFuncionarioGUI(null,true,null);
-        window.setLocationRelativeTo(null);
+        NewPecaGUI window = new NewPecaGUI(null, true, null);
         window.setVisible(true);
-        new ServiceFuncionario().tabelaFuncionario(tabFuncionarios);
+        new ServicePeca().tabelaPecas(tabPecas);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdActionPerformed
-        int selectedRow = tabFuncionarios.getSelectedRow();
-        if(selectedRow >=0){
-            //Seleciona funcionario
-            String cpf = tabFuncionarios.getValueAt(selectedRow, 0).toString();
-            Funcionario funcionario = new ServiceFuncionario().selectFuncionarioByCpf(cpf);
-            
-            //Abre janela para atualizar funcionario
-            NewFuncionarioGUI window = new NewFuncionarioGUI(null,true,funcionario);
-            window.setLocationRelativeTo(null);
+        int selectedRow = tabPecas.getSelectedRow();
+        if(selectedRow >= 0){
+            int id = Integer.parseInt(tabPecas.getValueAt(selectedRow, 0).toString());
+
+            NewPecaGUI window = new NewPecaGUI(null, true, new ServicePeca().selectPecaByID(id));
             window.setVisible(true);
-            new ServiceFuncionario().tabelaFuncionario(tabFuncionarios);
+            new ServicePeca().tabelaPecas(tabPecas);
         }else{
-            JOptionPane.showMessageDialog(null,"Selecione uma linha");
+            JOptionPane.showMessageDialog(null, "Selecione uma linha.");
         }
     }//GEN-LAST:event_btnUpdActionPerformed
 
     private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
-        int selectedRow = tabFuncionarios.getSelectedRow();
-        if(selectedRow >=0){
-            switch(JOptionPane.showConfirmDialog(null, "Deseja mesmo deletar o funcionario?","Deletar funcionario",JOptionPane.YES_NO_OPTION)){
+        int selectedRow = tabPecas.getSelectedRow();
+        if(selectedRow >= 0){
+            switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo deletar essa peça?","Deletar Peça",JOptionPane.YES_NO_OPTION)){
                 case JOptionPane.YES_OPTION:
-                        new ServiceFuncionario().deleteFuncionario(tabFuncionarios.getValueAt(selectedRow, 0).toString());
-                        new ServiceFuncionario().tabelaFuncionario(tabFuncionarios);
-                        break;
+                    int id = Integer.parseInt(tabPecas.getValueAt(selectedRow, 0).toString());
+                        new ServicePeca().deletePeca(id);
+                        new ServicePeca().tabelaPecas(tabPecas);
+
+                    break;
             }
         }else{
-            JOptionPane.showMessageDialog(null,"Selecione uma linha");
+            JOptionPane.showMessageDialog(null, "Selecione uma linha.");
         }
+
     }//GEN-LAST:event_btnDelActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        new PecasGUI().setVisible(true);
-        dispose();
+        // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FuncionariosGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FuncionariosGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FuncionariosGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FuncionariosGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FuncionariosGUI().setVisible(true);
-            }
+ public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(() -> {
+            new PecasGUI().setVisible(true);
         });
     }
 
@@ -389,10 +361,12 @@ public class FuncionariosGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable tabFuncionarios;
+    private javax.swing.JTable tabPecas;
     // End of variables declaration//GEN-END:variables
-}
+
+}     

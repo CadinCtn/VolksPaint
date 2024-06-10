@@ -12,21 +12,15 @@ import tinta.Tinta;
  */
 public class Peca {
      //Atributos
-    private Tinta tinta_cor;
+    private int id;
     private String modelo;
     private float area_pintura;
     private int qtd_estoque;
-    private int id;
     
-    public Peca(Tinta tinta_cor, String modelo, float area_pintura, int qtd_estoque, int id) {
-        this.tinta_cor = tinta_cor;
+    public Peca(String modelo, float area_pintura, int qtd_estoque, int id) {
         this.modelo = modelo;
         this.area_pintura = area_pintura;
         this.id = id;
-    }
-
-    public Tinta getTinta_cor() {
-        return tinta_cor;
     }
 
     public String getModelo() {
@@ -45,5 +39,10 @@ public class Peca {
         return id;
     }
        
+    public Object[] pecaInTable() {
+        Object[] row = {id, modelo, area_pintura, qtd_estoque};
+        return row;
+    }
+    
 }
 

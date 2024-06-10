@@ -229,7 +229,7 @@ public class NewFuncionarioGUI extends javax.swing.JDialog {
 
     private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
         if(cpfField.getText().isEmpty()|| nomeField.getText().isEmpty() || passField.getText().isEmpty() || dateChooser.getDate() == null){
-            JOptionPane.showMessageDialog(null,"Preencha todos os campos necessários para cadastro!");
+            JOptionPane.showMessageDialog(null,"Preencha todos os campos necessários!");
         } else {
             if(this.funcionario == null){
                 //Cadastrar

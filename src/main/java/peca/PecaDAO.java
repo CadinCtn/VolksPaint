@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import tinta.Tinta;
+import javax.swing.JOptionPane;
 
-public class PecaDAO {
+public abstract class PecaDAO {
  
     private static final Logger LOGGER = Logger.getLogger(PecaDAO.class.getName());
     private Connection connection;
@@ -24,20 +24,31 @@ public class PecaDAO {
         }
     }
 
-
+    // Method to close the connection
+    private void closeConnection() {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+   //INSERT
    public void insertPeca(Peca peca) {
-    String sql = "INSERT INTO peca (tinta_cor, modelo, area_pintura, qtd_estoque, id) VALUES (?, ?, ?, ?, ?);";
+    String sql = "INSERT INTO peca (modelo, area_pintura, qtd_estoque) VALUES (?, ?, ?);";
 
     try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-        stmt.setString(1, peca.getTinta_cor().getCor());
-        stmt.setString(2, peca.getModelo());
-        stmt.setFloat(3, peca.getArea_pintura());
-        stmt.setFloat(4, peca.getQtd_estoque());
-        stmt.setInt(5, peca.getId());
+        stmt.setString(1, peca.getModelo());
+        stmt.setFloat(2, peca.getArea_pintura());
+        stmt.setFloat(3, peca.getQtd_estoque());
 
         // Insert
         stmt.executeUpdate();
+        
     } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Não foi possivel inserir a Peça.\nERRO: " + e.getMessage(), "ERRO", JOptionPane.WARNING_MESSAGE);
         e.printStackTrace();
     } finally {
         // Close the connection
@@ -46,13 +57,13 @@ public class PecaDAO {
 }
 
 // DELETE
-public void deletePeca(String tinta_cor) {
+public void deletePeca(int id) {
     // String sql to delete from the database
-    String sql = "DELETE FROM peca WHERE tinta_cor = ?;";
+    String sql = "DELETE FROM peca WHERE id = ?;";
 
     try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-        // Set tinta_cor in place of '?'
-        stmt.setString(1, tinta_cor);
+        // Set id in place of '?'
+        stmt.setInt(1, id);
 
         // DELETE
         stmt.executeUpdate();
@@ -64,29 +75,18 @@ public void deletePeca(String tinta_cor) {
     }
 }
 
-// Method to close the connection
-private void closeConnection() {
-    if (connection != null) {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-}
-
-             //UPDATE
-    public void updatePeca(String oldCor, Tinta newTinta){
-            //String sql para atualizar cadastro do banco de dados
-        String sql = "UPDATE FROM peca SET cor = ?, textura = ? WHERE cor = ?;";
+     //UPDATE
+    public void updatePeca(Peca peca){
+        //String sql para atualizar cadastro do banco de dados
+        String sql = "UPDATE peca SET modelo = ?, area_pintura = ? WHERE id = ?;";
         
         try(PreparedStatement stmt = connection.prepareStatement(sql)){
             //Setando Atributos no lugar de '?'
-            stmt.setString(1, newTinta.getCor());
-            stmt.setString(2, newTinta.getTextura());
+            stmt.setString(1, peca.getModelo());
+            stmt.setFloat(2, peca.getArea_pintura());
             
             //PK
-            stmt.setString(3, oldCor);
+            stmt.setInt(3, peca.getId());
             
             //UPDATE
             stmt.executeUpdate();
@@ -112,14 +112,10 @@ private void closeConnection() {
             //Percorrendo lista
             while(rs.next()){
                 //Inserindo Peça na lista
-                listPeca.add(new Peca(new Tinta(rs.getString("cor"),
-                                                rs.getString("textura"),
-                                                rs.getFloat("volume")),
-                                        rs.getString("modelo"),
+                listPeca.add(new Peca(rs.getString("modelo"),
                                         rs.getFloat("area_pintura"),
                                         rs.getInt("qtd_estoque"),
                                         rs.getInt("id")));
-                
             }
             
         }catch(SQLException e){
@@ -131,4 +127,29 @@ private void closeConnection() {
         //Retorna a lista com os resultados
         return listPeca;
     }
+
+    //SELECT BY ID
+    public Peca selectPecaByID(int id){
+        //String sql para a consulta
+        String sql = "SELECT * FROM peca WHERE id = ?;";
+        
+        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+            stmt.setInt(1, id);
+            
+            try(ResultSet rs = stmt.executeQuery()){
+                if(rs.next()){
+                   return new Peca(rs.getString("modelo"),rs.getFloat("area_pintura"),rs.getInt("qtd_estoque"),rs.getInt("id")); 
+                }
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        } finally {
+            closeConnection();
+        }
+        
+        return new Peca(null, 0, 0, 0);
+    }
+
+
+
 }
