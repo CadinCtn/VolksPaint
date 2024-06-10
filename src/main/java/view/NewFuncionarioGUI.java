@@ -237,7 +237,6 @@ public class NewFuncionarioGUI extends javax.swing.JDialog {
            
             }else{
                 //Editar
-                System.out.println(this.funcionario.getCpf());
                 new ServiceFuncionario().updateFuncionario(cpfField.getText(),nomeField.getText(),passField.getText(),dateChooser.getDate(),this.funcionario.getCpf());
             }
             dispose();

@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  *
  * @author Lenovo
  */
-public class TintaDAO {
+public abstract class TintaDAO {
 
     private Connection connection;
 

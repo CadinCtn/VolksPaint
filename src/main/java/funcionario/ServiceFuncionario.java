@@ -5,6 +5,7 @@
 package funcionario;
 
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -46,9 +47,13 @@ public class ServiceFuncionario {
         
         //Limpando tabela
         model.setRowCount(0);
+        
+        //Formato data
+        SimpleDateFormat dateForm = new SimpleDateFormat("dd/MM/yyyy");
+        
         //Inserindo dados
         for(Funcionario f : new FuncionarioDAO().selectFuncionarios()){
-            Object[] line = {f.getCpf(),f.getNome(),f.getDataNascimento()};
+            Object[] line = {f.getCpf(),f.getNome(),dateForm.format(f.getDataNascimento())};
             model.addRow(line);
         }
     }

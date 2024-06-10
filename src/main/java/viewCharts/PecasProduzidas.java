@@ -365,6 +365,7 @@ public class PecasProduzidas extends javax.swing.JFrame {
             }
         });
 
+        btnAddDay.setBackground(new java.awt.Color(248, 248, 248));
         btnAddDay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-seta-direita-24.png"))); // NOI18N
         btnAddDay.setBorder(null);
         btnAddDay.addActionListener(new java.awt.event.ActionListener() {

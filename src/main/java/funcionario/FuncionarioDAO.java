@@ -76,8 +76,9 @@ public class FuncionarioDAO {
     //UPDATE
     public void updateFuncionario(Funcionario funcionario, String oldCpf){
         String sql = "UPDATE funcionario SET cpf = ?, nome = ?, data_nascimento = ?, senha = ? WHERE cpf = ?";
-         
+        
         try(PreparedStatement stmt = connection.prepareStatement(sql)){
+            
             //SET
             stmt.setString(1,funcionario.getCpf());
             stmt.setString(2, funcionario.getNome());
@@ -85,6 +86,9 @@ public class FuncionarioDAO {
             stmt.setString(4,funcionario.getSenha());
             //WHERE
             stmt.setString(5, oldCpf);
+            
+            //UPDATE
+            stmt.executeUpdate();
             
             JOptionPane.showMessageDialog(null,"Funcionario Atualizado com sucesso!");
             

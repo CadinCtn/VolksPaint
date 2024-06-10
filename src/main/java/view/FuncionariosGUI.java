@@ -7,6 +7,7 @@ package view;
 import funcionario.Funcionario;
 import funcionario.ServiceFuncionario;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
 import viewCharts.ConsumoDiario;
 import viewCharts.Desperdicio;
 import viewCharts.PecasProduzidas;
@@ -25,6 +26,15 @@ public class FuncionariosGUI extends javax.swing.JFrame {
         this.setExtendedState(MAXIMIZED_BOTH);
         new ServiceFuncionario().tabelaFuncionario(tabFuncionarios);
         
+        centralizarCelulas();
+    }
+    
+    private void centralizarCelulas(){
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+        
+        tabFuncionarios.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        tabFuncionarios.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
     }
 
     /**
