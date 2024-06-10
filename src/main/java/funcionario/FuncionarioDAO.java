@@ -31,14 +31,14 @@ public class FuncionarioDAO {
     
     //INSERT
     public void insertFuncionario(Funcionario funcionario){
-        String sql = "INSERT INTO funcionario (cpf,nome,data_nascimento,permissao) VALUES (?,?,?,?);";
+        String sql = "INSERT INTO funcionario (cpf,nome,senha,data_nascimento) VALUES (?,?,?,?);";
         
         try(PreparedStatement stmt = connection.prepareStatement(sql)){
             //Setando atributos
-            stmt.setInt(1, funcionario.getCpf());
+            stmt.setString(1, funcionario.getCpf());
             stmt.setString(2, funcionario.getNome());
-            stmt.setDate(3, funcionario.getDataNascimento());
-            stmt.setBoolean(4, funcionario.isPermissao());
+            stmt.setString(3, funcionario.getSenha());
+            stmt.setDate(4, funcionario.getDataNascimento());
             
             //INSERT
             stmt.executeUpdate();
@@ -54,11 +54,11 @@ public class FuncionarioDAO {
     }
 
     //DELETE
-    public void deleteFuncionario(int cpf){
+    public void deleteFuncionario(String cpf){
         String sql = "DELETE FROM funcionario WHERE cpf = ?";
         
         try(PreparedStatement stmt = connection.prepareStatement(sql)){
-            stmt.setInt(1,cpf);
+            stmt.setString(1,cpf);
             
             //Delete
             stmt.executeUpdate();
@@ -74,17 +74,17 @@ public class FuncionarioDAO {
     }
     
     //UPDATE
-    public void updateFuncionario(Funcionario funcionario, int cpf){
-        String sql = "UPDATE funcionario SET cpf = ?, nome = ?, data_nascimento = ?, permissao = ? WHERE cpf = ?";
-        
+    public void updateFuncionario(Funcionario funcionario, String oldCpf){
+        String sql = "UPDATE funcionario SET cpf = ?, nome = ?, data_nascimento = ?, senha = ? WHERE cpf = ?";
+         
         try(PreparedStatement stmt = connection.prepareStatement(sql)){
             //SET
-            stmt.setInt(1,funcionario.getCpf());
+            stmt.setString(1,funcionario.getCpf());
             stmt.setString(2, funcionario.getNome());
             stmt.setDate(3, funcionario.getDataNascimento());
-            stmt.setBoolean(4, funcionario.isPermissao());
+            stmt.setString(4,funcionario.getSenha());
             //WHERE
-            stmt.setInt(5, cpf);
+            stmt.setString(5, oldCpf);
             
             JOptionPane.showMessageDialog(null,"Funcionario Atualizado com sucesso!");
             
@@ -106,7 +106,7 @@ public class FuncionarioDAO {
             ResultSet rs = stmt.executeQuery()){
             //Percorre a lista de resultados
             while(rs.next()){
-                list.add(new Funcionario(rs.getInt("cpf"), rs.getString("nome"), rs.getDate("data_nascimento"), rs.getBoolean("permissao")));
+                list.add(new Funcionario(rs.getString("cpf"), rs.getString("nome"), rs.getString("senha"),rs.getDate("data_nascimento")));
             }
             
         }catch(SQLException e){
@@ -119,14 +119,14 @@ public class FuncionarioDAO {
     
     
     //SELECT BY CPF
-    public Funcionario selectByCpf(int cpf){
+    public Funcionario selectByCpf(String cpf){
         String sql = "SELECT * FROM funcionario WHERE cpf = ?";
         
         try(PreparedStatement stmt = connection.prepareStatement(sql)){
-            stmt.setInt(1, cpf);
+            stmt.setString(1, cpf);
             try(ResultSet rs = stmt.executeQuery()){
                 if(rs.next()){
-                    return new Funcionario(rs.getInt("cpf"), rs.getString("nome"), rs.getDate("data_nascimento"), rs.getBoolean("permissao"));
+                    return new Funcionario(rs.getString("cpf"), rs.getString("nome"), rs.getString("senha"),rs.getDate("data_nascimento"));
                 } else {
                     JOptionPane.showMessageDialog(null, "Não foi possivel encontrar o funcionario.");
                 }
@@ -138,5 +138,23 @@ public class FuncionarioDAO {
         return null;
     }
     
+    
+    public boolean login(String cpf, String senha){
+        String sql = "SELECT cpf,senha FROM funcionario WHERE cpf = ? AND senha = ?";
+        
+        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+            stmt.setString(1, cpf);
+            stmt.setString(2, senha);
+            try(ResultSet rs = stmt.executeQuery()){
+                if(rs.next()){
+                    return true;
+                }
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Não foi possivel encontrar o funcionario!\nERRO: " + e.getMessage(),"ERRO",JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+        return false;
+    }
     
 }

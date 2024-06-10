@@ -4,6 +4,10 @@
  */
 package view;
 
+import funcionario.ServiceFuncionario;
+import javax.swing.JOptionPane;
+import viewCharts.ConsumoDiario;
+
 /**
  *
  * @author Lenovo
@@ -16,6 +20,7 @@ public class LoginGUI extends javax.swing.JFrame {
     public LoginGUI() {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.getRootPane().setDefaultButton(btnEntrar);
     }
 
     /**
@@ -33,9 +38,9 @@ public class LoginGUI extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        btnEntrar = new javax.swing.JButton();
+        passField = new javax.swing.JPasswordField();
+        cpfField = new javax.swing.JFormattedTextField();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
 
@@ -64,27 +69,27 @@ public class LoginGUI extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Senha:");
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(51, 51, 51));
-        jButton1.setText("Entrar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnEntrar.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
+        btnEntrar.setForeground(new java.awt.Color(51, 51, 51));
+        btnEntrar.setText("Entrar");
+        btnEntrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnEntrarActionPerformed(evt);
             }
         });
 
-        jPasswordField1.setBackground(new java.awt.Color(240, 240, 240));
-        jPasswordField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jPasswordField1.setForeground(new java.awt.Color(51, 51, 51));
+        passField.setBackground(new java.awt.Color(240, 240, 240));
+        passField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        passField.setForeground(new java.awt.Color(51, 51, 51));
 
-        jFormattedTextField1.setBackground(new java.awt.Color(240, 240, 240));
-        jFormattedTextField1.setForeground(new java.awt.Color(51, 51, 51));
+        cpfField.setBackground(new java.awt.Color(240, 240, 240));
+        cpfField.setForeground(new java.awt.Color(51, 51, 51));
         try {
-            jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+            cpfField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        jFormattedTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cpfField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -133,9 +138,9 @@ public class LoginGUI extends javax.swing.JFrame {
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jFormattedTextField1)
-                            .addComponent(jPasswordField1)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
+                            .addComponent(cpfField)
+                            .addComponent(passField)
+                            .addComponent(btnEntrar, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
                         .addGap(87, 87, 87))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -152,13 +157,13 @@ public class LoginGUI extends javax.swing.JFrame {
                 .addGap(38, 38, 38)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cpfField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btnEntrar)
                 .addGap(78, 78, 78))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -183,10 +188,16 @@ public class LoginGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         // TODO add your handling code here:
+        if(new ServiceFuncionario().login(cpfField.getText(), passField.getText())){
+            new ConsumoDiario().setVisible(true);
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(null,"CPF ou Senha inválidos!");
+        }
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnEntrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -224,8 +235,8 @@ public class LoginGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
+    private javax.swing.JButton btnEntrar;
+    private javax.swing.JFormattedTextField cpfField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -234,6 +245,6 @@ public class LoginGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JPasswordField passField;
     // End of variables declaration//GEN-END:variables
 }

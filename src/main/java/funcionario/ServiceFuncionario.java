@@ -4,6 +4,8 @@
  */
 package funcionario;
 
+import java.math.BigInteger;
+import java.util.Date;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -13,23 +15,28 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ServiceFuncionario {
     
+    //Validar login
+    public boolean login(String cpf, String senha){
+        return new FuncionarioDAO().login(cpf, senha);
+    }
+    
     //Inserir funcionario
-    public void insertFuncionario(Funcionario funcionario){
-        new FuncionarioDAO().insertFuncionario(funcionario);
+    public void insertFuncionario(String cpf, String nome, String senha, Date data){
+        new FuncionarioDAO().insertFuncionario(new Funcionario(cpf,nome,senha,new java.sql.Date(data.getTime())));
     }
     
     //deletar funcionario
-    public void deleteFuncionario(int cpf){
+    public void deleteFuncionario(String cpf){
         new FuncionarioDAO().deleteFuncionario(cpf);
     }
     
     //atualizar funcionario
-    public void updateFuncionario(Funcionario funcionario, int cpf){
-        new FuncionarioDAO().updateFuncionario(funcionario, cpf);
+    public void updateFuncionario(String cpf, String nome, String senha, Date data, String oldCpf){
+        new FuncionarioDAO().updateFuncionario(new Funcionario(cpf,nome,senha,new java.sql.Date(data.getTime())), oldCpf);
     }
 
     //select by cpf
-    public Funcionario selectFuncionarioByCpf(int cpf){
+    public Funcionario selectFuncionarioByCpf(String cpf){
         return new FuncionarioDAO().selectByCpf(cpf);
     }
     
@@ -44,7 +51,6 @@ public class ServiceFuncionario {
             Object[] line = {f.getCpf(),f.getNome(),f.getDataNascimento()};
             model.addRow(line);
         }
-        
     }
     
 }

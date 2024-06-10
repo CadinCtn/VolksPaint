@@ -3,20 +3,20 @@ package funcionario;
 import java.sql.Date;
 
 public class Funcionario{
-    private int cpf;
+    private String cpf;
     private String nome;
+    private String senha;
     private Date dataNascimento;
-    private boolean permissao;
 
-    public Funcionario(int cpf, String nome, Date dataNascimento, boolean permissao) {
+    public Funcionario(String cpf, String nome, String senha,Date dataNascimento) {
         this.cpf = cpf;
         this.nome = nome;
+        this.senha = senha;
         this.dataNascimento = dataNascimento;
-        this.permissao = permissao;
     }
 
     
-    public int getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
@@ -28,8 +28,7 @@ public class Funcionario{
         return dataNascimento;
     }
 
-    public boolean isPermissao() {
-        return permissao;
+    public String getSenha() {
+        return senha;
     }
-
 }

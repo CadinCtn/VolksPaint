@@ -4,6 +4,8 @@
  */
 package view;
 
+import funcionario.Funcionario;
+import funcionario.ServiceFuncionario;
 import javax.swing.JOptionPane;
 import viewCharts.ConsumoDiario;
 import viewCharts.Desperdicio;
@@ -21,6 +23,8 @@ public class FuncionariosGUI extends javax.swing.JFrame {
     public FuncionariosGUI() {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
+        new ServiceFuncionario().tabelaFuncionario(tabFuncionarios);
+        
     }
 
     /**
@@ -41,15 +45,15 @@ public class FuncionariosGUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        tabFuncionarios = new javax.swing.JTable();
+        btnDel = new javax.swing.JButton();
+        btnUpd = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Funcionarios");
 
-        jPanel1.setBackground(new java.awt.Color(240, 240, 240));
+        jPanel1.setBackground(new java.awt.Color(248, 248, 248));
 
         jPanel2.setBackground(new java.awt.Color(10, 6, 37));
 
@@ -136,7 +140,7 @@ public class FuncionariosGUI extends javax.swing.JFrame {
                 .addGap(14, 14, 14))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabFuncionarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -152,28 +156,38 @@ public class FuncionariosGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabFuncionarios);
 
-        jButton1.setBackground(new java.awt.Color(240, 240, 240));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(51, 51, 51));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/excluir.png"))); // NOI18N
-        jButton1.setText("Deletar");
-
-        jButton2.setBackground(new java.awt.Color(240, 240, 240));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(51, 51, 51));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/editar (2).png"))); // NOI18N
-        jButton2.setText("Atualizar");
-
-        jButton5.setBackground(new java.awt.Color(240, 240, 240));
-        jButton5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(51, 51, 51));
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/adicionar.png"))); // NOI18N
-        jButton5.setText("Adicionar");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btnDel.setBackground(new java.awt.Color(240, 240, 240));
+        btnDel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnDel.setForeground(new java.awt.Color(51, 51, 51));
+        btnDel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/excluir.png"))); // NOI18N
+        btnDel.setText("Deletar");
+        btnDel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btnDelActionPerformed(evt);
+            }
+        });
+
+        btnUpd.setBackground(new java.awt.Color(240, 240, 240));
+        btnUpd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnUpd.setForeground(new java.awt.Color(51, 51, 51));
+        btnUpd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/editar (2).png"))); // NOI18N
+        btnUpd.setText("Atualizar");
+        btnUpd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdActionPerformed(evt);
+            }
+        });
+
+        btnAdd.setBackground(new java.awt.Color(240, 240, 240));
+        btnAdd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnAdd.setForeground(new java.awt.Color(51, 51, 51));
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/adicionar.png"))); // NOI18N
+        btnAdd.setText("Adicionar");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
             }
         });
 
@@ -189,11 +203,11 @@ public class FuncionariosGUI extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 609, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton5)
+                        .addComponent(btnAdd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
+                        .addComponent(btnUpd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
+                        .addComponent(btnDel)
                         .addGap(17, 17, 17))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -202,9 +216,9 @@ public class FuncionariosGUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton5))
+                    .addComponent(btnDel)
+                    .addComponent(btnUpd)
+                    .addComponent(btnAdd))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
                 .addContainerGap())
@@ -251,10 +265,43 @@ public class FuncionariosGUI extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        NewFuncionarioGUI window = new NewFuncionarioGUI(null,true,null);
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
+        new ServiceFuncionario().tabelaFuncionario(tabFuncionarios);
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnUpdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdActionPerformed
+        int selectedRow = tabFuncionarios.getSelectedRow();
+        if(selectedRow >=0){
+            //Seleciona funcionario
+            String cpf = tabFuncionarios.getValueAt(selectedRow, 0).toString();
+            Funcionario funcionario = new ServiceFuncionario().selectFuncionarioByCpf(cpf);
+            
+            //Abre janela para atualizar funcionario
+            NewFuncionarioGUI window = new NewFuncionarioGUI(null,true,funcionario);
+            window.setLocationRelativeTo(null);
+            window.setVisible(true);
+            new ServiceFuncionario().tabelaFuncionario(tabFuncionarios);
+        }else{
+            JOptionPane.showMessageDialog(null,"Selecione uma linha");
+        }
+    }//GEN-LAST:event_btnUpdActionPerformed
+
+    private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
+        int selectedRow = tabFuncionarios.getSelectedRow();
+        if(selectedRow >=0){
+            switch(JOptionPane.showConfirmDialog(null, "Deseja mesmo deletar o funcionario?","Deletar funcionario",JOptionPane.YES_NO_OPTION)){
+                case JOptionPane.YES_OPTION:
+                        new ServiceFuncionario().deleteFuncionario(tabFuncionarios.getValueAt(selectedRow, 0).toString());
+                        new ServiceFuncionario().tabelaFuncionario(tabFuncionarios);
+                        break;
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"Selecione uma linha");
+        }
+    }//GEN-LAST:event_btnDelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -293,17 +340,17 @@ public class FuncionariosGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnConsumo;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDel;
     private javax.swing.JButton btnDesperdicio;
     private javax.swing.JButton btnPecasProducao;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnUpd;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tabFuncionarios;
     // End of variables declaration//GEN-END:variables
 }

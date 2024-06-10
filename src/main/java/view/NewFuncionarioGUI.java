@@ -4,7 +4,9 @@
  */
 package view;
 
+import funcionario.Funcionario;
 import funcionario.ServiceFuncionario;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,11 +17,21 @@ public class NewFuncionarioGUI extends javax.swing.JDialog {
     /**
      * Creates new form NewFunc
      */
-    public NewFuncionarioGUI(java.awt.Frame parent, boolean modal) {
+    public NewFuncionarioGUI(java.awt.Frame parent, boolean modal, Funcionario funcionario) {
         super(parent, modal);
         initComponents();
+        //Setando atributos nos campos
+        if(funcionario != null){
+            this.funcionario = funcionario;
+            
+            passField.setText(funcionario.getSenha());
+            nomeField.setText(funcionario.getNome());
+            cpfField.setText(String .valueOf(funcionario.getCpf()));
+            dateChooser.setDate(funcionario.getDataNascimento());
+        }
     }
 
+    private Funcionario funcionario = null;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,7 +44,6 @@ public class NewFuncionarioGUI extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        passField = new javax.swing.JPasswordField();
         cpfField = new javax.swing.JFormattedTextField();
         nomeField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -43,6 +54,7 @@ public class NewFuncionarioGUI extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        passField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro VolksBoard");
@@ -56,15 +68,6 @@ public class NewFuncionarioGUI extends javax.swing.JDialog {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(51, 51, 51));
         jLabel3.setText("Senha:");
-
-        passField.setBackground(new java.awt.Color(240, 240, 240));
-        passField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        passField.setForeground(new java.awt.Color(51, 51, 51));
-        passField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passFieldActionPerformed(evt);
-            }
-        });
 
         cpfField.setBackground(new java.awt.Color(240, 240, 240));
         cpfField.setForeground(new java.awt.Color(51, 51, 51));
@@ -137,6 +140,10 @@ public class NewFuncionarioGUI extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        passField.setBackground(new java.awt.Color(240, 240, 240));
+        passField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        passField.setForeground(new java.awt.Color(51, 51, 51));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -159,10 +166,10 @@ public class NewFuncionarioGUI extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel3)
-                            .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(passField)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(dateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -181,11 +188,12 @@ public class NewFuncionarioGUI extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cpfField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cpfField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(32, 32, 32)))
                 .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -215,16 +223,25 @@ public class NewFuncionarioGUI extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void passFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_passFieldActionPerformed
-
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
-        new ServiceFuncionario().insertFuncionario(null);
+        if(cpfField.getText().isEmpty()|| nomeField.getText().isEmpty() || passField.getText().isEmpty() || dateChooser.getDate() == null){
+            JOptionPane.showMessageDialog(null,"Preencha todos os campos necessários para cadastro!");
+        } else {
+            if(this.funcionario == null){
+                //Cadastrar
+                new ServiceFuncionario().insertFuncionario(cpfField.getText(),nomeField.getText(),passField.getText(),dateChooser.getDate());
+           
+            }else{
+                //Editar
+                System.out.println(this.funcionario.getCpf());
+                new ServiceFuncionario().updateFuncionario(cpfField.getText(),nomeField.getText(),passField.getText(),dateChooser.getDate(),this.funcionario.getCpf());
+            }
+            dispose();
+        }
     }//GEN-LAST:event_btnConfirmActionPerformed
 
     /**
@@ -260,7 +277,7 @@ public class NewFuncionarioGUI extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                NewFuncionarioGUI dialog = new NewFuncionarioGUI(new javax.swing.JFrame(), true);
+                NewFuncionarioGUI dialog = new NewFuncionarioGUI(new javax.swing.JFrame(), true,null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -286,6 +303,6 @@ public class NewFuncionarioGUI extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField nomeField;
-    private javax.swing.JPasswordField passField;
+    private javax.swing.JTextField passField;
     // End of variables declaration//GEN-END:variables
 }
