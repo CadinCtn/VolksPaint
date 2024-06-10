@@ -31,7 +31,7 @@ public class PecaDAO extends DAO<Peca> {
 
     // DELETE
     @Override
-    public void delete(int id) {
+    public void delete(int id) throws SQLException{
         // String sql to delete from the database
         String sql = "DELETE FROM peca WHERE id = ?;";
 
@@ -42,14 +42,12 @@ public class PecaDAO extends DAO<Peca> {
 
             // DELETE
             stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
     //UPDATE
     @Override
-    public void update(Peca peca) {
+    public void update(Peca peca) throws SQLException{
         //String sql para atualizar cadastro do banco de dados
         String sql = "UPDATE peca SET modelo = ?, area_pintura = ? WHERE id = ?;";
 
@@ -65,8 +63,6 @@ public class PecaDAO extends DAO<Peca> {
             //UPDATE
             stmt.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 

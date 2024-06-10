@@ -312,7 +312,7 @@ public class PecasGUI extends javax.swing.JFrame {
         if(selectedRow >= 0){
             int id = Integer.parseInt(tabPecas.getValueAt(selectedRow, 0).toString());
 
-            NewPecaGUI window = new NewPecaGUI(null, true, new ServicePeca().selectPecaByID(id));
+            NewPecaGUI window = new NewPecaGUI(null, true, new ServicePeca().selectByID(id));
             window.setVisible(true);
             new ServicePeca().tabelaPecas(tabPecas);
         }else{

@@ -34,7 +34,23 @@ public class ServicePeca extends PecaDAO{
         }
     }
     
+    //UPDATE
+    public void updatePeca(Peca peca){
+        try{
+           dao.update(peca);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar o item.\nERRO: " + e.getMessage(),"ERRO",JOptionPane.ERROR_MESSAGE);
+        }
+    }
     
+    //DELETE
+    public void deletePeca(int id){
+        try{
+            dao.delete(id);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Erro ao deletar o item.\nERRO: " + e.getMessage(),"ERRO",JOptionPane.ERROR_MESSAGE);
+        }
+    }
     
     //SELECT BY ID
     public Peca selectByID(int id){

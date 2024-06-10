@@ -17,7 +17,7 @@ public class Pintura {
 
     Date data;
     int linhaProducao;
-    int turno
+    int turno;
     Funcionario funcionario;
     Peca peca;
     Tinta tinta;
