@@ -4,6 +4,12 @@
  */
 package peca;
 
+import dao.DAO;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -13,31 +19,32 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ServicePeca extends PecaDAO{
     
+    private PecaDAO dao;
     
-    //Inserir peca
-    @Override
+    public ServicePeca(){
+        dao = new PecaDAO();
+    }
+    
+    //INSERT
     public void insertPeca(Peca peca){
-        super.insertPeca(peca);
+        try{
+            dao.insert(peca);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar o item.\nERRO: " + e.getMessage(),"ERRO",JOptionPane.ERROR_MESSAGE);
+        }
     }
     
-    //Update peca
-    @Override
-    public void updatePeca(Peca peca){
-        super.updatePeca(peca);
-    }
     
-    //Deletar peca
-    @Override
-    public void deletePeca(int id){
-        super.deletePeca(id);
-    }
     
-    //Select By id
-    @Override
-    public Peca selectPecaByID(int id){
-        return super.selectPecaByID(id);
+    //SELECT BY ID
+    public Peca selectByID(int id){
+        try{
+            return dao.read(id);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Erro ao encontrar o item.\nERRO: " + e.getMessage(),"ERRO",JOptionPane.ERROR_MESSAGE);
+        }
+        return null;
     }
-    
     
     //Preencher a tabela de pecas
     public void tabelaPecas(JTable table){
@@ -47,9 +54,13 @@ public class ServicePeca extends PecaDAO{
         //limpando a tabela
         model.setRowCount(0);
         
-        //Adicionando valores a tabela
-        for(Peca peca : super.selectPeca()){
-            model.addRow(peca.pecaInTable());
+        try {
+            //Adicionando valores a tabela
+            for(Peca peca : dao.readAll()){
+                model.addRow(peca.pecaInTable());
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao gerar a tabela.\nERRO: " + e.getMessage(),"ERRO",JOptionPane.ERROR_MESSAGE);
         }
     }
     
