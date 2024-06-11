@@ -20,6 +20,7 @@ public class Peca {
     public Peca(String modelo, float area_pintura, int qtd_estoque, int id) {
         this.modelo = modelo;
         this.area_pintura = area_pintura;
+        this.qtd_estoque = qtd_estoque;
         this.id = id;
     }
 

@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Lenovo
  */
-public class ServicePeca extends PecaDAO{
+public class ServicePeca{
     
     private PecaDAO dao;
     
