@@ -425,6 +425,7 @@ public class PecasGUI extends javax.swing.JFrame {
             int id = Integer.parseInt(tabPecas.getValueAt(selectedRow, 0).toString());
             
             new ServicePeca().changeQtdPeca(qtd, id);
+            new ServicePeca().tabelaPecas(tabPecas);
             
         }else{
             JOptionPane.showMessageDialog(null, "Selecione uma linha.");
