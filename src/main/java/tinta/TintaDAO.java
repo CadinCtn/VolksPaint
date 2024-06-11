@@ -115,5 +115,21 @@ public class TintaDAO extends DAO<Tinta> {
 
         return new Tinta(0, null, null, 0);
     }
+    
+    //CHANGE QTD
+    public void changeQtdTinta(int id, int qtdTinta) throws SQLException{
+        String sql = "UPDATE tinta SET qtd_estoque = ? WHERE id = ?;";
+        
+        try (Connection connection = new ConnectionFactory().getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql);) {
+            //SET
+            stmt.setInt(1, qtdTinta);
+            //WHERE
+            stmt.setInt(2, id);
+            
+            //UPDATE
+            stmt.executeUpdate();
+        }
+    }
 
 }
