@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 
 public class PecaDAO extends DAO<Peca> {
 
@@ -113,4 +112,20 @@ public class PecaDAO extends DAO<Peca> {
         return new Peca(null, 0, 0, 0);
     }
 
+    //CHANGE QTD
+    public void changeQtdPeca(int id, int qtdPeca) throws SQLException{
+        String sql = "UPDATE peca SET qtd_estoque = ? WHERE id = ?;";
+        
+        try (Connection connection = new ConnectionFactory().getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql);) {
+            //SET
+            stmt.setInt(1, qtdPeca);
+            //WHERE
+            stmt.setInt(2, id);
+            
+            //UPDATE
+            stmt.executeUpdate();
+        }
+    }
+    
 }

@@ -62,6 +62,15 @@ public class ServicePeca extends PecaDAO{
         return null;
     }
     
+    //CHANGE QTD
+    public void changeQtdPeca(int value, int id){
+       try{
+            dao.changeQtdPeca(id, value);
+       }catch(SQLException e){
+           JOptionPane.showMessageDialog(null, "Erro ao alterar a quantidade o item.\nERRO: " + e.getMessage(),"ERRO",JOptionPane.ERROR_MESSAGE);
+       }
+    }
+    
     //Preencher a tabela de pecas
     public void tabelaPecas(JTable table){
         //Modelo da tabela

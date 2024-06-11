@@ -58,6 +58,11 @@ public class PecasGUI extends javax.swing.JFrame {
         btnAdd = new javax.swing.JButton();
         btnUpd = new javax.swing.JButton();
         btnDel = new javax.swing.JButton();
+        btn_lessQtd = new javax.swing.JButton();
+        btn_plusQtd = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        spinQtdAtual = new javax.swing.JSpinner();
+        btn_altQtd = new javax.swing.JButton();
 
         jLabel3.setText("jLabel3");
 
@@ -137,10 +142,10 @@ public class PecasGUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
-                    .addComponent(btnPecasProducao, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
-                    .addComponent(btnDesperdicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(BtnConsumo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPecasProducao, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDesperdicio, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnConsumo, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
@@ -168,7 +173,7 @@ public class PecasGUI extends javax.swing.JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
                 .addComponent(jButton4)
                 .addGap(14, 14, 14))
         );
@@ -189,6 +194,16 @@ public class PecasGUI extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tabPecas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tabPecasMouseReleased(evt);
+            }
+        });
+        tabPecas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tabPecasKeyReleased(evt);
             }
         });
         jScrollPane1.setViewportView(tabPecas);
@@ -226,6 +241,40 @@ public class PecasGUI extends javax.swing.JFrame {
             }
         });
 
+        btn_lessQtd.setBackground(new java.awt.Color(255, 255, 255));
+        btn_lessQtd.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btn_lessQtd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/menos (1).png"))); // NOI18N
+        btn_lessQtd.setText("1");
+        btn_lessQtd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_lessQtdActionPerformed(evt);
+            }
+        });
+
+        btn_plusQtd.setBackground(new java.awt.Color(255, 255, 255));
+        btn_plusQtd.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btn_plusQtd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/mais (1).png"))); // NOI18N
+        btn_plusQtd.setText("1");
+        btn_plusQtd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_plusQtdActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setText("Quantidade Atual:");
+
+        spinQtdAtual.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+
+        btn_altQtd.setBackground(new java.awt.Color(255, 255, 255));
+        btn_altQtd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/troca.png"))); // NOI18N
+        btn_altQtd.setText("Alterar");
+        btn_altQtd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_altQtdActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -234,27 +283,45 @@ public class PecasGUI extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 693, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnAdd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnUpd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnDel)
-                        .addGap(0, 0, 0)))
+                        .addGap(30, 30, 30)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(spinQtdAtual))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btn_lessQtd)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_plusQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btn_altQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 112, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(49, 49, 49)
+                .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_altQtd)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_lessQtd)
+                    .addComponent(btn_plusQtd)
+                    .addComponent(spinQtdAtual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDel)
                     .addComponent(btnUpd)
                     .addComponent(btnAdd))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
 
@@ -341,6 +408,42 @@ public class PecasGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
 
+    private void btn_lessQtdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lessQtdActionPerformed
+        int qtd = Integer.parseInt(spinQtdAtual.getValue().toString());
+        spinQtdAtual.setValue(qtd-1);
+    }//GEN-LAST:event_btn_lessQtdActionPerformed
+
+    private void btn_plusQtdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_plusQtdActionPerformed
+        int qtd = Integer.parseInt(spinQtdAtual.getValue().toString());
+        spinQtdAtual.setValue(qtd+1);
+    }//GEN-LAST:event_btn_plusQtdActionPerformed
+
+    private void btn_altQtdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_altQtdActionPerformed
+        int selectedRow = tabPecas.getSelectedRow();
+        if(selectedRow >= 0){
+            int qtd = Integer.parseInt(spinQtdAtual.getValue().toString());
+            int id = Integer.parseInt(tabPecas.getValueAt(selectedRow, 0).toString());
+            
+            new ServicePeca().changeQtdPeca(qtd, id);
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Selecione uma linha.");
+        }
+        
+    }//GEN-LAST:event_btn_altQtdActionPerformed
+
+    private void tabPecasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabPecasKeyReleased
+        int selectedRow = tabPecas.getSelectedRow();
+        int qtd = Integer.parseInt(tabPecas.getValueAt(selectedRow, 3).toString());
+        spinQtdAtual.setValue(qtd);
+    }//GEN-LAST:event_tabPecasKeyReleased
+
+    private void tabPecasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabPecasMouseReleased
+        int selectedRow = tabPecas.getSelectedRow();
+        int qtd = Integer.parseInt(tabPecas.getValueAt(selectedRow, 3).toString());
+        spinQtdAtual.setValue(qtd);
+    }//GEN-LAST:event_tabPecasMouseReleased
+
     /**
      * @param args the command line arguments
      */
@@ -357,15 +460,20 @@ public class PecasGUI extends javax.swing.JFrame {
     private javax.swing.JButton btnDesperdicio;
     private javax.swing.JButton btnPecasProducao;
     private javax.swing.JButton btnUpd;
+    private javax.swing.JButton btn_altQtd;
+    private javax.swing.JButton btn_lessQtd;
+    private javax.swing.JButton btn_plusQtd;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSpinner spinQtdAtual;
     private javax.swing.JTable tabPecas;
     // End of variables declaration//GEN-END:variables
 

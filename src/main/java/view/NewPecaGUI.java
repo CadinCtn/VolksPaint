@@ -5,6 +5,7 @@
 package view;
 
 import javax.swing.JOptionPane;
+import javax.swing.SpinnerNumberModel;
 import peca.Peca;
 import peca.ServicePeca;
 
@@ -50,7 +51,11 @@ public class NewPecaGUI extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        spinner = new javax.swing.JSpinner();
+        SpinnerNumberModel model = new SpinnerNumberModel(0.0, // valor inicial
+            0.0, // valor mínimo
+            100.0, // valor máximo
+            1.0);
+        spinner = new javax.swing.JSpinner(model);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nova Peça");
