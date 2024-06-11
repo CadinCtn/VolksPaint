@@ -4,6 +4,7 @@
  */
 package tinta;
 
+import dao.DAO;
 import factory.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,169 +18,102 @@ import javax.swing.JOptionPane;
  *
  * @author Lenovo
  */
-public abstract class TintaDAO {
+public class TintaDAO extends DAO<Tinta> {
 
-    private Connection connection;
-
-    public TintaDAO() {
-        try {
-            this.connection = new ConnectionFactory().getConnection();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "ERRO: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    //Método para encerrar a conexão
-    private void closeConnection() {
-        try {
-            this.connection.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "ERRO: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    
     //INSERT
-    public void insertTinta(Tinta tinta) {
-        //String sql para inserir no banco de dados
-        String sql = "INSERT INTO tinta (cor,textura,volume) VALUES (?,?,?);";
+    @Override
+    public void insert(Tinta tinta) throws SQLException {
+        String sql = "INSERT INTO tinta (cor, textura, qtd_estoque) VALUES (?, ?, ?);";
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            //Setando atributos na String (posição do '?', valor)
+        try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement stmt = connection.prepareStatement(sql);) {
             stmt.setString(1, tinta.getCor());
             stmt.setString(2, tinta.getTextura());
-            stmt.setFloat(3, tinta.getVolume());
+            stmt.setFloat(3, tinta.getQtdEstoque());
 
-            //Insert
+            // Insert
             stmt.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            //Encerra a conexão
-            closeConnection();
         }
     }
 
-    //DELETE
-    public void deleteTinta(String cor) {
-        //String sql para deletar do banco de dados
-        String sql = "DELETE FROM tinta WHERE cor = ?;";
+    // DELETE
+    @Override
+    public void delete(int id) throws SQLException {
+        // String sql to delete from the database
+        String sql = "DELETE FROM tinta WHERE id = ?;";
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            //Setando Cor no lugar de '?'
-            stmt.setString(1, cor);
+        try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement stmt = connection.prepareStatement(sql);) {
+            // Set id in place of '?'
+            stmt.setInt(1, id);
 
-            //DELETE
+            // DELETE
             stmt.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            closeConnection(); //encerra conexão
         }
     }
 
     //UPDATE
-    public void updateTinta(String oldCor, Tinta newTinta) {
+    @Override
+    public void update(Tinta tinta) throws SQLException {
         //String sql para atualizar cadastro do banco de dados
-        String sql = "UPDATE FROM tinta SET cor = ?, textura = ? WHERE cor = ?;";
+        String sql = "UPDATE tinta SET cor = ?, textura = ? WHERE id = ?;";
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement stmt = connection.prepareStatement(sql);) {
             //Setando Atributos no lugar de '?'
-            stmt.setString(1, newTinta.getCor());
-            stmt.setString(2, newTinta.getTextura());
+            stmt.setString(1, tinta.getCor());
+            stmt.setString(2, tinta.getTextura());
 
             //PK
-            stmt.setString(3, oldCor);
+            stmt.setInt(3, tinta.getId());
 
             //UPDATE
             stmt.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            closeConnection(); //Encerra a conexão
         }
     }
 
     //SELECT ALL
-    public List<Tinta> selectTinta() {
+    @Override
+    public List<Tinta> readAll() throws SQLException {
         //String sql para a consulta
         String sql = "SELECT * FROM tinta;";
         //Lista de Tinta
         List<Tinta> listTinta = new ArrayList<>();
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql); //Select
+        try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement stmt = connection.prepareStatement(sql); //Select
                  ResultSet rs = stmt.executeQuery();) {
 
             //Percorrendo lista
             while (rs.next()) {
                 //Inserindo Tinta na lista
-                listTinta.add(new Tinta(rs.getString("cor"),
+                listTinta.add(new Tinta(rs.getInt("id"),
+                        rs.getString("cor"),
                         rs.getString("textura"),
-                        rs.getFloat("volume")));
-
+                        rs.getFloat("qtd_estoque")));
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            closeConnection(); //Encerra a conexão
         }
 
         //Retorna a lista com os resultados
         return listTinta;
     }
 
-    //Select By Cor
-    public Tinta selectTintaByCor(String cor) {
+    //SELECT BY ID
+    @Override
+    public Tinta read(int id) throws SQLException {
         //String sql para a consulta
-        String sql = "SELECT * FROM tinta WHERE cor = ?;";
+        String sql = "SELECT * FROM tinta WHERE id = ?;";
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, cor);
+        try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement stmt = connection.prepareStatement(sql);) {
+            stmt.setInt(1, id);
 
-            //SELECT
             try (ResultSet rs = stmt.executeQuery()) {
-                //Se encontrar algum resultado
                 if (rs.next()) {
-                    //Retorna Tinta
-                    return new Tinta(rs.getString("cor"),
-                            rs.getString("textura"),
-                            rs.getFloat("volume"));
+                    return new Tinta(rs.getInt("id"), rs.getString("cor"), rs.getString("textura"), rs.getFloat("qtd_estoque"));
                 }
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            closeConnection();
         }
 
-        //Retorna nulo se não encontrar nada
-        return null;
-    }
-
-    //Atualiza volume
-    public void changeVolume(String cor, float volume) {
-        //String para update
-        String sql = "UPDATE FROM tinta SET volume = ? WHERE cor = ?";
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setFloat(1, volume);
-            stmt.setString(2, cor);
-
-            //UPDATE
-            stmt.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            closeConnection();
-        }
+        return new Tinta(0, null, null, 0);
     }
 
 }

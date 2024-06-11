@@ -11,6 +11,6 @@ public class ConnectionFactory {
 
     public Connection getConnection() throws SQLException {
         // Faz a conexão com o banco
-        return DriverManager.getConnection("jdbc:mysql://10.80.50.146:3306/volkspaint", "faculdade", "24042005Cgr@");
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/volkspaint", "root", "");
     }
 }
