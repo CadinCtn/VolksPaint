@@ -22,7 +22,7 @@ public class ServiceTinta {
     }
 
     //INSERT
-    public void insertPeca(Tinta tinta) {
+    public void insertTinta(Tinta tinta) {
         try {
             dao.insert(tinta);
         } catch (SQLException e) {
@@ -31,7 +31,7 @@ public class ServiceTinta {
     }
 
     //UPDATE
-    public void updatePeca(Tinta tinta) {
+    public void updateTinta(Tinta tinta) {
         try {
             dao.update(tinta);
         } catch (SQLException e) {
@@ -40,7 +40,7 @@ public class ServiceTinta {
     }
 
     //DELETE
-    public void deletePeca(int id) {
+    public void deleteTinta(int id) {
         try {
             dao.delete(id);
         } catch (SQLException e) {
@@ -58,7 +58,7 @@ public class ServiceTinta {
         return null;
     }
 
-    //Preencher a tabela de pecas
+    //Preencher a tabela de tintas
     public void tabelaPecas(JTable table) {
         //Modelo da tabela
         DefaultTableModel model = (DefaultTableModel) table.getModel();
