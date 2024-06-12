@@ -1,18 +1,13 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
 
-import com.google.protobuf.Service;
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import peca.ServicePeca;
+import tinta.ServiceTinta;
+import view.FuncionariosGUI;
+import view.PecasGUI;
 import viewCharts.ConsumoDiario;
 import viewCharts.Desperdicio;
 import viewCharts.PecasProduzidas;
@@ -21,16 +16,15 @@ import viewCharts.PecasProduzidas;
  *
  * @author Senai
  */
-public class PecasGUI extends javax.swing.JFrame {
+public class TintasGUI extends javax.swing.JFrame {
 
     /**
-     * Creates new for  m viewPeca
+     * Creates new form TintasGUI
      */
-   public PecasGUI() {
+    public TintasGUI() {
         initComponents();
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        new ServicePeca().tabelaPecas(tabPecas);
-        
+        this.setExtendedState(MAXIMIZED_BOTH);
+        new ServiceTinta().tabelaTintas(tabTintas);
     }
 
     /**
@@ -42,7 +36,6 @@ public class PecasGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jButton6 = new javax.swing.JButton();
@@ -55,23 +48,21 @@ public class PecasGUI extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabPecas = new javax.swing.JTable();
+        tabTintas = new javax.swing.JTable();
         btnAdd = new javax.swing.JButton();
         btnUpd = new javax.swing.JButton();
         btnDel = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        btn_altQtd = new javax.swing.JButton();
+        spinQtdAtual = new javax.swing.JSpinner();
         btn_lessQtd = new javax.swing.JButton();
         btn_plusQtd = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        spinQtdAtual = new javax.swing.JSpinner();
-        btn_altQtd = new javax.swing.JButton();
-
-        jLabel3.setText("jLabel3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Peças");
+        setTitle("Tintas");
 
         jPanel1.setBackground(new java.awt.Color(248, 248, 248));
-        jPanel1.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
+        jPanel1.setPreferredSize(new java.awt.Dimension(796, 551));
 
         jPanel2.setBackground(new java.awt.Color(10, 6, 37));
 
@@ -120,7 +111,7 @@ public class PecasGUI extends javax.swing.JFrame {
         });
 
         jButton7.setBackground(new java.awt.Color(0, 0, 51));
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pistao (1).png"))); // NOI18N
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pistao.png"))); // NOI18N
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
@@ -128,7 +119,7 @@ public class PecasGUI extends javax.swing.JFrame {
         });
 
         jButton8.setBackground(new java.awt.Color(0, 0, 51));
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/paint-airbrush.png"))); // NOI18N
+        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/paint-airbrush (1).png"))); // NOI18N
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton8ActionPerformed(evt);
@@ -151,10 +142,10 @@ public class PecasGUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPecasProducao, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDesperdicio, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BtnConsumo, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
+                    .addComponent(btnPecasProducao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnDesperdicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(BtnConsumo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(19, 19, 19))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
@@ -191,13 +182,13 @@ public class PecasGUI extends javax.swing.JFrame {
                 .addGap(14, 14, 14))
         );
 
-        tabPecas.setForeground(new java.awt.Color(51, 51, 51));
-        tabPecas.setModel(new javax.swing.table.DefaultTableModel(
+        tabTintas.setForeground(new java.awt.Color(51, 51, 51));
+        tabTintas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Modelo", "Área de Pintura", "Quantidade em Estoque"
+                "ID", "Cor", "Textura", "Quantidade em Estoque"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -208,17 +199,17 @@ public class PecasGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tabPecas.addMouseListener(new java.awt.event.MouseAdapter() {
+        tabTintas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tabPecasMouseReleased(evt);
+                tabTintasMouseReleased(evt);
             }
         });
-        tabPecas.addKeyListener(new java.awt.event.KeyAdapter() {
+        tabTintas.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                tabPecasKeyReleased(evt);
+                tabTintasKeyReleased(evt);
             }
         });
-        jScrollPane1.setViewportView(tabPecas);
+        jScrollPane1.setViewportView(tabTintas);
 
         btnAdd.setBackground(new java.awt.Color(240, 240, 240));
         btnAdd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -253,6 +244,20 @@ public class PecasGUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setText("Quantidade Atual:");
+
+        btn_altQtd.setBackground(new java.awt.Color(240, 240, 240));
+        btn_altQtd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/troca.png"))); // NOI18N
+        btn_altQtd.setText("Alterar");
+        btn_altQtd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_altQtdActionPerformed(evt);
+            }
+        });
+
+        spinQtdAtual.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+
         btn_lessQtd.setBackground(new java.awt.Color(240, 240, 240));
         btn_lessQtd.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_lessQtd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/menos (1).png"))); // NOI18N
@@ -273,20 +278,6 @@ public class PecasGUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("Quantidade Atual:");
-
-        spinQtdAtual.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-
-        btn_altQtd.setBackground(new java.awt.Color(240, 240, 240));
-        btn_altQtd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/troca.png"))); // NOI18N
-        btn_altQtd.setText("Alterar");
-        btn_altQtd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_altQtdActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -295,17 +286,17 @@ public class PecasGUI extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 693, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnAdd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnUpd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnDel)
-                        .addGap(30, 30, 30)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(spinQtdAtual))
+                            .addComponent(spinQtdAtual, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -313,27 +304,30 @@ public class PecasGUI extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btn_plusQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(btn_altQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 112, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_altQtd)
-                    .addComponent(jLabel2))
+                .addGap(12, 12, 12)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnAdd)
+                        .addComponent(btnDel)
+                        .addComponent(btnUpd))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btn_altQtd)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btn_lessQtd)
+                            .addComponent(btn_plusQtd)
+                            .addComponent(spinQtdAtual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_lessQtd)
-                    .addComponent(btn_plusQtd)
-                    .addComponent(spinQtdAtual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDel)
-                    .addComponent(btnUpd)
-                    .addComponent(btnAdd))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -380,45 +374,66 @@ public class PecasGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        new PecasGUI().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        NewPecaGUI window = new NewPecaGUI(null, true, null);
+        NewTintaGUI window = new NewTintaGUI(null, true, null);        
+        window.setLocationRelativeTo(null);
         window.setVisible(true);
-        new ServicePeca().tabelaPecas(tabPecas);
+        new ServiceTinta().tabelaTintas(tabTintas);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdActionPerformed
-        int selectedRow = tabPecas.getSelectedRow();
+        int selectedRow = tabTintas.getSelectedRow();
         if(selectedRow >= 0){
-            int id = Integer.parseInt(tabPecas.getValueAt(selectedRow, 0).toString());
+            int id = Integer.parseInt(tabTintas.getValueAt(selectedRow, 0).toString());
 
-            NewPecaGUI window = new NewPecaGUI(null, true, new ServicePeca().selectByID(id));
+            NewTintaGUI window = new NewTintaGUI(null, true, new ServiceTinta().selectByID(id));
             window.setVisible(true);
-            new ServicePeca().tabelaPecas(tabPecas);
+            new ServiceTinta().tabelaTintas(tabTintas);
         }else{
             JOptionPane.showMessageDialog(null, "Selecione uma linha.");
         }
     }//GEN-LAST:event_btnUpdActionPerformed
 
     private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
-        int selectedRow = tabPecas.getSelectedRow();
+        int selectedRow = tabTintas.getSelectedRow();
         if(selectedRow >= 0){
             switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo deletar essa peça?","Deletar Peça",JOptionPane.YES_NO_OPTION)){
                 case JOptionPane.YES_OPTION:
-                    int id = Integer.parseInt(tabPecas.getValueAt(selectedRow, 0).toString());
-                        new ServicePeca().deletePeca(id);
-                        new ServicePeca().tabelaPecas(tabPecas);
+                int id = Integer.parseInt(tabTintas.getValueAt(selectedRow, 0).toString());
+                new ServiceTinta().deleteTinta(id);
+                new ServiceTinta().tabelaTintas(tabTintas);
 
-                    break;
+                break;
             }
         }else{
             JOptionPane.showMessageDialog(null, "Selecione uma linha.");
         }
-
     }//GEN-LAST:event_btnDelActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void btn_altQtdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_altQtdActionPerformed
+        int selectedRow = tabTintas.getSelectedRow();
+        if(selectedRow >= 0){
+            int qtd = Integer.parseInt(spinQtdAtual.getValue().toString());
+            int id = Integer.parseInt(tabTintas.getValueAt(selectedRow, 0).toString());
+
+            new ServiceTinta().changeQtdTinta(qtd, id);
+            new ServiceTinta().tabelaTintas(tabTintas);
+
+        }else{
+            JOptionPane.showMessageDialog(null, "Selecione uma linha.");
+        }
+
+    }//GEN-LAST:event_btn_altQtdActionPerformed
 
     private void btn_lessQtdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lessQtdActionPerformed
         int qtd = Integer.parseInt(spinQtdAtual.getValue().toString());
@@ -430,45 +445,52 @@ public class PecasGUI extends javax.swing.JFrame {
         spinQtdAtual.setValue(qtd+1);
     }//GEN-LAST:event_btn_plusQtdActionPerformed
 
-    private void btn_altQtdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_altQtdActionPerformed
-        int selectedRow = tabPecas.getSelectedRow();
-        if(selectedRow >= 0){
-            int qtd = Integer.parseInt(spinQtdAtual.getValue().toString());
-            int id = Integer.parseInt(tabPecas.getValueAt(selectedRow, 0).toString());
-            
-            new ServicePeca().changeQtdPeca(qtd, id);
-            new ServicePeca().tabelaPecas(tabPecas);
-            
-        }else{
-            JOptionPane.showMessageDialog(null, "Selecione uma linha.");
-        }
-        
-    }//GEN-LAST:event_btn_altQtdActionPerformed
-
-    private void tabPecasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabPecasKeyReleased
-        int selectedRow = tabPecas.getSelectedRow();
-        int qtd = Integer.parseInt(tabPecas.getValueAt(selectedRow, 3).toString());
-        spinQtdAtual.setValue(qtd);
-    }//GEN-LAST:event_tabPecasKeyReleased
-
-    private void tabPecasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabPecasMouseReleased
-        int selectedRow = tabPecas.getSelectedRow();
-        int qtd = Integer.parseInt(tabPecas.getValueAt(selectedRow, 3).toString());
-        spinQtdAtual.setValue(qtd);
-    }//GEN-LAST:event_tabPecasMouseReleased
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    private void tabTintasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabTintasMouseReleased
         // TODO add your handling code here:
-        new TintasGUI().setVisible(true);
-        dispose();
-    }//GEN-LAST:event_jButton8ActionPerformed
+        int selectedRow = tabTintas.getSelectedRow();
+        int qtd = Integer.parseInt(tabTintas.getValueAt(selectedRow, 3).toString());
+        spinQtdAtual.setValue(qtd);
+    }//GEN-LAST:event_tabTintasMouseReleased
+
+    private void tabTintasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabTintasKeyReleased
+        // TODO add your handling code here:
+        int selectedRow = tabTintas.getSelectedRow();
+        int qtd = Integer.parseInt(tabTintas.getValueAt(selectedRow, 3).toString());
+        spinQtdAtual.setValue(qtd);
+    }//GEN-LAST:event_tabTintasKeyReleased
 
     /**
      * @param args the command line arguments
      */
- public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(() -> {
-            new PecasGUI().setVisible(true);
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(TintasGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(TintasGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(TintasGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(TintasGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new TintasGUI().setVisible(true);
+            }
         });
     }
 
@@ -488,13 +510,11 @@ public class PecasGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSpinner spinQtdAtual;
-    private javax.swing.JTable tabPecas;
+    private javax.swing.JTable tabTintas;
     // End of variables declaration//GEN-END:variables
-
-}     
+}
