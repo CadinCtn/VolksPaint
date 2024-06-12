@@ -21,13 +21,13 @@ public class NewTintaGUI extends javax.swing.JDialog {
      */
     public NewTintaGUI(java.awt.Frame parent, boolean modal, Tinta tinta) {
         super(parent, modal);
-        this.setLocationRelativeTo(null);
         initComponents();
+        
         
         if(tinta != null){
             this.tinta = tinta;
             
-            colorPanel.setBackground(Color.getColor(tinta.getCor()));
+            colorPanel.setBackground(new Color(Integer.valueOf(tinta.getCor())));
             textureField.setText(tinta.getTextura());
         }
     }
@@ -65,7 +65,7 @@ public class NewTintaGUI extends javax.swing.JDialog {
 
         jLabel69.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel69.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel69.setText("Nova Peça");
+        jLabel69.setText("Nova Tinta");
         jLabel69.setPreferredSize(new java.awt.Dimension(325, 52));
 
         jLabel70.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/logo versao 3.png"))); // NOI18N
@@ -229,10 +229,10 @@ public class NewTintaGUI extends javax.swing.JDialog {
 
             if(this.tinta == null){
                 //INSERT
-                new ServiceTinta().insertTinta(new Tinta(0, String.valueOf(colorPanel.getBackground()), textureField.getText(), 0));
+                new ServiceTinta().insertTinta(new Tinta(0, String.valueOf(colorPanel.getBackground().getRGB()), textureField.getText(), 0));
             }else{
                 //UPDATE
-                new ServiceTinta().updateTinta(new Tinta(tinta.getId(), String.valueOf(colorPanel.getBackground()), textureField.getText(), 0));
+                new ServiceTinta().updateTinta(new Tinta(tinta.getId(), String.valueOf(colorPanel.getBackground().getRGB()), textureField.getText(), 0));
             }
             dispose();
         }

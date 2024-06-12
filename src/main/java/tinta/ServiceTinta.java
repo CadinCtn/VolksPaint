@@ -57,24 +57,6 @@ public class ServiceTinta {
         }
         return null;
     }
-
-    //Preencher a tabela de tintas
-    public void tabelaPecas(JTable table) {
-        //Modelo da tabela
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-
-        //limpando a tabela
-        model.setRowCount(0);
-
-        try {
-            //Adicionando valores a tabela
-            for (Tinta tinta : dao.readAll()) {
-                model.addRow(tinta.tintaInTable());
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao gerar a tabela.\nERRO: " + e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
-        }
-    }
     
     //CHANGE QTD
     public void changeQtdTinta(int value, int id){
