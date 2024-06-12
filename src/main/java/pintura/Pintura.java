@@ -15,14 +15,14 @@ import tinta.Tinta;
  */
 public class Pintura {
 
-    Date data;
-    int linhaProducao;
-    int turno;
-    Funcionario funcionario;
-    Peca peca;
-    Tinta tinta;
-    float consumoTintaUnidade;
-    float limiteConsumoTinta;
+    private Date data;
+    private int linhaProducao;
+    private int turno;
+    private Funcionario funcionario;
+    private Peca peca;
+    private Tinta tinta;
+    private float consumoTintaUnidade;
+    private float limiteConsumoTinta;
 
     public Pintura(Date data, int linhaProducao, Funcionario funcionario, Peca peca, Tinta tinta, float consumoTintaUnidade, float limiteConsumoTinta) {
         this.data = data;
@@ -33,6 +33,8 @@ public class Pintura {
         this.consumoTintaUnidade = consumoTintaUnidade;
         this.limiteConsumoTinta = limiteConsumoTinta;
     }
+    
+    
     
     
 
