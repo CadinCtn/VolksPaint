@@ -29,6 +29,7 @@ public class Tinta {
     }
 
     public String getCor() {
+        
         return cor;
     }
 
