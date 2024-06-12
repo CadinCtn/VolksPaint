@@ -253,6 +253,7 @@ public class PecasGUI extends javax.swing.JFrame {
             }
         });
 
+        btn_lessQtd.setBackground(new java.awt.Color(240, 240, 240));
         btn_lessQtd.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_lessQtd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/menos (1).png"))); // NOI18N
         btn_lessQtd.setText("1");
@@ -262,6 +263,7 @@ public class PecasGUI extends javax.swing.JFrame {
             }
         });
 
+        btn_plusQtd.setBackground(new java.awt.Color(240, 240, 240));
         btn_plusQtd.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_plusQtd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/mais (1).png"))); // NOI18N
         btn_plusQtd.setText("1");
@@ -276,6 +278,7 @@ public class PecasGUI extends javax.swing.JFrame {
 
         spinQtdAtual.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
+        btn_altQtd.setBackground(new java.awt.Color(240, 240, 240));
         btn_altQtd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/troca.png"))); // NOI18N
         btn_altQtd.setText("Alterar");
         btn_altQtd.addActionListener(new java.awt.event.ActionListener() {
