@@ -286,7 +286,7 @@ public class PecasProduzidasDashboard {
         //Criando grafico
         private JFreeChart createRingChart(PieDataset dataset){
             //Criando grafico
-            ringChart = ChartFactory.createRingChart("",
+            ringChart = ChartFactory.createRingChart("Porcentagem de peças produzidas por turno",
                                                      dataset,
                                                      true,
                                                      false,
