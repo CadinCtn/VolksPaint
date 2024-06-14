@@ -9,7 +9,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Paint;
-import java.awt.Stroke;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import org.jfree.chart.ChartFactory;
@@ -271,7 +270,7 @@ public class ConsumoDashboard {
     //Criando grafico    
     private JFreeChart createRingChart(PieDataset dataset){
         
-        ringChart = ChartFactory.createRingChart("", 
+        ringChart = ChartFactory.createRingChart("Percentual de consumo por turno", 
                                                        dataset,
                                                        true,
                                                        false,
