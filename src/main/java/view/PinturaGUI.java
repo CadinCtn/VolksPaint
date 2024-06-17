@@ -317,8 +317,8 @@ public class PinturaGUI extends javax.swing.JFrame {
         if(selectedRow >= 0){
             int id = Integer.parseInt(tabPintura.getValueAt(selectedRow, 0).toString());
 
-            //NewTintaGUI window = new NewPinturaGUI(null, true, new ServicePintura().selectByID(id));
-            //window.setVisible(true);
+            NewPinturaGUI window = new NewPinturaGUI(null, true, new ServicePintura().selectByID(id));
+            window.setVisible(true);
             new ServicePintura().tabelaPintura(tabPintura);
         }else{
             JOptionPane.showMessageDialog(null, "Selecione uma linha.");

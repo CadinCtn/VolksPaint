@@ -32,6 +32,7 @@ public class NewPinturaGUI extends javax.swing.JDialog {
             this.pintura = pintura;
             
             
+            
         }
     }
     
