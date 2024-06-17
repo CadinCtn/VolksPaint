@@ -617,7 +617,7 @@ public class Desperdicio extends javax.swing.JFrame {
                 .addComponent(paintsButton9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(paintingButton9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 182, Short.MAX_VALUE)
                 .addComponent(exitButton9)
                 .addGap(14, 14, 14))
         );
@@ -629,31 +629,39 @@ public class Desperdicio extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addComponent(lateralPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(0, 0, 0)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel9)
-                                        .addComponent(yearChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(0, 125, Short.MAX_VALUE))
-                                .addComponent(panelLineChartTurno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jLabel8)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(chooserDateNow, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnDecDay)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnAddDay)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnBuscarTurno))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(boxProd, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(12, 12, 12)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(36, 36, 36)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel9)
+                                                    .addComponent(yearChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addGap(0, 143, Short.MAX_VALUE))
+                                    .addComponent(panelLineChartTurno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(12, 12, 12))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(chooserDateNow, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnDecDay)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnAddDay)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnBuscarTurno))
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(boxProd, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(panelBarChartTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -666,10 +674,11 @@ public class Desperdicio extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel7)
                                 .addGap(0, 0, 0)
                                 .addComponent(boxProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -682,9 +691,8 @@ public class Desperdicio extends javax.swing.JFrame {
                                     .addComponent(btnBuscarTurno)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(btnAddDay, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnDecDay, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(11, 11, 11)
+                                        .addComponent(btnDecDay, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(panelBarChartTurno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(panelLineChartTurno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -816,70 +824,25 @@ public class Desperdicio extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscarTurno;
     private javax.swing.JButton btnDecDay;
     private com.toedter.calendar.JDateChooser chooserDateNow;
-    private javax.swing.JButton comsumptionButton;
-    private javax.swing.JButton comsumptionButton1;
-    private javax.swing.JButton comsumptionButton2;
-    private javax.swing.JButton comsumptionButton3;
-    private javax.swing.JButton comsumptionButton4;
-    private javax.swing.JButton comsumptionButton5;
-    private javax.swing.JButton comsumptionButton6;
-    private javax.swing.JButton comsumptionButton7;
-    private javax.swing.JButton comsumptionButton8;
     private javax.swing.JButton comsumptionButton9;
-    private javax.swing.JButton employeesButton;
-    private javax.swing.JButton employeesButton1;
-    private javax.swing.JButton employeesButton2;
-    private javax.swing.JButton employeesButton3;
-    private javax.swing.JButton employeesButton4;
-    private javax.swing.JButton employeesButton5;
-    private javax.swing.JButton employeesButton6;
-    private javax.swing.JButton employeesButton7;
-    private javax.swing.JButton employeesButton8;
     private javax.swing.JButton employeesButton9;
-    private javax.swing.JButton exitButton;
-    private javax.swing.JButton exitButton1;
-    private javax.swing.JButton exitButton2;
-    private javax.swing.JButton exitButton3;
-    private javax.swing.JButton exitButton4;
-    private javax.swing.JButton exitButton5;
-    private javax.swing.JButton exitButton6;
-    private javax.swing.JButton exitButton7;
-    private javax.swing.JButton exitButton8;
     private javax.swing.JButton exitButton9;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel44;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
-    private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JSeparator jSeparator5;
-    private javax.swing.JSeparator jSeparator6;
-    private javax.swing.JSeparator jSeparator7;
-    private javax.swing.JSeparator jSeparator8;
-    private javax.swing.JSeparator jSeparator9;
     private javax.swing.JLabel labelConT1;
     private javax.swing.JLabel labelConT2;
     private javax.swing.JLabel labelConT3;
@@ -892,68 +855,14 @@ public class Desperdicio extends javax.swing.JFrame {
     private javax.swing.JLabel labelLimiteT2;
     private javax.swing.JLabel labelLimiteT3;
     private javax.swing.JLabel labelLimiteTotal;
-    private javax.swing.JPanel lateralPanel;
-    private javax.swing.JPanel lateralPanel1;
-    private javax.swing.JPanel lateralPanel2;
-    private javax.swing.JPanel lateralPanel3;
-    private javax.swing.JPanel lateralPanel4;
-    private javax.swing.JPanel lateralPanel5;
-    private javax.swing.JPanel lateralPanel6;
-    private javax.swing.JPanel lateralPanel7;
-    private javax.swing.JPanel lateralPanel8;
     private javax.swing.JPanel lateralPanel9;
-    private javax.swing.JButton paintingButton;
-    private javax.swing.JButton paintingButton1;
-    private javax.swing.JButton paintingButton2;
-    private javax.swing.JButton paintingButton3;
-    private javax.swing.JButton paintingButton4;
-    private javax.swing.JButton paintingButton5;
-    private javax.swing.JButton paintingButton6;
-    private javax.swing.JButton paintingButton7;
-    private javax.swing.JButton paintingButton8;
     private javax.swing.JButton paintingButton9;
-    private javax.swing.JButton paintsButton;
-    private javax.swing.JButton paintsButton1;
-    private javax.swing.JButton paintsButton2;
-    private javax.swing.JButton paintsButton3;
-    private javax.swing.JButton paintsButton4;
-    private javax.swing.JButton paintsButton5;
-    private javax.swing.JButton paintsButton6;
-    private javax.swing.JButton paintsButton7;
-    private javax.swing.JButton paintsButton8;
     private javax.swing.JButton paintsButton9;
     private javax.swing.JPanel panelBarChartMes;
     private javax.swing.JPanel panelBarChartTurno;
     private javax.swing.JPanel panelLineChartTurno;
-    private javax.swing.JButton partsButton;
-    private javax.swing.JButton partsButton1;
-    private javax.swing.JButton partsButton2;
-    private javax.swing.JButton partsButton3;
-    private javax.swing.JButton partsButton4;
-    private javax.swing.JButton partsButton5;
-    private javax.swing.JButton partsButton6;
-    private javax.swing.JButton partsButton7;
-    private javax.swing.JButton partsButton8;
     private javax.swing.JButton partsButton9;
-    private javax.swing.JButton partsProductionButton;
-    private javax.swing.JButton partsProductionButton1;
-    private javax.swing.JButton partsProductionButton2;
-    private javax.swing.JButton partsProductionButton3;
-    private javax.swing.JButton partsProductionButton4;
-    private javax.swing.JButton partsProductionButton5;
-    private javax.swing.JButton partsProductionButton6;
-    private javax.swing.JButton partsProductionButton7;
-    private javax.swing.JButton partsProductionButton8;
     private javax.swing.JButton partsProductionButton9;
-    private javax.swing.JButton wasteButton;
-    private javax.swing.JButton wasteButton1;
-    private javax.swing.JButton wasteButton2;
-    private javax.swing.JButton wasteButton3;
-    private javax.swing.JButton wasteButton4;
-    private javax.swing.JButton wasteButton5;
-    private javax.swing.JButton wasteButton6;
-    private javax.swing.JButton wasteButton7;
-    private javax.swing.JButton wasteButton8;
     private javax.swing.JButton wasteButton9;
     private com.toedter.calendar.JYearChooser yearChooser;
     // End of variables declaration//GEN-END:variables

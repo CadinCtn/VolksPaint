@@ -12,7 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import tinta.Tinta;
 
 /**
  *
@@ -22,18 +21,18 @@ public class PinturaDAO extends DAO<Pintura> {
 
     @Override
     public void insert(Pintura pintura) throws SQLException {
-        String sql = "INSERT INTO pintura (data_pintura, linha_producao, turno, funcionario, peca, tinta, consumo_unidade, limite_consumo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO pintura (data_pintura, linha_producao, turno, id_peca, qtd_peca, id_tinta, qtd_tinta, limite_consumo) VALUES (?,?,?,?,?,?,?,?);";
 
         try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement stmt = connection.prepareStatement(sql);) {
             stmt.setDate(1, pintura.getData());
             stmt.setInt(2, pintura.getLinhaProducao());
             stmt.setInt(3, pintura.getTurno());
-            stmt.setString(4, pintura.getFuncionario());
-            stmt.setInt(5, pintura.getPeca());
-            stmt.setInt(6, pintura.getTinta());
-            stmt.setFloat(7, pintura.getConsumoTintaUnidade());
+            stmt.setInt(4, pintura.getIdPeca());
+            stmt.setInt(5, pintura.getQtdPeca());
+            stmt.setInt(6, pintura.getIdTinta());
+            stmt.setFloat(7, pintura.getQtdTinta());
             stmt.setFloat(8, pintura.getLimiteConsumoTinta());
-
+            
             // Insert
             stmt.executeUpdate();
 
@@ -50,18 +49,26 @@ public class PinturaDAO extends DAO<Pintura> {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return new Pintura(rs.getInt("id"), rs.getDate("data_pintura"), rs.getInt("linha_producao"), rs.getInt("turno"), rs.getString("funcionario"), rs.getInt("peca"), rs.getInt("tinta"), rs.getFloat("consumo_unidade"), rs.getFloat("limite_consumo"));
+                    return new Pintura(rs.getInt("id"),
+                                        rs.getDate("data_pintura"),
+                                        rs.getInt("linha_producao"),
+                                        rs.getInt("turno"),
+                                        rs.getInt("id_peca"),
+                                        rs.getInt("qtd_peca"),
+                                        rs.getInt("id_tinta"),
+                                        rs.getFloat("qtd_tinta"),
+                                        rs.getFloat("limite_consumo"));
                 }
             }
         }
 
-        return new Pintura(0, null, 0, 0, null, 0, 0, 0, 0);
+        return new Pintura(0, null, 0, 0, 0, 0, 0, 0, 0);
     }
 
     @Override
-    public List<Pintura> readAll() throws SQLException {
-         //String sql para a consulta
-        String sql = "SELECT * FROM tinta;";
+    public List<Pintura> readAll() throws SQLException{
+          //String sql para a consulta
+        String sql = "SELECT * FROM pintura;";
         //Lista de Tinta
         List<Pintura> listPintura = new ArrayList<>();
 
@@ -71,33 +78,38 @@ public class PinturaDAO extends DAO<Pintura> {
             //Percorrendo lista
             while (rs.next()) {
                 //Inserindo Tinta na lista
-                listPintura.add(new Pintura(rs.getInt("id"), rs.getDate("data_pintura"), rs.getInt("linha_producao"), rs.getInt("turno"), rs.getString("funcionario"), rs.getInt("peca"), rs.getInt("tinta"), rs.getFloat("consumo_unidade"), rs.getFloat("limite_consumo")));
-            }
+                listPintura.add(new Pintura(rs.getInt("id"),
+                                        rs.getDate("data_pintura"),
+                                        rs.getInt("linha_producao"),
+                                        rs.getInt("turno"),
+                                        rs.getInt("id_peca"),
+                                        rs.getInt("qtd_peca"),
+                                        rs.getInt("id_tinta"),
+                                        rs.getFloat("qtd_tinta"),
+                                        rs.getFloat("limite_consumo")));
+                        }
 
         }
 
         //Retorna a lista com os resultados
         return listPintura;
     }
-
+        
     @Override
     public void update(Pintura pintura) throws SQLException {
         //String sql para atualizar cadastro do banco de dados
-        String sql = "UPDATE pintura SET data_pintura = ?, linha_producao = ?, turno = ?, funcionario = ?, peca = ?, tinta = ?, consumo_unidade = ?, limite_consumo = ?  WHERE id = ?;";
+        String sql = "UPDATE pintura SET data_pintura = ?, linha_producao = ?, turno = ?, id_peca = ?, qtd_peca = ?, id_tinta = ?, qtd_tinta = ?, limite_consumo = ? WHERE id = ?;";
 
         try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement stmt = connection.prepareStatement(sql);) {
             //Setando Atributos no lugar de '?'
             stmt.setDate(1, pintura.getData());
             stmt.setInt(2, pintura.getLinhaProducao());
             stmt.setInt(3, pintura.getTurno());
-            stmt.setString(4, pintura.getFuncionario());
-            stmt.setInt(5, pintura.getPeca());
-            stmt.setInt(6, pintura.getTinta());
-            stmt.setFloat(7, pintura.getConsumoTintaUnidade());
+            stmt.setInt(4, pintura.getIdPeca());
+            stmt.setInt(5, pintura.getQtdPeca());
+            stmt.setInt(6, pintura.getIdTinta());
+            stmt.setFloat(7, pintura.getQtdTinta());
             stmt.setFloat(8, pintura.getLimiteConsumoTinta());
-
-            // Insert
-            stmt.executeUpdate();
 
             //PK
             stmt.setInt(9, pintura.getId());

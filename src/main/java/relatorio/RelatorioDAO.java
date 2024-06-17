@@ -52,12 +52,14 @@ public class RelatorioDAO {
             //Valores
             stmt.setFloat(4, relatorio.getConsumoTinta(turno));
             stmt.setInt(5, relatorio.getQtdPecas(turno));
-            stmt.setFloat(5, relatorio.getConsumoUnidades(turno));
-            stmt.setFloat(6, relatorio.getLimiteConsumoUnidade(turno));
-            stmt.setFloat(7, relatorio.getDesperdicioTinta(turno));
+            stmt.setFloat(6, relatorio.getConsumoUnidades(turno));
+            stmt.setFloat(7, relatorio.getLimiteConsumoUnidade(turno));
+            stmt.setFloat(8, relatorio.getDesperdicioTinta(turno));
             
             //INSERT
             stmt.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Relatorio inserido com sucesso");
             
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "Não foi possivel cadastrar o relatório.\n" + e.getMessage(),"AVISO",JOptionPane.WARNING_MESSAGE);

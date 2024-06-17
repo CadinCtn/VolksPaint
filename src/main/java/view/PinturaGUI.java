@@ -6,6 +6,7 @@ package view;
 
 import javax.swing.JOptionPane;
 import pintura.ServicePintura;
+import relatorio.ServiceRelatorio;
 import viewCharts.*;
 
 /**
@@ -51,6 +52,7 @@ public class PinturaGUI extends javax.swing.JFrame {
         partsButton5 = new javax.swing.JButton();
         paintsButton5 = new javax.swing.JButton();
         paintingButton5 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Pinturas");
@@ -63,7 +65,7 @@ public class PinturaGUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Data", "Linha de produção", "Turno", "Funcionário", "Peça", "Tinta", "Consumo por Unidade", "Limite de Consumo"
+                "ID", "Data", "Linha de produção", "Turno", "Peca", "Quantidade Pecas", "Tinta", "Quantidade Tinta", "Limite de Consumo"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -248,6 +250,10 @@ public class PinturaGUI extends javax.swing.JFrame {
                 .addGap(14, 14, 14))
         );
 
+        jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 30)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 51, 153));
+        jLabel3.setText("PINTURAS");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -263,22 +269,27 @@ public class PinturaGUI extends javax.swing.JFrame {
                         .addComponent(btnUpd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnDel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 254, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 516, Short.MAX_VALUE)
                         .addComponent(relatoryButton))
-                    .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane1)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(72, 72, 72)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd)
                     .addComponent(btnDel)
                     .addComponent(btnUpd)
                     .addComponent(relatoryButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
                 .addContainerGap())
             .addComponent(lateralPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -318,6 +329,7 @@ public class PinturaGUI extends javax.swing.JFrame {
             int id = Integer.parseInt(tabPintura.getValueAt(selectedRow, 0).toString());
 
             NewPinturaGUI window = new NewPinturaGUI(null, true, new ServicePintura().selectByID(id));
+            window.setLocationRelativeTo(null);
             window.setVisible(true);
             new ServicePintura().tabelaPintura(tabPintura);
         }else{
@@ -328,7 +340,7 @@ public class PinturaGUI extends javax.swing.JFrame {
     private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
         int selectedRow = tabPintura.getSelectedRow();
         if(selectedRow >= 0){
-            switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo deletar essa peça?","Deletar Peça",JOptionPane.YES_NO_OPTION)){
+            switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo deletar essa pintura?","Deletar Pintura",JOptionPane.YES_NO_OPTION)){
                 case JOptionPane.YES_OPTION:
                 int id = Integer.parseInt(tabPintura.getValueAt(selectedRow, 0).toString());
                 new ServicePintura().deletePintura(id);
@@ -342,7 +354,16 @@ public class PinturaGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDelActionPerformed
 
     private void relatoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatoryButtonActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = tabPintura.getSelectedRow();
+        if(selectedRow >= 0){
+            switch(JOptionPane.showConfirmDialog(null, "ATENÇÃO!\nApós gerar o relatorio não sera possivel alterar.\nDeseja gerar o relatorio desse dia?","AVISO",JOptionPane.YES_NO_OPTION)){
+                case JOptionPane.YES_OPTION:
+                        new ServiceRelatorio().insertRelatorio(new ServicePintura().selectByID(Integer.parseInt(String.valueOf(tabPintura.getValueAt(selectedRow, 0)))));
+                    break;
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Selecione uma linha.");
+        }
         
     }//GEN-LAST:event_relatoryButtonActionPerformed
 
@@ -431,75 +452,21 @@ public class PinturaGUI extends javax.swing.JFrame {
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDel;
     private javax.swing.JButton btnUpd;
-    private javax.swing.JButton comsumptionButton;
-    private javax.swing.JButton comsumptionButton1;
-    private javax.swing.JButton comsumptionButton2;
-    private javax.swing.JButton comsumptionButton3;
-    private javax.swing.JButton comsumptionButton4;
     private javax.swing.JButton comsumptionButton5;
-    private javax.swing.JButton employeesButton;
-    private javax.swing.JButton employeesButton1;
-    private javax.swing.JButton employeesButton2;
-    private javax.swing.JButton employeesButton3;
-    private javax.swing.JButton employeesButton4;
     private javax.swing.JButton employeesButton5;
-    private javax.swing.JButton exitButton;
-    private javax.swing.JButton exitButton1;
-    private javax.swing.JButton exitButton2;
-    private javax.swing.JButton exitButton3;
-    private javax.swing.JButton exitButton4;
     private javax.swing.JButton exitButton5;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator7;
-    private javax.swing.JPanel lateralPanel;
-    private javax.swing.JPanel lateralPanel1;
-    private javax.swing.JPanel lateralPanel2;
-    private javax.swing.JPanel lateralPanel3;
-    private javax.swing.JPanel lateralPanel4;
     private javax.swing.JPanel lateralPanel5;
-    private javax.swing.JButton paintingButton;
-    private javax.swing.JButton paintingButton1;
-    private javax.swing.JButton paintingButton2;
-    private javax.swing.JButton paintingButton3;
-    private javax.swing.JButton paintingButton4;
     private javax.swing.JButton paintingButton5;
-    private javax.swing.JButton paintsButton;
-    private javax.swing.JButton paintsButton1;
-    private javax.swing.JButton paintsButton2;
-    private javax.swing.JButton paintsButton3;
-    private javax.swing.JButton paintsButton4;
     private javax.swing.JButton paintsButton5;
-    private javax.swing.JButton partsButton;
-    private javax.swing.JButton partsButton1;
-    private javax.swing.JButton partsButton2;
-    private javax.swing.JButton partsButton3;
-    private javax.swing.JButton partsButton4;
     private javax.swing.JButton partsButton5;
-    private javax.swing.JButton partsProductionButton;
-    private javax.swing.JButton partsProductionButton1;
-    private javax.swing.JButton partsProductionButton2;
-    private javax.swing.JButton partsProductionButton3;
-    private javax.swing.JButton partsProductionButton4;
     private javax.swing.JButton partsProductionButton5;
     private javax.swing.JButton relatoryButton;
     private javax.swing.JTable tabPintura;
-    private javax.swing.JButton wasteButton;
-    private javax.swing.JButton wasteButton1;
-    private javax.swing.JButton wasteButton2;
-    private javax.swing.JButton wasteButton3;
-    private javax.swing.JButton wasteButton4;
     private javax.swing.JButton wasteButton5;
     // End of variables declaration//GEN-END:variables
 }

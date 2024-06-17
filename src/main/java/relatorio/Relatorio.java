@@ -35,7 +35,12 @@ public class Relatorio {
         //Desperdício de tinta por unidade
         float[] desperdicioTinta = new float[3];
 
+        ////////////////////////////
+        //Relatorio Geral
+        public Relatorio(){}
         
+        
+        ////////////////////
         //Relatorio de Consumo tinta
         public Relatorio(Date data, int linhaProducao, float consumoTinta1, float consumoTinta2, float consumoTinta3){
             this.data = data;
@@ -117,6 +122,10 @@ public class Relatorio {
         
         public void setDesperdicioTinta(float valor, int turno){
             desperdicioTinta[turno-1] = valor;
+        }
+        
+        public void setConsumoUnidade(float valor, int turno){
+            consumoUnidades[turno-1] = valor;
         }
         
         

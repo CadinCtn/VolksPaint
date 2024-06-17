@@ -8,12 +8,35 @@ import com.toedter.calendar.JCalendar;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import pintura.Pintura;
 
 /**
  *
  * @author Lenovo
  */
 public class ServiceRelatorio {
+    
+    
+    public void insertRelatorio(Pintura pintura){
+        
+        Relatorio relatorio = new Relatorio();
+        relatorio.data = pintura.getData();
+        relatorio.linhaProducao = pintura.getLinhaProducao();
+        relatorio.setConsumoTinta(pintura.getQtdTinta(), pintura.getTurno());
+        relatorio.setQtdPecas(pintura.getQtdPeca(), pintura.getTurno());
+        relatorio.setLimiteConsumo(pintura.getLimiteConsumoTinta(), pintura.getTurno());
+        
+        relatorio.setConsumoUnidade(pintura.getQtdPeca()/pintura.getQtdTinta(), pintura.getTurno());
+        
+        float desperdicio = pintura.getQtdPeca()/pintura.getQtdTinta() - pintura.getLimiteConsumoTinta();
+        if(desperdicio>0) desperdicio = 0;
+        
+        relatorio.setDesperdicioTinta(desperdicio, pintura.getTurno());
+        
+        new RelatorioDAO().insertRelatorio(relatorio, pintura.getTurno());
+        
+    }
+    
     
     
     //Retorna a data de hoje

@@ -4,12 +4,16 @@
  */
 package tinta;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import peca.Peca;
 
 /**
@@ -78,6 +82,8 @@ public class ServiceTinta {
         //limpando a tabela
         model.setRowCount(0);
         
+        table.setDefaultRenderer(Tinta.class, new CustomTableCellRenderer());
+        
         try {
             //Adicionando valores a tabela
             for(Tinta tinta : dao.readAll()){
@@ -88,16 +94,25 @@ public class ServiceTinta {
         }
     }
     
-    public List<Tinta> boxTintas() {
-        List<Tinta> listTinta = new ArrayList<>();
-        try {
-            for (Tinta tinta : dao.readAll()) {
-                listTinta.add(tinta);
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao gerar a tabela.\nERRO: " + e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
-        }
-        return listTinta;
-    }
+}
 
+class CustomTableCellRenderer extends JLabel implements TableCellRenderer {
+    
+        public CustomTableCellRenderer() {
+            setOpaque(true); // make sure the background is painted
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            // Customize the background and foreground for specific cell
+            if (column == 1 && value!=null) { 
+                setBackground(new Color(Integer.parseInt(String.valueOf(value))));
+                setForeground(new Color(Integer.parseInt(String.valueOf(value))));
+            } else {
+                setBackground(isSelected ? table.getSelectionBackground() : table.getBackground());
+                setForeground(isSelected ? table.getSelectionForeground() : table.getForeground());
+            }
+
+            return this;
+        }
 }

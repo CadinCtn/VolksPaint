@@ -26,7 +26,7 @@ public class ServicePintura {
         try {
             dao.insert(pintura);
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao cadastrar o item.\nERRO: " + e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar o pintura.\nERRO: " + e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -35,7 +35,7 @@ public class ServicePintura {
         try {
             dao.update(pintura);
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao atualizar o item.\nERRO: " + e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar o pintura.\nERRO: " + e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -44,7 +44,7 @@ public class ServicePintura {
         try {
             dao.delete(id);
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao deletar o item.\nERRO: " + e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao deletar o pintura.\nERRO: " + e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -53,7 +53,7 @@ public class ServicePintura {
         try {
             return dao.read(id);
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao encontrar o item.\nERRO: " + e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao encontrar o pintura.\nERRO: " + e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }
@@ -72,6 +72,7 @@ public class ServicePintura {
                 model.addRow(pintura.pinturaInTable());
             }
         } catch (SQLException e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Erro ao gerar a tabela.\nERRO: " + e.getMessage(),"ERRO",JOptionPane.ERROR_MESSAGE);
         }
     }

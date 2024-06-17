@@ -1,43 +1,36 @@
 package pintura;
 
-import funcionario.Funcionario;
 import java.sql.Date;
-import peca.Peca;
-import tinta.Tinta;
+import java.text.SimpleDateFormat;
+import peca.ServicePeca;
+import tinta.ServiceTinta;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-/**
- *
- * @author Senai
- */
+
 public class Pintura {
 
     private int id;
     private Date data;
     private int linhaProducao;
     private int turno;
-    private String funcionario;
-    private int peca;
-    private int tinta;
-    private float consumoTintaUnidade;
+    private int idPeca;
+    private int qtdPeca;
+    private int idTinta;
+    private float qtdTinta;
     private float limiteConsumoTinta;
 
-    public Pintura(int id, Date data, int linhaProducao, int turno, String funcionario, int peca, int tinta, float consumoTintaUnidade, float limiteConsumoTinta) {
+    public Pintura(int id, Date data, int linhaProducao, int turno, int idPeca, int qtdPeca, int idTinta, float qtdTinta, float limiteConsumoTinta) {
         this.id = id;
         this.data = data;
         this.linhaProducao = linhaProducao;
         this.turno = turno;
-        this.funcionario = funcionario;
-        this.peca = peca;
-        this.tinta = tinta;
-        this.consumoTintaUnidade = consumoTintaUnidade;
+        this.idPeca = idPeca;
+        this.qtdPeca = qtdPeca;
+        this.idTinta = idTinta;
+        this.qtdTinta = qtdTinta;
         this.limiteConsumoTinta = limiteConsumoTinta;
     }
-    
-    public int getId(){
+
+    public int getId() {
         return id;
     }
 
@@ -53,33 +46,32 @@ public class Pintura {
         return turno;
     }
 
-    public String getFuncionario() {
-        return funcionario;
+    public int getIdPeca() {
+        return idPeca;
     }
 
-    public int getPeca() {
-        return peca;
+    public int getQtdPeca() {
+        return qtdPeca;
     }
 
-    public int getTinta() {
-        return tinta;
+    public int getIdTinta() {
+        return idTinta;
     }
 
-    public float getConsumoTintaUnidade() {
-        return consumoTintaUnidade;
+    public float getQtdTinta() {
+        return qtdTinta;
     }
 
     public float getLimiteConsumoTinta() {
         return limiteConsumoTinta;
     }
+
     
     public Object[] pinturaInTable(){
-        Object[] row = {id, data, linhaProducao, turno, funcionario, peca, tinta, consumoTintaUnidade, limiteConsumoTinta};
-        return row;
+        SimpleDateFormat dateForm = new SimpleDateFormat("dd/MM/yyyy");
+        
+        Object[] line = {id,dateForm.format(data),linhaProducao,turno,new ServicePeca().selectByID(idPeca).getModelo(),qtdPeca,new ServiceTinta().selectByID(idTinta).getCor(),qtdTinta,limiteConsumoTinta};
+        return line;
     }
-    
-    
-    
-    
 
 }
