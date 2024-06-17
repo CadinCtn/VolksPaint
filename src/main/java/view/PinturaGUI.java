@@ -53,6 +53,7 @@ public class PinturaGUI extends javax.swing.JFrame {
         paintingButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Pinturas");
 
         jPanel1.setBackground(new java.awt.Color(248, 248, 248));
 
@@ -270,7 +271,7 @@ public class PinturaGUI extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(72, Short.MAX_VALUE)
+                .addGap(72, 72, 72)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd)
                     .addComponent(btnDel)
@@ -342,6 +343,7 @@ public class PinturaGUI extends javax.swing.JFrame {
 
     private void relatoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatoryButtonActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_relatoryButtonActionPerformed
 
     private void employeesButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeesButton5ActionPerformed
