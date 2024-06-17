@@ -82,7 +82,7 @@ public class ServiceTinta {
         //limpando a tabela
         model.setRowCount(0);
         
-        table.setDefaultRenderer(Tinta.class, new CustomTableCellRenderer());
+        table.getColumnModel().getColumn(1).setCellRenderer(new CustomTableCellRenderer());
         
         try {
             //Adicionando valores a tabela
@@ -97,22 +97,34 @@ public class ServiceTinta {
 }
 
 class CustomTableCellRenderer extends JLabel implements TableCellRenderer {
-    
-        public CustomTableCellRenderer() {
-            setOpaque(true); // make sure the background is painted
-        }
 
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            // Customize the background and foreground for specific cell
-            if (column == 1 && value!=null) { 
-                setBackground(new Color(Integer.parseInt(String.valueOf(value))));
-                setForeground(new Color(Integer.parseInt(String.valueOf(value))));
-            } else {
+    public CustomTableCellRenderer() {
+        setOpaque(true); // Make sure the background is painted
+    }
+
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        // Check if the column is 1 and value is not null
+        if (column == 1 && value != null) {
+            try {
+                int colorValue = Integer.parseInt(value.toString());
+                Color color = new Color(colorValue);
+                setBackground(color);
+                setForeground(color);
+            } catch (NumberFormatException e) {
+                // Handle cases where the value cannot be parsed to an integer
                 setBackground(isSelected ? table.getSelectionBackground() : table.getBackground());
                 setForeground(isSelected ? table.getSelectionForeground() : table.getForeground());
             }
-
-            return this;
+        } else {
+            // Default behavior for other columns
+            setBackground(isSelected ? table.getSelectionBackground() : table.getBackground());
+            setForeground(isSelected ? table.getSelectionForeground() : table.getForeground());
         }
+
+        // Set the value of the cell as the text of the label
+        setText(value == null ? "" : value.toString());
+
+        return this;
+    }
 }
