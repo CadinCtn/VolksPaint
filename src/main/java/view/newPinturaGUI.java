@@ -9,20 +9,23 @@ import javax.swing.JOptionPane;
 import peca.Peca;
 import peca.ServicePeca;
 import pintura.Pintura;
+import tinta.ServiceTinta;
+import tinta.Tinta;
 
 /**
  *
  * @author Home
  */
-public class newPinturaGUI extends javax.swing.JDialog {
+public class NewPinturaGUI extends javax.swing.JDialog {
 
     /**
      * Creates new form newPinturaGUI
      */
-    public newPinturaGUI(java.awt.Frame parent, boolean modal, Pintura pintura) {
+    public NewPinturaGUI(java.awt.Frame parent, boolean modal, Pintura pintura) {
         super(parent, modal);
         initComponents();
         partBox();
+        paintBox();
         
         
         if(pintura != null){
@@ -228,19 +231,19 @@ public class newPinturaGUI extends javax.swing.JDialog {
 
     private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
         //Verifica se tem campos vazios
-        if(textureField.getText() == null){
+       /* if(textureField.getText() == null){
             JOptionPane.showMessageDialog(null, "Preencha todos os campos necessários!");
         } else {
 
-            if(this.tinta == null){
+            if(this.pintura == null){
                 //INSERT
-                new ServiceTinta().insertTinta(new Tinta(0, String.valueOf(colorPanel.getBackground().getRGB()), textureField.getText(), 0));
+                new ServicePintura().insertPintura(new Pintura(0, String.valueOf(colorPanel.getBackground().getRGB()), textureField.getText(), 0));
             }else{
                 //UPDATE
-                new ServiceTinta().updateTinta(new Tinta(tinta.getId(), String.valueOf(colorPanel.getBackground().getRGB()), textureField.getText(), 0));
+                new ServicePintura().updatePintura(new Tinta(tinta.getId(), String.valueOf(colorPanel.getBackground().getRGB()), textureField.getText(), 0));
             }
             dispose();
-        }
+        }*/
     }//GEN-LAST:event_btnConfirmActionPerformed
 
     public void partBox(){
@@ -251,6 +254,26 @@ public class newPinturaGUI extends javax.swing.JDialog {
             
             for(Peca peca : partList){
                 partBox.addItem(peca.getModelo()); 
+            }
+            
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+    
+    public void paintBox(){
+        paintBox.removeAllItems();
+        System.out.println("ok1");
+        
+        try{
+            List<Tinta> paintList = new ServiceTinta().boxTintas();
+            System.out.println("ok2");
+            
+            for(Tinta tinta : paintList){
+                System.out.println("ok3");
+                paintBox.addItem(tinta.getId()+" "+tinta.getCor()+" "+tinta.getTextura()); 
+                System.out.println("ok4");
             }
             
         }
@@ -276,20 +299,21 @@ public class newPinturaGUI extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(newPinturaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NewPinturaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(newPinturaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NewPinturaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(newPinturaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NewPinturaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(newPinturaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NewPinturaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                newPinturaGUI dialog = new newPinturaGUI(new javax.swing.JFrame(), true, null);
+                NewPinturaGUI dialog = new NewPinturaGUI(new javax.swing.JFrame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -304,38 +328,15 @@ public class newPinturaGUI extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnConfirm;
-    private com.toedter.calendar.JDateChooser chooserDateNow;
-    private com.toedter.calendar.JDateChooser chooserDateNow1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel69;
-    private javax.swing.JLabel jLabel70;
-    private javax.swing.JLabel jLabel71;
-    private javax.swing.JLabel jLabel72;
-    private javax.swing.JLabel jLabel73;
-    private javax.swing.JLabel jLabel74;
-    private javax.swing.JLabel jLabel75;
-    private javax.swing.JLabel jLabel76;
-    private javax.swing.JLabel jLabel77;
-    private javax.swing.JLabel jLabel78;
-    private javax.swing.JLabel jLabel79;
-    private javax.swing.JLabel jLabel80;
-    private javax.swing.JLabel jLabel81;
-    private javax.swing.JLabel jLabel82;
     private javax.swing.JLabel jLabel83;
     private javax.swing.JLabel jLabel84;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel36;
-    private javax.swing.JPanel jPanel37;
-    private javax.swing.JPanel jPanel38;
-    private javax.swing.JPanel jPanel39;
-    private javax.swing.JPanel jPanel40;
-    private javax.swing.JPanel jPanel41;
-    private javax.swing.JPanel jPanel42;
     private javax.swing.JPanel jPanel43;
     private javax.swing.JComboBox<String> lineBox;
     private javax.swing.JComboBox<String> paintBox;

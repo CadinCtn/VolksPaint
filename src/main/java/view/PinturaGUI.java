@@ -331,9 +331,9 @@ public class PinturaGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_tabPinturaKeyReleased
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        //NewPinturaGUI window = new NewPinturaGUI(null, true, null);
-        //window.setLocationRelativeTo(null);
-        //window.setVisible(true);
+        NewPinturaGUI window = new NewPinturaGUI(null, true, null);
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
         new ServicePintura().tabelaPintura(tabPintura);
     }//GEN-LAST:event_btnAddActionPerformed
 

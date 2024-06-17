@@ -5,9 +5,12 @@
 package tinta;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import peca.Peca;
 
 /**
  *
@@ -83,6 +86,18 @@ public class ServiceTinta {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro ao gerar a tabela.\nERRO: " + e.getMessage(),"ERRO",JOptionPane.ERROR_MESSAGE);
         }
+    }
+    
+    public List<Tinta> boxTintas() {
+        List<Tinta> listTinta = new ArrayList<>();
+        try {
+            for (Tinta tinta : dao.readAll()) {
+                listTinta.add(tinta);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao gerar a tabela.\nERRO: " + e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+        return listTinta;
     }
 
 }
