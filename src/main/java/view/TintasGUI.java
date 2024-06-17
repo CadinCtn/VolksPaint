@@ -37,16 +37,17 @@ public class TintasGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jButton6 = new javax.swing.JButton();
-        btnPecasProducao = new javax.swing.JButton();
-        btnDesperdicio = new javax.swing.JButton();
-        BtnConsumo = new javax.swing.JButton();
+        lateralPanel = new javax.swing.JPanel();
+        employeesButton = new javax.swing.JButton();
+        partsProductionButton = new javax.swing.JButton();
+        wasteButton = new javax.swing.JButton();
+        comsumptionButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
+        exitButton = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        partsButton = new javax.swing.JButton();
+        paintsButton = new javax.swing.JButton();
+        paintingButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabTintas = new javax.swing.JTable();
         btnAdd = new javax.swing.JButton();
@@ -64,112 +65,123 @@ public class TintasGUI extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(248, 248, 248));
         jPanel1.setPreferredSize(new java.awt.Dimension(796, 551));
 
-        jPanel2.setBackground(new java.awt.Color(10, 6, 37));
+        lateralPanel.setBackground(new java.awt.Color(10, 6, 37));
 
-        jButton6.setBackground(new java.awt.Color(0, 0, 51));
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/adicionar-funcionario.png"))); // NOI18N
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        employeesButton.setBackground(new java.awt.Color(0, 0, 51));
+        employeesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/adicionar-funcionario.png"))); // NOI18N
+        employeesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                employeesButtonActionPerformed(evt);
             }
         });
 
-        btnPecasProducao.setBackground(new java.awt.Color(0, 0, 51));
-        btnPecasProducao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/produtividade.png"))); // NOI18N
-        btnPecasProducao.addActionListener(new java.awt.event.ActionListener() {
+        partsProductionButton.setBackground(new java.awt.Color(0, 0, 51));
+        partsProductionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/produtividade.png"))); // NOI18N
+        partsProductionButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPecasProducaoActionPerformed(evt);
+                partsProductionButtonActionPerformed(evt);
             }
         });
 
-        btnDesperdicio.setBackground(new java.awt.Color(0, 0, 51));
-        btnDesperdicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/desperdicio-de-dinheiro.png"))); // NOI18N
-        btnDesperdicio.addActionListener(new java.awt.event.ActionListener() {
+        wasteButton.setBackground(new java.awt.Color(0, 0, 51));
+        wasteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/desperdicio-de-dinheiro.png"))); // NOI18N
+        wasteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDesperdicioActionPerformed(evt);
+                wasteButtonActionPerformed(evt);
             }
         });
 
-        BtnConsumo.setBackground(new java.awt.Color(0, 0, 51));
-        BtnConsumo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/consumo-responsavel.png"))); // NOI18N
-        BtnConsumo.addActionListener(new java.awt.event.ActionListener() {
+        comsumptionButton.setBackground(new java.awt.Color(0, 0, 51));
+        comsumptionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/consumo-responsavel.png"))); // NOI18N
+        comsumptionButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnConsumoActionPerformed(evt);
+                comsumptionButtonActionPerformed(evt);
             }
         });
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/logo versao 3.png"))); // NOI18N
 
-        jButton4.setBackground(new java.awt.Color(0, 0, 102));
-        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(240, 240, 240));
-        jButton4.setText("Sair");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        exitButton.setBackground(new java.awt.Color(0, 0, 102));
+        exitButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        exitButton.setForeground(new java.awt.Color(240, 240, 240));
+        exitButton.setText("Sair");
+        exitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                exitButtonActionPerformed(evt);
             }
         });
 
-        jButton7.setBackground(new java.awt.Color(0, 0, 51));
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pistao.png"))); // NOI18N
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        partsButton.setBackground(new java.awt.Color(0, 0, 51));
+        partsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pistao.png"))); // NOI18N
+        partsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                partsButtonActionPerformed(evt);
             }
         });
 
-        jButton8.setBackground(new java.awt.Color(0, 0, 51));
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/paint-airbrush (1).png"))); // NOI18N
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
+        paintsButton.setBackground(new java.awt.Color(0, 0, 51));
+        paintsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/balde-de-tinta (1).png"))); // NOI18N
+        paintsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+                paintsButtonActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        paintingButton.setBackground(new java.awt.Color(0, 0, 51));
+        paintingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/paint-airbrush.png"))); // NOI18N
+        paintingButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                paintingButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout lateralPanelLayout = new javax.swing.GroupLayout(lateralPanel);
+        lateralPanel.setLayout(lateralPanelLayout);
+        lateralPanelLayout.setHorizontalGroup(
+            lateralPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(lateralPanelLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
                 .addComponent(jLabel1)
-                .addGap(25, 25, 25))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(27, 27, 27))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lateralPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(lateralPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(employeesButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jSeparator1)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(lateralPanelLayout.createSequentialGroup()
+                        .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(btnPecasProducao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnDesperdicio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(BtnConsumo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(partsProductionButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(wasteButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comsumptionButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(partsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(paintsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(paintingButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+        lateralPanelLayout.setVerticalGroup(
+            lateralPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(lateralPanelLayout.createSequentialGroup()
+                .addGap(26, 26, 26)
                 .addComponent(jLabel1)
-                .addGap(28, 28, 28)
-                .addComponent(BtnConsumo)
+                .addGap(20, 20, 20)
+                .addComponent(comsumptionButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnDesperdicio)
+                .addComponent(wasteButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnPecasProducao)
+                .addComponent(partsProductionButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(employeesButton)
+                .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton7)
+                .addComponent(partsButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
-                .addComponent(jButton4)
+                .addComponent(paintsButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(paintingButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(exitButton)
                 .addGap(14, 14, 14))
         );
 
@@ -274,10 +286,10 @@ public class TintasGUI extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lateralPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 693, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnAdd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -300,7 +312,7 @@ public class TintasGUI extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lateralPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -336,40 +348,40 @@ public class TintasGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void employeesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeesButtonActionPerformed
         new FuncionariosGUI().setVisible(true);
         dispose();
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_employeesButtonActionPerformed
 
-    private void btnPecasProducaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPecasProducaoActionPerformed
+    private void partsProductionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_partsProductionButtonActionPerformed
         new PecasProduzidas().setVisible(true);
         dispose();
-    }//GEN-LAST:event_btnPecasProducaoActionPerformed
+    }//GEN-LAST:event_partsProductionButtonActionPerformed
 
-    private void btnDesperdicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesperdicioActionPerformed
+    private void wasteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wasteButtonActionPerformed
         new Desperdicio().setVisible(true);
         dispose();
-    }//GEN-LAST:event_btnDesperdicioActionPerformed
+    }//GEN-LAST:event_wasteButtonActionPerformed
 
-    private void BtnConsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnConsumoActionPerformed
+    private void comsumptionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comsumptionButtonActionPerformed
         new ConsumoDiario().setVisible(true);
         dispose();
-    }//GEN-LAST:event_BtnConsumoActionPerformed
+    }//GEN-LAST:event_comsumptionButtonActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
         //Encerrar
         switch(JOptionPane.showConfirmDialog(null, "Deseja encerrar o sistema?","Sair",JOptionPane.YES_NO_OPTION)){
             case JOptionPane.YES_OPTION:
             System.exit(0);
             break;
         }
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_exitButtonActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void partsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_partsButtonActionPerformed
         // TODO add your handling code here:
         new PecasGUI().setVisible(true);
         dispose();
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_partsButtonActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         NewTintaGUI window = new NewTintaGUI(null, true, null);        
@@ -407,9 +419,10 @@ public class TintasGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnDelActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    private void paintsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paintsButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
+        
+    }//GEN-LAST:event_paintsButtonActionPerformed
 
     private void btn_altQtdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_altQtdActionPerformed
         int selectedRow = tabTintas.getSelectedRow();
@@ -450,6 +463,12 @@ public class TintasGUI extends javax.swing.JFrame {
         spinQtdAtual.setValue(qtd);
     }//GEN-LAST:event_tabTintasKeyReleased
 
+    private void paintingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paintingButtonActionPerformed
+        // TODO add your handling code here:
+        new PinturaGUI().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_paintingButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -486,26 +505,27 @@ public class TintasGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BtnConsumo;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDel;
-    private javax.swing.JButton btnDesperdicio;
-    private javax.swing.JButton btnPecasProducao;
     private javax.swing.JButton btnUpd;
     private javax.swing.JButton btn_altQtd;
     private javax.swing.JButton btn_lessQtd;
     private javax.swing.JButton btn_plusQtd;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
+    private javax.swing.JButton comsumptionButton;
+    private javax.swing.JButton employeesButton;
+    private javax.swing.JButton exitButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JPanel lateralPanel;
+    private javax.swing.JButton paintingButton;
+    private javax.swing.JButton paintsButton;
+    private javax.swing.JButton partsButton;
+    private javax.swing.JButton partsProductionButton;
     private javax.swing.JSpinner spinQtdAtual;
     private javax.swing.JTable tabTintas;
+    private javax.swing.JButton wasteButton;
     // End of variables declaration//GEN-END:variables
 }
