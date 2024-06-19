@@ -51,26 +51,27 @@ public class LoginGUI extends javax.swing.JFrame {
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Logar.png"))); // NOI18N
 
-        jLabel6.setFont(new java.awt.Font("Palatino Linotype", 0, 48)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("VolksBoard");
 
         jLabel7.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel7.setFont(new java.awt.Font("Palatino Linotype", 1, 24)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Seja Bem Vindo");
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("CPF:");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Senha:");
 
-        btnEntrar.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
-        btnEntrar.setForeground(new java.awt.Color(51, 51, 51));
+        btnEntrar.setBackground(new java.awt.Color(248, 248, 248));
+        btnEntrar.setFont(new java.awt.Font("Century Gothic", 1, 28)); // NOI18N
+        btnEntrar.setForeground(new java.awt.Color(24, 98, 209));
         btnEntrar.setText("Entrar");
         btnEntrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
